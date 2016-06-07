@@ -2,31 +2,31 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
-import { Tasks } from '../api/tasks.js';
+import { Courses } from '../api/courses.js';
 
-import './task.js';
+import './course.js';
 import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
-  // get whatever is in the 'tasks' channel from the server
-  Meteor.subscribe('tasks');
+  // get whatever is in the 'courses' channel from the server
+  Meteor.subscribe('courses');
 });
 
 Template.body.helpers({
-  tasks() {
+  courses() {
     const instance = Template.instance();
     if (instance.state.get('hideCompleted'))
     {
       // if hide completed is checked on the reactive dict, then filter
-      return Tasks.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
+      return Courses.find({ checked: { $ne: true } }, { sort: { start: -1 } });
     }
 
     // otherwise, show them all
-    return Tasks.find({}, { sort: { createdAt: -1 } });
+    return Courses.find({}, { sort: { start: -1 } });
   },
   incompleteCount() {
-    return Tasks.find({ checked: { $ne: true } }).count();
+    return Courses.find({ checked: { $ne: true } }).count();
   }
 });
 
@@ -42,16 +42,8 @@ Template.body.events({
     const text = target.text.value;
 
     // Insert task into the collection
-    /* old version, calling directly into db
-    Tasks.insert({
-      text,
-      createdAt: new Date(), // now
-      owner: Meteor.userId(), // builtin to check the unique id
-      username: Meteor.user().username, // field from the full user document
-    });
-    */
-    // new version, calling server
-    Meteor.call('tasks.insert', text);
+    // TODO add the right call when adding new courses
+    //Meteor.call('courses.insert', text);
 
     // Clear
     target.text.value = '';
