@@ -1,0 +1,67 @@
+<head>
+  <link rel='stylesheet' href='lib/fullcalendar.css' />
+  <script src='lib/jquery.min.js'></script>
+  <script src='lib/moment.min.js'></script>
+  <script src='lib/fullcalendar.js'></script>
+</head>
+<body>
+  <div id='calendar'></div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+        defaultView: "agendaWeek"
+       ,allDaySlot: false
+       ,editable: false
+       ,businessHours: 
+         {
+           start: '06:00'
+          ,end: '22:00'
+          ,dow: [0,1,2,3,4,5,6]
+         }
+       ,events: [
+         {
+           title: 'Rocket with Marcus Veda at Frame Shoreditch'
+          ,start: '2016-04-02T10:45:00Z'
+          ,end  : '2016-04-02T11:45:00Z'
+          ,url  : 'https://moveyourframe.com/timetable'
+         }
+        ,{
+           title: 'Vinyasa with Stewart Gilchrist at Indaba'
+          ,start: '2016-04-02T11:00:00Z'
+          ,end  : '2016-04-02T12:00:00Z'
+          ,url  : 'http://indabayoga.com/booking/'
+         }
+        ,{
+           title: 'Kundalini with Madschri at I Am Yoga'
+          ,start: '2016-04-02T15:00:00Z'
+          ,end  : '2016-04-02T16:30:00Z'
+          ,url  : 'http://iamyogalondon.com/'
+         }
+        ,{
+           title: 'Flex with Issy at Chiswell'
+          ,start: '2016-04-06T07:00:00Z'
+          ,end  : '2016-04-06T08:00:00Z'
+          ,url  : 'http://www.flexlondon.com/'
+         }
+        ]
+       ,eventClick: function(event)
+        {
+          if (event.url)
+          {
+            window.open(event.url);
+            return false;
+          }
+        }
+       ,eventMouseover: function(event, jsEvent, view)
+        {
+          return false;
+        }
+       ,eventMouseout: function(event, jsEvent, view)
+        {
+          return false;
+        }
+      })
+    });
+  </script>
+</body>
