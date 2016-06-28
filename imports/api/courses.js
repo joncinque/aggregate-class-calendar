@@ -8,7 +8,7 @@ export const Courses = new Mongo.Collection('courses');
 // Separate what information is sent from the server from what's on the client
 if (Meteor.isServer)
 {
-  Meteor.publish('courses', function coursesPublication() {
+  Meteor.publish('courses', function () {
     return Courses.find();
     /*
     {
@@ -52,7 +52,7 @@ Meteor.methods({
   // Ported from course.js in imports/ui
   'courses.remove'(courseId)
   {
-    check(classId, String);
+    check(courseId, String);
 
     const course = Courses.findOne(courseId);
     /*
@@ -78,4 +78,10 @@ Meteor.methods({
 
     Courses.update(courseId, { $set: { checked: setChecked } });
   },
+  'courses.names'()
+  {
+    let data = Courses.find().fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.name});
+    return _.pluck(distinctData, "name");
+  }
 });

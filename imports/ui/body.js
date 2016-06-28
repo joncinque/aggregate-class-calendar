@@ -8,9 +8,13 @@ import './course.js';
 import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
-  this.state = new ReactiveDict();
+  let dict = new ReactiveDict();
+  this.state = dict;
   // get whatever is in the 'courses' channel from the server
   Meteor.subscribe('courses');
+  Meteor.call('courses.names', function (err,data) {
+    dict.set('courseNames', data);
+  });
 });
 
 Template.body.helpers({
@@ -27,6 +31,10 @@ Template.body.helpers({
   },
   incompleteCount() {
     return Courses.find({ checked: { $ne: true } }).count();
+  },
+  courseNames() {
+    const instance = Template.instance();
+    return instance.state.get('courseNames');
   }
 });
 

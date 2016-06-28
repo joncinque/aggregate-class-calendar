@@ -1,7 +1,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>Todo List ({{incompleteCount}})</h1>
+      <h1>Available classes - {{incompleteCount}}</h1>
 
       <label class="hide-completed">
         <input type="checkbox" />
@@ -9,14 +9,19 @@
       </label>
 
       <!-- default login buttons, can be customized -->
-      {{> loginButtons}}
+      <!--{{> loginButtons}} -->
 
       <!-- builtin function to check if someone is logged in -->
-      {{#if currentUser}}
-        <form class="new-task">
-          <input type="text" name="text" placeholder="Type to add new tasks" />
+      <!--{{#if currentUser}} -->
+        <form class="new-course">
+          <input type="text" name="text" placeholder="Type to add new classes" />
         </form>
-      {{/if}}
+      <!-- {{/if}} -->
+      <select name="styles">
+        {{#each courseNames}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
     </header>
 
     <ul>
