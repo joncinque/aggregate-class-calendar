@@ -83,5 +83,17 @@ Meteor.methods({
     let data = Courses.find().fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.name});
     return _.pluck(distinctData, "name");
-  }
+  },
+  'courses.teachers'()
+  {
+    let data = Courses.find().fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.teacher});
+    return _.pluck(distinctData, "teacher");
+  },
+  'courses.studios'()
+  {
+    let data = Courses.find().fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.studio});
+    return _.pluck(distinctData, "studio");
+  },
 });

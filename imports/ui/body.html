@@ -17,8 +17,18 @@
           <input type="text" name="text" placeholder="Type to add new classes" />
         </form>
       <!-- {{/if}} -->
-      <select name="styles">
-        {{#each courseNames}}
+      <select id="style-filter">
+        {{#each names}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+      <select id="teacher-filter">
+        {{#each teachers}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+      <select id="studio-filter">
+        {{#each studios}}
           <option value="{{this}}">{{this}}</option>
         {{/each}}
       </select>
