@@ -7,7 +7,54 @@ import { Courses } from '../api/courses.js';
 import './course.js';
 import './body.html';
 
-const EMPTY = "--";
+const EMPTY = '';
+
+function makeRegex(searchString)
+{
+  return new RegExp('^'+searchString, 'i');
+}
+
+function getSearchArgs(instance)
+{
+    let argList = [];
+
+    // apply style filter
+    let styleFilter = instance.state.get('styleFilter');
+    if (styleFilter !== EMPTY)
+    {
+      console.log("non empty style filter: " + styleFilter);
+      argList.push({ name: makeRegex(styleFilter) });
+    }
+
+    // apply teacher filter
+    let teacherFilter = instance.state.get('teacherFilter');
+    if (teacherFilter !== EMPTY)
+    {
+      console.log("non empty teacher filter: " + teacherFilter);
+      argList.push({ teacher: makeRegex(teacherFilter) });
+    }
+
+    // apply studio filter
+    let studioFilter = instance.state.get('studioFilter');
+    if (studioFilter !== EMPTY)
+    {
+      console.log("non empty studio filter: " + studioFilter);
+      argList.push({ studio: makeRegex(studioFilter) });
+    }
+
+    //argList.push({ sort: { start: -1 } });
+    // make the search with and "and" clause if necessary
+    let searchArgs = {};
+    if (argList.length > 1)
+    {
+      searchArgs = { $and: argList };
+    }
+    else if (argList.length === 1)
+    {
+      searchArgs = argList[0];
+    }
+    return searchArgs;
+}
 
 Template.body.onCreated(function bodyOnCreated() {
   let dict = new ReactiveDict();
@@ -32,7 +79,6 @@ Template.body.onCreated(function bodyOnCreated() {
 
 Template.body.helpers({
   courses() {
-    let argList = [];
     const instance = Template.instance();
     if (instance.state.get('hideCompleted'))
     {
@@ -40,72 +86,32 @@ Template.body.helpers({
       return Courses.find({ checked: { $ne: true } }, { sort: { start: -1 } });
     }
 
-    // apply style filter
-    let styleFilter = instance.state.get('styleFilter');
-    if (styleFilter !== EMPTY)
-    {
-      console.log("non empty style filter: " + styleFilter);
-      argList.push({ name: styleFilter });
-    }
-
-    // apply teacher filter
-    let teacherFilter = instance.state.get('teacherFilter');
-    if (teacherFilter !== EMPTY)
-    {
-      console.log("non empty teacher filter: " + teacherFilter);
-      argList.push({ teacher: teacherFilter });
-    }
-
-    // apply studio filter
-    let studioFilter = instance.state.get('studioFilter');
-    if (studioFilter !== EMPTY)
-    {
-      console.log("non empty studio filter: " + studioFilter);
-      argList.push({ studio: studioFilter });
-    }
-
-    // make the search with and "and" clause if necessary
-    let searchArgs = {};
-    if (argList.length > 1)
-    {
-      searchArgs = { $and: argList };
-    }
-    else if (argList.length === 1)
-    {
-      searchArgs = argList[0];
-    }
     //argList.push({ sort: { start: -1 } });
-    return Courses.find(searchArgs);
+    return Courses.find(getSearchArgs(instance));
   },
-  incompleteCount() {
-    return Courses.find({ checked: { $ne: true } }).count();
+  availableCount() {
+    const instance = Template.instance();
+    return Courses.find(getSearchArgs(instance)).count();
   },
+  // drop-downs for filter
   names() {
-    let names = [ EMPTY ];
-    let dbNames = Template.instance().state.get('names');
-    if (dbNames)
-    {
-      dbNames.forEach((item)=>names.push(item));
-    }
-    return names;
+    return Template.instance().state.get('names');
   },
   teachers() {
-    let teachers = [ EMPTY ];
-    let dbNames = Template.instance().state.get('teachers');
-    if (dbNames)
-    {
-      dbNames.forEach((item)=>teachers.push(item));
-    }
-    return teachers;
+    return Template.instance().state.get('teachers');;
   },
   studios() {
-    let studios = [ EMPTY ];
-    let dbNames = Template.instance().state.get('studios');
-    if (dbNames)
-    {
-      dbNames.forEach((item)=>studios.push(item));
-    }
-    return studios;
+    return Template.instance().state.get('studios');;
+  },
+  // defaults for date entries
+  nowdate() {
+    return Date.now();
+  },
+  nowtime() {
+    return Date.now();
+  },
+  latertime() {
+    return Date.now();
   },
 });
 
@@ -132,13 +138,13 @@ Template.body.events({
   },
 
   // set filters
-  'change #style-filter'(event, instance) {
+  'blur #style-filter'(event, instance) {
     instance.state.set('styleFilter', event.target.value);
   },
-  'change #teacher-filter'(event, instance) {
+  'blur #teacher-filter'(event, instance) {
     instance.state.set('teacherFilter', event.target.value);
   },
-  'change #studio-filter'(event, instance) {
+  'blur #studio-filter'(event, instance) {
     instance.state.set('studioFilter', event.target.value);
   },
 });

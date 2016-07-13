@@ -1,7 +1,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>Available classes - {{incompleteCount}}</h1>
+      <h1>Available classes - {{availableCount}}</h1>
 
       <label class="hide-completed">
         <input type="checkbox" />
@@ -17,21 +17,36 @@
           <input type="text" name="text" placeholder="Type to add new classes" />
         </form>
       <!-- {{/if}} -->
-      <select id="style-filter">
-        {{#each names}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-      <select id="teacher-filter">
-        {{#each teachers}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
-      <select id="studio-filter">
-        {{#each studios}}
-          <option value="{{this}}">{{this}}</option>
-        {{/each}}
-      </select>
+
+      <form>
+        <input id="style-filter" type="search" list="styles" placeholder="Class style" />
+        <datalist id="styles">
+          {{#each names}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </datalist>
+        <input id="teacher-filter" type="search" list="teachers" placeholder="Teacher" />
+        <datalist id="teachers">
+          {{#each teachers}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </datalist>
+        <input id="studio-filter" type="search" list="studios" placeholder="Studio" />
+        <datalist id="studios">
+          {{#each studios}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </datalist>
+      </form>
+
+      <form>
+        From:
+        <input id="startdate-filter" type="date" valueasdate="{{nowdate}}" />
+        <input id="starttime-filter" type="time" valueasdate="{{nowtime}}" />
+        To:
+        <input id="enddate-filter" type="date" valueasdate="{{nowdate}}" />
+        <input id="endtime-filter" type="time" valueasdate="{{latertime}}" />
+    </form>
     </header>
 
     <ul>
