@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
+import moment from 'moment';
+
 import { Courses } from '../api/courses.js';
 
 import './course.js';
@@ -18,11 +20,15 @@ function getSearchArgs(instance)
 {
     let argList = [];
 
+    // apply date/time filter
+    argList.push({ start: { $gte: moment(instance.state.get('startFilter')) } });
+    argList.push({ start: { $lte: moment(instance.state.get('endFilter')) } });
+
     // apply style filter
     let styleFilter = instance.state.get('styleFilter');
     if (styleFilter !== EMPTY)
     {
-      console.log("non empty style filter: " + styleFilter);
+      console.log('Style filter: ' + styleFilter);
       argList.push({ name: makeRegex(styleFilter) });
     }
 
@@ -30,7 +36,7 @@ function getSearchArgs(instance)
     let teacherFilter = instance.state.get('teacherFilter');
     if (teacherFilter !== EMPTY)
     {
-      console.log("non empty teacher filter: " + teacherFilter);
+      console.log('Teacher filter: ' + teacherFilter);
       argList.push({ teacher: makeRegex(teacherFilter) });
     }
 
@@ -38,22 +44,41 @@ function getSearchArgs(instance)
     let studioFilter = instance.state.get('studioFilter');
     if (studioFilter !== EMPTY)
     {
-      console.log("non empty studio filter: " + studioFilter);
+      console.log('Studio filter: ' + studioFilter);
       argList.push({ studio: makeRegex(studioFilter) });
     }
 
     //argList.push({ sort: { start: -1 } });
-    // make the search with and "and" clause if necessary
-    let searchArgs = {};
-    if (argList.length > 1)
-    {
-      searchArgs = { $and: argList };
-    }
-    else if (argList.length === 1)
-    {
-      searchArgs = argList[0];
-    }
-    return searchArgs;
+    // make the search with an 'and' clause
+    return { $and: argList };
+}
+
+function getNowDatetime()
+{
+    return moment().toDate();
+}
+
+function getLaterDatetime()
+{
+    return moment().add(4, 'hour').toDate();
+}
+
+function getNewDateFromInput(initialDate, inputDate)
+{
+    let initialMoment = moment(initialDate);
+    initialMoment.set('year', inputDate.getFullYear());
+    initialMoment.set('month', inputDate.getMonth());
+    initialMoment.set('date', inputDate.getDate());
+    return initialMoment.toDate();
+}
+
+function getNewTimeFromInput(initialDate, inputTime)
+{
+    let initialMoment = moment(initialDate);
+    let inputMoment = moment(inputTime, 'HH:mm');
+    initialMoment.set('hour', inputMoment.hour());
+    initialMoment.set('minute', inputMoment.minute());
+    return initialMoment.toDate();
 }
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -75,6 +100,9 @@ Template.body.onCreated(function bodyOnCreated() {
   dict.set('styleFilter', EMPTY);
   dict.set('teacherFilter', EMPTY);
   dict.set('studioFilter', EMPTY);
+
+  dict.set('startFilter', getNowDatetime());
+  dict.set('endFilter', getLaterDatetime());
 });
 
 Template.body.helpers({
@@ -104,14 +132,17 @@ Template.body.helpers({
     return Template.instance().state.get('studios');;
   },
   // defaults for date entries
-  nowdate() {
-    return Date.now();
+  startdate() {
+    return moment(Template.instance().state.get('startFilter')).format('YYYY-MM-DD');
   },
-  nowtime() {
-    return Date.now();
+  starttime() {
+    return moment(Template.instance().state.get('startFilter')).format('HH:mm');
   },
-  latertime() {
-    return Date.now();
+  enddate() {
+    return moment(Template.instance().state.get('endFilter')).format('YYYY-MM-DD');
+  },
+  endtime() {
+    return moment(Template.instance().state.get('endFilter')).format('HH:mm');
   },
 });
 
@@ -146,5 +177,30 @@ Template.body.events({
   },
   'blur #studio-filter'(event, instance) {
     instance.state.set('studioFilter', event.target.value);
+  },
+  'blur #startdate-filter'(event, instance) {
+    let startDate = instance.state.get('startFilter');
+    instance.state.set(
+        'startFilter', 
+        getNewDateFromInput(startDate, event.target.valueAsDate));
+  },
+  'blur #starttime-filter'(event, instance) {
+    let startDate = instance.state.get('startFilter');
+    instance.state.set(
+        'startFilter',
+        getNewTimeFromInput(startDate, event.target.value));
+  },
+  'blur #enddate-filter'(event, instance) {
+    let endDate = instance.state.get('endFilter');
+    instance.state.set(
+        'endFilter',
+        getNewDateFromInput(endDate, event.target.valueAsDate));
+  },
+  'blur #endtime-filter'(event, instance) {
+    instance.state.set('endFilter', event.target.value);
+    let endDate = instance.state.get('endFilter');
+    instance.state.set(
+        'endFilter',
+        getNewTimeFromInput(endDate, event.target.value));
   },
 });

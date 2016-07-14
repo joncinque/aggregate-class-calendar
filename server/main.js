@@ -6,7 +6,7 @@ import { Courses } from '../imports/api/courses.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
-  const now = moment(new Date());
+  const now = moment();
   const courseData = [
   {
     name: 'Rocket',
