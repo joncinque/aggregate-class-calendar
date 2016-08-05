@@ -6,6 +6,7 @@ import { Courses } from '../imports/api/courses.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
+  /*
   const now = moment();
   const courseData = [
   {
@@ -44,4 +45,5 @@ Meteor.startup(() => {
   courseData.forEach((course) => {
     Courses.insert(course);
   });
+  */
 });
