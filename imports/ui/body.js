@@ -5,6 +5,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import moment from 'moment';
 
 import { Courses } from '../api/courses.js';
+import { getAllCourses } from '../api/coursescraper.js';
 
 import './course.js';
 import './body.html';
@@ -166,6 +167,10 @@ Template.body.events({
   },
   'change .hide-completed input'(event, instance) {
     instance.state.set('hideCompleted', event.target.checked);
+  },
+  'click .scrape-page'() {
+    console.log('Getting classes');
+    getAllCourses();
   },
 
   // set filters

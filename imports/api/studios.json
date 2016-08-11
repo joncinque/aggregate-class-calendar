@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Blue Cow Yoga",
+    "provider": "MBO",
+    "studioid": 23194,
+    "area": "Bank"
+  },
+  {
+    "name": "Power Yoga Company",
+    "provider": "MBO",
+    "studioid": 4706,
+    "area": "West London"
+  },
+  {
+    "name": "Yoga Rise",
+    "provider": "MBO",
+    "studioid": 138949,
+    "area": "South London"
+  },
+  {
+    "name": "I Am Yoga",
+    "provider": "MBO",
+    "studioid": 217848,
+    "area": "Central London"
+  },
+  {
+    "name": "Yotopia",
+    "provider": "MBO",
+    "studioid": 16311,
+    "area": "Central London"
+  },
+  {
+    "name": "Triyoga",
+    "provider": "MBO",
+    "studioid": 1991,
+    "area": "Central London"
+  }
+]
