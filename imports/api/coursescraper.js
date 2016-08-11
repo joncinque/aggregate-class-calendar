@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import phantomjs from 'phantomjs-prebuilt';
 
 import { parsePage } from './parsecourse.js';
@@ -66,7 +68,7 @@ function makeFinishedCallback(studio)
 function getCourses(studio)
 {
   let htmlFile = studio.studioid + '.html';
-  let program = phantomjs.exec('./getcourse.js', studio.studioid);
+  let program = phantomjs.exec(Assets.absoluteFilePath('getcourse.js'), studio.studioid);
   //program.stdout.pipe(process.stdout)
   //program.stderr.pipe(process.stderr)
   program.on('exit', code => {
@@ -74,42 +76,44 @@ function getCourses(studio)
   })
 }
 
-export function getAllCourses()
-{
-  /*
-  fs.readFile('studios.json', 'utf8', function (error, data) {
-    if (error)
-    {
-      throw error;
-    }
-    var studioInfo = JSON.parse(data);
-    for (var index in studioInfo)
-    {
-      var studio = studioInfo[index];
-      if (studio.provider === 'MBO')
-      {
-        getCourses(studio);
-      }
-      else
-      {
-        console.log('Cannot process studio without provider: ' + studio);
-      }
-    }
-  });
-  */
-  if (Meteor.isServer)
+Meteor.methods({
+  'coursescraper.getAllCourses'()
   {
-    for (let index in STUDIO_INFO)
+    if (Meteor.isServer)
     {
-      let studio = STUDIO_INFO[index];
-      if (studio.provider === 'MBO')
+      var studioInfo = JSON.parse(Assets.getText('studios.json'));
+      for (let index in studioInfo)
       {
-        getCourses(studio);
-      }
-      else
-      {
-        console.log('Cannot process studio without provider: ' + studio);
+        let studio = studioInfo[index];
+        if (studio.provider === 'MBO')
+        {
+          getCourses(studio);
+        }
+        else
+        {
+          console.log('Cannot process studio without provider: ' + studio);
+        }
       }
     }
-  }
-}
+  },
+  'coursescraper.getCourses'(studioId)
+  {
+    check(studioId, Number);
+    if (Meteor.isServer)
+    {
+      var studioInfo = JSON.parse(Assets.getText('studios.json'));
+      for (let index in studioInfo)
+      {
+        let studio = studioInfo[index];
+        if (studio.studioId === studioId)
+        {
+          getCourses(studio);
+        }
+        else
+        {
+          console.log('Cannot process studio without provider: ' + studio);
+        }
+      }
+    }
+  },
+});

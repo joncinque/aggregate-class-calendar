@@ -5,10 +5,12 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import moment from 'moment';
 
 import { Courses } from '../api/courses.js';
-import { getAllCourses } from '../api/coursescraper.js';
 
 import './course.js';
 import './body.html';
+
+// not needed, but helps sort out dependencies
+// import '../api/coursescraper.js';
 
 const EMPTY = '';
 
@@ -170,7 +172,16 @@ Template.body.events({
   },
   'click .scrape-page'() {
     console.log('Getting classes');
-    getAllCourses();
+    Meteor.call('coursescraper.getAllCourses', function(err) {
+      if (err)
+      {
+        console.log(err);
+      }
+      else
+      {
+        console.log('Success!');
+      }
+    });
   },
 
   // set filters
