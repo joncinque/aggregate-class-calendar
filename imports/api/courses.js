@@ -1,7 +1,9 @@
 // Business logic objects go here
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { Match, check } from 'meteor/check';
+
+import moment from 'moment';
 
 export const Courses = new Mongo.Collection('courses');
 
@@ -23,14 +25,18 @@ if (Meteor.isServer)
 
 Meteor.methods({
   // Ported from body.js
-  'courses.insert'(name, start, end, studio, teacher, url)
+  'courses.insert'(courseObj)
   {
-    check(name, String);
-    check(start, Date);
-    check(end, Date);
-    check(studio, String);
-    check(teacher, String);
-    check(url, String);
+    let ValidMoment = Match.Where((m)=>{
+      return m.isValid();
+    });
+    check(courseObj.name, String);
+    check(courseObj.start, Date);
+    check(courseObj.end, Date);
+    check(courseObj.studio, String);
+    check(courseObj.teacher, String);
+    check(courseObj.url, String);
+    check(courseObj.room, Match.Maybe(String));
 
     // Make sure user is logged in
     /*
@@ -40,13 +46,20 @@ Meteor.methods({
     }
     */
 
-    Courses.insert({
-      name: name,
-      start: start,
-      end: end,
-      studio: studio,
-      teacher: teacher,
-      url: url,
+    Courses.upsert({
+      // Selector
+      name: courseObj.name,
+      start: moment(courseObj.start),
+      end: moment(courseObj.end),
+      studio: courseObj.studio,
+      room: courseObj.room,
+      url: courseObj.url,
+    },
+    {
+      // Modifier
+      $set: {
+        teacher: courseObj.teacher,
+      }
     });
   },
   // Ported from course.js in imports/ui

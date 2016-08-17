@@ -84,6 +84,13 @@ function getNewTimeFromInput(initialDate, inputTime)
     return initialMoment.toDate();
 }
 
+function addToDb(courseObj)
+{
+  courseObj.start = courseObj.start.toDate();
+  courseObj.end = courseObj.end.toDate();
+  Meteor.call('courses.insert', courseObj);
+}
+
 Template.body.onCreated(function bodyOnCreated() {
   let dict = new ReactiveDict();
   this.state = dict;
@@ -172,7 +179,7 @@ Template.body.events({
   },
   'click .scrape-page'() {
     console.log('Getting classes');
-    Meteor.call('coursescraper.getAllCourses', function(err) {
+    Meteor.call('coursescraper.getAllCourses', function(err, data) {
       if (err)
       {
         console.log(err);
@@ -180,6 +187,7 @@ Template.body.events({
       else
       {
         console.log('Success!');
+        data.forEach(console.log);
       }
     });
   },
