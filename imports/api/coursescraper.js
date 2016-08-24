@@ -28,7 +28,7 @@ function makeFinishedCallback(classArray, studio)
 function getCourses(classArray, studio)
 {
   let htmlFile = studio.studioid + '.html';
-  let program = phantomjs.exec(Assets.absoluteFilePath('getcourse.js'), studio.studioid);
+  let program = phantomjs.exec(Assets.absoluteFilePath('getcourse.js'), studio.provider, studio.studioid);
   //program.stdout.pipe(process.stdout)
   //program.stderr.pipe(process.stderr)
   program.on('exit', code => {

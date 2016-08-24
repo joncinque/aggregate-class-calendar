@@ -2,12 +2,14 @@ var fs = require('fs');
 var moment = require('moment');
 var xmldom = require('xmldom');
 
+const PARSER_FUNCTIONS = 
+{
+  "MBO": parseMBOPage,
+};
+
 function cleanupHtml(htmlString)
 {
-  var cleanString = htmlString.replace(/&nbsp;/g,' ');
-  //cleanString = cleanString.replace(/\<br\>/g,' ');
-  //cleanString = cleanString.replace(/\<input.*\>/g,' ');
-  return cleanString;
+  return htmlString.replace(/&nbsp;/g,' ');
 }
 
 function parseFromData(cell)
@@ -217,7 +219,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
     studio: studio.name,
     room: webCourse['room'],
     location: webCourse['location'],
-    url: studio.url,
+    url: null,
   };
 
   dbCourse.start = parseCourseStart(webCourse, currentDate);
@@ -295,7 +297,7 @@ function makeJSONCourses(columnMap, tableRows, studio)
   return courses;
 }
 
-function processPage(htmlString, studio, callback)
+function parseMBOPage(htmlString, studio, callback)
 {
   const cleanString = cleanupHtml(htmlString);
   const parser = new xmldom.DOMParser();
@@ -321,23 +323,26 @@ export function parsePage(path, studio, callback)
     }
     else
     {
-      processPage(data, studio, callback);
+      PARSER_FUNCTIONS[studio.provider](data, studio, callback);
     }
   });
 }
 
-// For testing
-var studioInfo =
+if (require.main === module)
 {
-  "name": "Blue Cow Yoga",
-  "provider": "MBO",
-  "studioid": 23194,
-  "area": "Bank"
-};
+  // For testing
+  var studioInfo =
+  {
+    "name": "Blue Cow Yoga",
+    "provider": "MBO",
+    "studioid": 23194,
+    "area": "Bank"
+  };
 
-function loggerCallback(courses)
-{
-  console.log(courses);
+  function loggerCallback(courses)
+  {
+    console.log(courses);
+  }
+
+  exports.parsePage(process.argv[2], studioInfo, loggerCallback);
 }
-
-//parsePage('test_teacher.html', studioInfo, loggerCallback);
