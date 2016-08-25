@@ -183,7 +183,9 @@ Template.body.events({
       }
       else
       {
-        data.forEach(addToDb);
+        data.forEach(courses => {
+          courses.forEach(addToDb);
+        });
       }
     });
   },

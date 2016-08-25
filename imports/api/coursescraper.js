@@ -69,19 +69,25 @@ Meteor.methods({
   {
     if (Meteor.isServer)
     {
+      let studioScrapePromises = [];
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
       for (let index in studioInfo)
       {
         let studio = studioInfo[index];
         if (studio.provider === 'MBO')
         {
-          getCoursesAsync(studio, makeDBCallback(studio));
+          studioScrapePromises.push(getCoursesAsync(studio, makeArrayCallback(studio)));
         }
         else
         {
           console.log('Cannot process studio without provider: ' + studio);
         }
       }
+      return Promise.all(studioScrapePromises);
+    }
+    else
+    {
+      return Promise.resolve([]);
     }
   },
   'coursescraper.getCourses'(studioid)

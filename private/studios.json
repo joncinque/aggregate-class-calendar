@@ -35,6 +35,13 @@
     "area": "Central London"
   },
   {
+    "name": "Life Centre Notting Hill",
+    "provider": "MBO",
+    "studioid": -765,
+    "url": "http://www.thelifecentre.com/",
+    "area": "West London"
+  },
+  {
     "name": "Triyoga",
     "provider": "MBO",
     "studioid": 1991,
