@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
 import phantomjs from 'phantomjs-prebuilt';
 
@@ -13,33 +14,59 @@ function logCourse(course)
   console.log("  , studio: '" + course.studio + "'");
   console.log("  , teacher: '" + course.teacher + "'");
   console.log("  , url: '" + course.url + "'");
+  console.log("  , area: '" + course.area + "'");
   console.log("}");
 }
 
-function makeFinishedCallback(classArray, studio)
+function makeDBCallback(studio)
 {
   return function(courses)
   {
     console.log('Finished for studio: ' + studio.name);
-    courses.forEach(classArray.push);
+    courses.forEach(logCourse);
+    //courses.forEach(courseInfo.courseArray.push);
   }
 }
 
-function getCourses(classArray, studio)
+function makeArrayCallback(studio)
 {
-  let htmlFile = studio.studioid + '.html';
-  let program = phantomjs.exec(Assets.absoluteFilePath('getcourse.js'), studio.provider, studio.studioid);
-  //program.stdout.pipe(process.stdout)
-  //program.stderr.pipe(process.stderr)
-  program.on('exit', code => {
-    parsePage(htmlFile, studio, makeFinishedCallback(classArray, studio));
-  })
+  return function(courses)
+  {
+    console.log('Finished for studio: ' + studio.name);
+    courses.forEach(course => {
+      course.start = course.start.toDate();
+      course.end = course.end.toDate();
+    });
+    return courses;
+  }
+}
+
+function transformToJS(courseArray)
+{
+  courseArray.forEach(course => {
+    course.start = course.start.toDate();
+    course.end = course.end.toDate();
+  });
+  return courseArray;
+}
+
+function getCoursesAsync(studio, callback)
+{
+  const htmlFile = studio.studioid + '.html';
+  return phantomjs.run(Assets.absoluteFilePath('getcourse.js'),
+      studio.provider,
+      studio.studioid)
+    .then(program => {
+      return parsePage(htmlFile, studio, callback);
+    })
+    .then(data => {
+      return data;
+    });
 }
 
 Meteor.methods({
   'coursescraper.getAllCourses'()
   {
-    let allClasses = [];
     if (Meteor.isServer)
     {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
@@ -48,7 +75,7 @@ Meteor.methods({
         let studio = studioInfo[index];
         if (studio.provider === 'MBO')
         {
-          getCourses(allClasses, studio);
+          getCoursesAsync(studio, makeDBCallback(studio));
         }
         else
         {
@@ -56,28 +83,25 @@ Meteor.methods({
         }
       }
     }
-    return allClasses;
   },
-  'coursescraper.getCourses'(studioId)
+  'coursescraper.getCourses'(studioid)
   {
-    check(studioId, Number);
-    let classes = [];
+    check(studioid, Number);
     if (Meteor.isServer)
     {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
       for (let index in studioInfo)
       {
         let studio = studioInfo[index];
-        if (studio.studioId === studioId)
+        if (studio.studioid === studioid)
         {
-          getCourses(classes, studio);
-        }
-        else
-        {
-          console.log('Cannot process studio without provider: ' + studio);
+          return getCoursesAsync(studio, makeArrayCallback(studio));
         }
       }
     }
-    return classes;
+    else
+    {
+      return Promise.resolve([]);
+    }
   },
 });

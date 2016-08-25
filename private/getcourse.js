@@ -27,7 +27,7 @@ function dumpClassTable(providerInfo, studioId)
   var redirected = false;
 
   tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
-    console.trace(msg);
+    //console.trace(msg);
   }
 
   /* For additional debugging
@@ -57,7 +57,7 @@ function dumpClassTable(providerInfo, studioId)
   tablepage.onLoadFinished = function(status) {
     if (status === 'success')
     {
-      console.trace('Successful load of table resource, getting table from page');
+      //console.trace('Successful load of table resource, getting table from page');
       // The execution of "evaluate" is sandboxed, so there's no accessing *anything*
       // outside, so we have to pass it in.
       var tableElement = tablepage.evaluate(function(tableCssClass) {
@@ -66,9 +66,9 @@ function dumpClassTable(providerInfo, studioId)
       var path = studioId + '.html';
       fs.write(path, tableElement.outerHTML, function(error) {
         if (error) {
-          console.error("Error writing:  " + error.message);
+          //console.error("Error writing:  " + error.message);
         } else {
-          console.log("Success writing to " + path);
+          //console.log("Success writing to " + path);
         }
       });
       tablepage.close();
@@ -76,7 +76,7 @@ function dumpClassTable(providerInfo, studioId)
     }
     else
     {
-      console.trace('Error loading table resource');
+      //console.trace('Error loading table resource');
     }
   }
 
@@ -89,7 +89,7 @@ function dumpClassTable(providerInfo, studioId)
       console.trace('= onResourceReceived()' );
       console.trace('  id: ' + response.id + ', stage: "' + response.stage + '", url: ' + response.url);
       */
-      console.trace('Will get table resource: ' + response.url);
+      //console.trace('Will get table resource: ' + response.url);
       tableresource = response.url;
     }
   };
@@ -111,12 +111,12 @@ function dumpClassTable(providerInfo, studioId)
         {
           if (tableresource === null)
           {
-            console.trace('Table resource not found, forcing redirect to correct page');
+            //console.trace('Table resource not found, forcing redirect to correct page');
             studiopage.open(providerInfo.forcePage);
           }
           else
           {
-            console.trace('Successful load, now requesting table resource');
+            //console.trace('Successful load, now requesting table resource');
             redirected = true;
             tablepage.open(tableresource);
             studiopage.close();
@@ -125,16 +125,16 @@ function dumpClassTable(providerInfo, studioId)
       }
       else
       {
-        console.trace('Successful load of page, getting table');
+        //console.trace('Successful load of page, getting table');
         var tableElement = studiopage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
         var path = studioId + '.html';
         fs.write(path, tableElement.outerHTML, function(error) {
           if (error) {
-            console.error("Error writing:  " + error.message);
+            //console.error("Error writing:  " + error.message);
           } else {
-            console.log("Success writing to " + path);
+            //console.log("Success writing to " + path);
           }
         });
         studiopage.close();
@@ -143,19 +143,19 @@ function dumpClassTable(providerInfo, studioId)
     }
     else
     {
-      console.error('Error loading studio page');
+      //console.error('Error loading studio page');
       //phantom.exit();
     }
   };
 
   studiopage.onResourceError = function(resourceError) {
-    console.trace('= onResourceError()');
-    console.trace('  - unable to load url: "' + resourceError.url + '"');
-    console.trace('  - error code: ' + resourceError.errorCode + ', description: ' + resourceError.errorString );
+    //console.trace('= onResourceError()');
+    //console.trace('  - unable to load url: "' + resourceError.url + '"');
+    //console.trace('  - error code: ' + resourceError.errorCode + ', description: ' + resourceError.errorString );
   };
 
   studiopage.onError = function(msg, trace) {
-    console.error('= onError()');
+    //console.error('= onError()');
     var msgStack = ['  ERROR: ' + msg];
     if (trace) {
       msgStack.push('  TRACE:');
@@ -163,7 +163,7 @@ function dumpClassTable(providerInfo, studioId)
         msgStack.push('    -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
       });
     }
-    console.error(msgStack.join('\n'));
+    //console.error(msgStack.join('\n'));
   };
 
   studiopage.open(URL);
@@ -175,6 +175,6 @@ if (system.args.length > 1)
 }
 else
 {
-  console.log('Not enough args provided: ' + system.args);
+  //console.log('Not enough args provided: ' + system.args);
   phantom.exit();
 }
