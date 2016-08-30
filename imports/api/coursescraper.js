@@ -14,6 +14,7 @@ function logCourse(course)
   console.log("  , studio: '" + course.studio + "'");
   console.log("  , teacher: '" + course.teacher + "'");
   console.log("  , url: '" + course.url + "'");
+  console.log("  , locale: '" + course.locale + "'");
   console.log("  , area: '" + course.area + "'");
   console.log("}");
 }
@@ -24,7 +25,6 @@ function makeDBCallback(studio)
   {
     console.log('Finished for studio: ' + studio.name);
     courses.forEach(logCourse);
-    //courses.forEach(courseInfo.courseArray.push);
   }
 }
 
@@ -52,10 +52,11 @@ function transformToJS(courseArray)
 
 function getCoursesAsync(studio, callback)
 {
-  const htmlFile = studio.studioid + '.html';
+  const htmlFile = studio.studioid + studio.locale + '.html';
   return phantomjs.run(Assets.absoluteFilePath('getcourse.js'),
       studio.provider,
-      studio.studioid)
+      studio.studioid,
+      studio.locale)
     .then(program => {
       return parsePage(htmlFile, studio, callback);
     })
@@ -90,16 +91,17 @@ Meteor.methods({
       return Promise.resolve([]);
     }
   },
-  'coursescraper.getCourses'(studioid)
+  'coursescraper.getCourses'(studioid, locale)
   {
     check(studioid, Number);
+    check(locale, String);
     if (Meteor.isServer)
     {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
       for (let index in studioInfo)
       {
         let studio = studioInfo[index];
-        if (studio.studioid === studioid)
+        if (studio.studioid === studioid && studio.locale === locale)
         {
           return getCoursesAsync(studio, makeArrayCallback(studio));
         }

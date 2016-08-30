@@ -94,13 +94,13 @@ Template.body.onCreated(function bodyOnCreated() {
   this.state = dict;
   // get whatever is in the 'courses' channel from the server
   Meteor.subscribe('courses');
-  Meteor.call('courses.names', function (err,data) {
+  Meteor.call('courses.names', (err,data) => {
     dict.set('names', data);
   });
-  Meteor.call('courses.teachers', function (err,data) {
+  Meteor.call('courses.teachers', (err,data) => {
     dict.set('teachers', data);
   });
-  Meteor.call('courses.studios', function (err,data) {
+  Meteor.call('courses.studios', (err,data) => {
     dict.set('studios', data);
   });
 
@@ -176,7 +176,7 @@ Template.body.events({
     instance.state.set('hideCompleted', event.target.checked);
   },
   'click .scrape-all'() {
-    Meteor.call('coursescraper.getAllCourses', function(err, data) {
+    Meteor.call('coursescraper.getAllCourses', (err, data) => {
       if (err)
       {
         console.log(err);
@@ -193,7 +193,8 @@ Template.body.events({
   'submit .scrape-mbo-page'(event, template) {
     event.preventDefault();
     const studioid = Number(event.target.studioid.value);
-    Meteor.call('coursescraper.getCourses', studioid, function(err, data) {
+    const locale = event.target.locale.value;
+    Meteor.call('coursescraper.getCourses', studioid, locale, (err, data) => {
       if (err)
       {
         console.log(err);

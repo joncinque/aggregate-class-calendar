@@ -12,10 +12,11 @@ var PROVIDER_INFO =
     forcePage: 'https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7',
     tableResourcePattern: /^https:\/\/clients.mindbodyonline.com\/classic\/mainclass/,
     tableCssClass: '.classSchedule-mainTable-loaded',
+    locationCssId: '#optLocation',
   }
 };
 
-function dumpClassTable(providerInfo, studioId)
+function dumpClassTable(providerInfo, studioId, locale)
 {
   const URL = providerInfo.urlPattern + studioId;
 
@@ -57,22 +58,52 @@ function dumpClassTable(providerInfo, studioId)
   tablepage.onLoadFinished = function(status) {
     if (status === 'success')
     {
-      //console.trace('Successful load of table resource, getting table from page');
-      // The execution of "evaluate" is sandboxed, so there's no accessing *anything*
-      // outside, so we have to pass it in.
-      var tableElement = tablepage.evaluate(function(tableCssClass) {
-        return document.querySelector(tableCssClass);
-      }, providerInfo.tableCssClass);
-      var path = studioId + '.html';
-      fs.write(path, tableElement.outerHTML, function(error) {
-        if (error) {
-          //console.error("Error writing:  " + error.message);
-        } else {
-          //console.log("Success writing to " + path);
+      //console.trace('Successfully loaded table resource');
+      var changed = tablepage.evaluate(function(locationCssId, locale){
+        var locationDropdown = document.querySelector(locationCssId);
+        for (var i = 0; i < locationDropdown.length; ++i)
+        {
+          if (locationDropdown[i].text === locale)
+          {
+            if (locationDropdown.value === locationDropdown[i].value)
+            {
+              return false;
+            }
+            else
+            {
+              locationDropdown.selectedIndex = i;
+              locationDropdown.onchange();
+              return true;
+            }
+          }
         }
-      });
-      tablepage.close();
-      phantom.exit();
+        return false;
+      }, providerInfo.locationCssId, locale);
+      //console.trace('Changed location: [' + changed + ']');
+      if (changed)
+      {
+        setTimeout(function(){
+          tablepage.reload();
+        }, 3000);
+      }
+      else
+      {
+        // The execution of "evaluate" is sandboxed, so extra parameters must be
+        // passed in from the outside like so.
+        var tableElement = tablepage.evaluate(function(tableCssClass) {
+          return document.querySelector(tableCssClass);
+        }, providerInfo.tableCssClass);
+        var path = studioId + locale + '.html';
+        fs.write(path, tableElement.outerHTML, function(error) {
+          if (error) {
+            //console.error("Error writing:  " + error.message);
+          } else {
+            //console.log("Success writing to " + path);
+          }
+        });
+        tablepage.close();
+        phantom.exit();
+      }
     }
     else
     {
@@ -111,7 +142,7 @@ function dumpClassTable(providerInfo, studioId)
         {
           if (tableresource === null)
           {
-            //console.trace('Table resource not found, forcing redirect to correct page');
+            //console.trace('Table resource not found, forcing redirect');
             studiopage.open(providerInfo.forcePage);
           }
           else
@@ -129,7 +160,7 @@ function dumpClassTable(providerInfo, studioId)
         var tableElement = studiopage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
-        var path = studioId + '.html';
+        var path = studioId + locale + '.html';
         fs.write(path, tableElement.outerHTML, function(error) {
           if (error) {
             //console.error("Error writing:  " + error.message);
@@ -171,7 +202,7 @@ function dumpClassTable(providerInfo, studioId)
 
 if (system.args.length > 1)
 {
-  dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2]);
+  dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2], system.args[3]);
 }
 else
 {
