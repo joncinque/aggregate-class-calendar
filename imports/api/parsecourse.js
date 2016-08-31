@@ -26,7 +26,45 @@ function parseFromData(cell)
   }
 }
 
-function parseFromChild(cell, recurseLevel)
+function makeParseAllChildrenFunction(recurseLevel, verbose)
+{
+  return (cell)=>{ return parseAllChildren(cell,recurseLevel, verbose); };
+}
+
+function parseAllChildren(cell, recurseLevel, verbose)
+{
+  var parsedString = "";
+  if (cell.data !== null &&
+      cell.data !== undefined)
+  {
+    parsedString += cell.data.trim();
+  }
+
+  if (cell.childNodes === null ||
+      cell.childNodes === undefined ||
+      cell.childNodes.length === 0)
+  {
+    if (verbose)
+    {
+      console.error('Bad cell without children or data: [');
+      console.error(cell);
+      console.error(']');
+    }
+  }
+  else
+  {
+    if (recurseLevel > 0)
+    {
+      for (var i = 0; i < cell.childNodes.length; ++i)
+      {
+        parsedString += parseAllChildren(cell.childNodes[i], recurseLevel - 1, verbose);
+      }
+    }
+  }
+  return parsedString;
+}
+
+function parseFirstChild(cell, recurseLevel, verbose)
 {
   const firstData = parseFromData(cell);
   if (firstData !== undefined)
@@ -34,20 +72,27 @@ function parseFromChild(cell, recurseLevel)
     return firstData;
   }
 
-  if (firstData === undefined && recurseLevel > 0)
+  if (cell.childNodes === null ||
+      cell.childNodes === undefined ||
+      cell.childNodes.length === 0)
   {
-    if (cell.childNodes !== null &&
-        cell.childNodes !== undefined &&
-        cell.childNodes.length > 0)
+    if (verbose)
     {
-      return parseFromChild(cell.childNodes[0], recurseLevel - 1);
+      console.error('Bad cell without children or data: [');
+      console.error(cell);
+      console.error(']');
     }
+    return;
+  }
+  if (recurseLevel > 0)
+  {
+    return parseFirstChild(cell.childNodes[0], recurseLevel - 1, verbose);
   }
 }
 
-function makeParseFromChildFunction(recurseLevel)
+function makeParseFirstChildFunction(recurseLevel, verbose)
 {
-  return function(cell) { return parseFromChild(cell, recurseLevel); };
+  return (cell)=>{ return parseFirstChild(cell, recurseLevel, verbose); };
 }
 
 const PARSER_MAP =
@@ -62,13 +107,13 @@ const PARSER_MAP =
   {
     required: true,
     column: [ 'Classes' ],
-    parser: makeParseFromChildFunction(1),
+    parser: makeParseAllChildrenFunction(5, false),
   },
   teacher:
   {
     required: true,
     column: [ 'Teacher', 'Yoga + Pilates Mat Teacher' ], 
-    parser: makeParseFromChildFunction(2),
+    parser: makeParseFirstChildFunction(2, false),
   },
   duration:
   {
@@ -117,7 +162,7 @@ function makeColumnMap(headerRow)
       var propName = propNameOfColumnHeader(data);
       if (propName !== undefined && propName !== "")
       {
-        console.log('Mapping for "'+data+'",property "'+propName+'", index '+i);
+        //console.trace('Mapping for "'+data+'",property "'+propName+'", index '+i);
         map[i] = propName;
       }
     }
@@ -143,11 +188,11 @@ function parseDateFromRow(row)
       const parsedDate = moment(dateElement, 'DD MMM YYYY');
       if (parsedDate.isValid())
       {
-        console.log('Current date: ' + parsedDate.format('DD MMM YYYY'));
+        //console.trace('Current date: ' + parsedDate.format('DD MMM YYYY'));
       }
       else
       {
-        console.log('Problem parsing date from data element in:"' + dateElement + '"');
+        //console.error('Problem parsing date from data element in:"' + dateElement + '"');
       }
       return parsedDate;
     }
@@ -177,7 +222,7 @@ function parseCourseStart(webCourse, currentDate)
   }
   else
   {
-    console.log('Error parsing time from start time: ' + webCourse['start']);
+    //console.error('Error parsing time from start time: ' + webCourse['start']);
   }
   return courseStart;
 }
@@ -204,7 +249,7 @@ function parseCourseEnd(webCourse, courseStart)
   }
   if (courseEnd.isValid() === false)
   {
-    console.log('Error parsing end time from duration: ' + webCourse['Duration']);
+    //console.error('Error parsing end time from duration: ' + webCourse['Duration']);
   }
   return courseEnd;
 }
@@ -219,7 +264,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
     teacher: webCourse['teacher'],
     studio: studio.name,
     room: webCourse['room'],
-    location: webCourse['location'],
+    locale: studio.locale,
     url: studio.url,
     area: studio.area,
   };
@@ -281,7 +326,7 @@ function makeJSONCourses(columnMap, tableRows, studio)
         }
         else
         {
-          //console.log('No mapping for column: ' + j);
+          //console.trace('No mapping for column: ' + j);
         }
       }
       if (isCourseValid(course))
@@ -291,8 +336,8 @@ function makeJSONCourses(columnMap, tableRows, studio)
       }
       else
       {
-        console.log('No valid course found:');
-        console.log(course);
+        //console.error('No valid course found:');
+        //console.error(course);
       }
     }
   }
@@ -323,7 +368,7 @@ function parseMBOPage(htmlString, studio, callback)
 export function parsePage(path, studio, callback)
 {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', function(error, data) {
+    fs.readFile(path, 'utf8', (error, data)=>{
       if (error)
       {
         reject(error);

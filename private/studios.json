@@ -3,6 +3,7 @@
     "name": "Blue Cow Yoga",
     "provider": "MBO",
     "studioid": 23194,
+    "redirectPage":  "",
     "url": "http://bluecowyoga.com/",
     "locale": "",
     "area": "Bank"
@@ -11,6 +12,7 @@
     "name": "Power Yoga Company",
     "provider": "MBO",
     "studioid": 4706,
+    "redirectPage":  "",
     "url": "http://thepoweryogaco.com/",
     "locale": "",
     "area": "West London"
@@ -19,6 +21,7 @@
     "name": "Yoga Rise",
     "provider": "MBO",
     "studioid": 138949,
+    "redirectPage":  "",
     "url": "http://www.yogarise.london/",
     "locale": "",
     "area": "South London"
@@ -27,6 +30,7 @@
     "name": "I Am Yoga",
     "provider": "MBO",
     "studioid": 217848,
+    "redirectPage":  "",
     "url": "http://iamyogalondon.com/",
     "locale": "",
     "area": "Central London"
@@ -35,6 +39,7 @@
     "name": "Yotopia",
     "provider": "MBO",
     "studioid": 16311,
+    "redirectPage":  "",
     "url": "http://yotopia.co.uk/",
     "locale": "",
     "area": "Central London"
@@ -43,6 +48,7 @@
     "name": "Life Centre Notting Hill",
     "provider": "MBO",
     "studioid": -765,
+    "redirectPage":  "",
     "url": "http://www.thelifecentre.com/",
     "locale": "Notting Hill",
     "area": "West London"
@@ -51,14 +57,16 @@
     "name": "Life Centre Islington",
     "provider": "MBO",
     "studioid": -765,
+    "redirectPage":  "",
     "url": "http://www.thelifecentre.com/",
     "locale": "Islington",
-    "area": "West London"
+    "area": "North London"
   },
   {
     "name": "Triyoga Soho",
     "provider": "MBO",
     "studioid": 1991,
+    "redirectPage":  "",
     "url": "http://www.triyoga.co.uk/",
     "locale": "Soho",
     "area": "Central London"
@@ -67,14 +75,16 @@
     "name": "Triyoga Camden",
     "provider": "MBO",
     "studioid": 1991,
+    "redirectPage":  "",
     "url": "http://www.triyoga.co.uk/",
     "locale": "Camden",
-    "area": "Central London"
+    "area": "North London"
   },
   {
     "name": "Triyoga Covent Garden",
     "provider": "MBO",
     "studioid": 1991,
+    "redirectPage":  "",
     "url": "http://www.triyoga.co.uk/",
     "locale": "Covent Garden",
     "area": "Central London"
@@ -83,8 +93,99 @@
     "name": "Triyoga Chelsea",
     "provider": "MBO",
     "studioid": 1991,
+    "redirectPage":  "",
     "url": "http://www.triyoga.co.uk/",
     "locale": "Chelsea",
+    "area": "West London"
+  },
+  {
+    "name": "Indaba Yoga",
+    "provider": "MBO",
+    "studioid": 11974,
+    "redirectPage":  "",
+    "url": "http://indabayoga.com/",
+    "locale": "",
+    "area": "Central London"
+  },
+  {
+    "name": "The Refinery E9",
+    "provider": "MBO",
+    "studioid": 208867,
+    "redirectPage":  "",
+    "url": "http://www.therefinerye9.com/",
+    "locale": "",
+    "area": "East London"
+  },
+  {
+    "name": "The Light Centre Moorgate",
+    "provider": "MBO",
+    "studioid": 20481,
+    "redirectPage":  "",
+    "url": "http://www.lightcentremoorgate.co.uk/",
+    "locale": "Moorgate",
+    "area": "Bank"
+  },
+  {
+    "name": "The Light Centre Belgravia",
+    "provider": "MBO",
+    "studioid": 20481,
+    "redirectPage":  "",
+    "url": "http://www.lightcentrebelgravia.co.uk/",
+    "locale": "Belgravia",
+    "area": "Central London"
+  },
+  {
+    "name": "Yogahaven Clapham",
+    "provider": "MBO",
+    "studioid": 12354,
+    "redirectPage":  "",
+    "url": "http://www.yogahaven.co.uk/london-yoga/clapham/yoga",
+    "locale": "Clapham",
+    "area": "South London"
+  },
+  {
+    "name": "Yogahaven Islington",
+    "provider": "MBO",
+    "studioid": 12354,
+    "redirectPage":  "",
+    "url": "http://www.yogahaven.co.uk/london-yoga/islington/yoga",
+    "locale": "Islington",
+    "area": "North London"
+  },
+  {
+    "name": "Yogahaven Richmond",
+    "provider": "MBO",
+    "studioid": 139714,
+    "redirectPage":  "",
+    "url": "http://www.yogahaven.co.uk/london-yoga/richmond/yoga",
+    "locale": "",
+    "area": "West London"
+  },
+  {
+    "name": "Yoga West",
+    "provider": "MBO",
+    "studioid": 43597,
+    "redirectPage":  "",
+    "url": "http://www.yogaat.com/yogawest",
+    "locale": "",
+    "area": "West London"
+  },
+  {
+    "name": "The Garuda Yoga and Pilates",
+    "provider": "MBO",
+    "studioid": 24230,
+    "redirectPage":  "",
+    "url": "https://www.thegaruda.net/",
+    "locale": "",
+    "area": "North London"
+  },
+  {
+    "name": "Good Vibes",
+    "provider": "MBO",
+    "studioid": 1769,
+    "redirectPage":  "https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7",
+    "url": "http://www.goodvibesfitness.co.uk/",
+    "locale": "",
     "area": "Central London"
   }
 ]

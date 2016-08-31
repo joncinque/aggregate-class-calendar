@@ -16,7 +16,7 @@ var PROVIDER_INFO =
   }
 };
 
-function dumpClassTable(providerInfo, studioId, locale)
+function dumpClassTable(providerInfo, studioId, locale, redirectPage)
 {
   const URL = providerInfo.urlPattern + studioId;
 
@@ -25,6 +25,7 @@ function dumpClassTable(providerInfo, studioId, locale)
 
   var needsTableResource = (providerInfo.tableResourcePattern !== null);
   var tableresource = null;
+  var redirectedToTable = false;
   var redirected = false;
 
   tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
@@ -136,9 +137,16 @@ function dumpClassTable(providerInfo, studioId, locale)
     */
     if (status === 'success')
     {
+      if (redirectPage !== undefined && redirected === false)
+      {
+        tableresource = null;
+        redirected = true;
+        studiopage.open(redirectPage);
+      }
+
       if (needsTableResource)
       {
-        if (redirected === false)
+        if (redirectedToTable === false)
         {
           if (tableresource === null)
           {
@@ -148,7 +156,7 @@ function dumpClassTable(providerInfo, studioId, locale)
           else
           {
             //console.trace('Successful load, now requesting table resource');
-            redirected = true;
+            redirectedToTable = true;
             tablepage.open(tableresource);
             studiopage.close();
           }
@@ -200,9 +208,13 @@ function dumpClassTable(providerInfo, studioId, locale)
   studiopage.open(URL);
 }
 
-if (system.args.length > 1)
+if (system.args.length === 4)
 {
   dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2], system.args[3]);
+}
+else if (system.args.length === 5)
+{
+  dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2], system.args[3], system.args[4]);
 }
 else
 {

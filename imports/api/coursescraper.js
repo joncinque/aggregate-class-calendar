@@ -21,7 +21,7 @@ function logCourse(course)
 
 function makeDBCallback(studio)
 {
-  return function(courses)
+  return (courses) =>
   {
     console.log('Finished for studio: ' + studio.name);
     courses.forEach(logCourse);
@@ -30,7 +30,7 @@ function makeDBCallback(studio)
 
 function makeArrayCallback(studio)
 {
-  return function(courses)
+  return (courses) =>
   {
     console.log('Finished for studio: ' + studio.name);
     courses.forEach(course => {
@@ -56,7 +56,8 @@ function getCoursesAsync(studio, callback)
   return phantomjs.run(Assets.absoluteFilePath('getcourse.js'),
       studio.provider,
       studio.studioid,
-      studio.locale)
+      studio.locale,
+      studio.redirectPage)
     .then(program => {
       return parsePage(htmlFile, studio, callback);
     })
