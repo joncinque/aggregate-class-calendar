@@ -112,7 +112,7 @@ const PARSER_MAP =
   teacher:
   {
     required: true,
-    column: [ 'Teacher', 'Yoga + Pilates Mat Teacher' ], 
+    column: [ 'Teacher', 'Yoga + Pilates Mat Teacher', 'Staff' ], 
     parser: makeParseFirstChildFunction(2, false),
   },
   duration:
@@ -199,15 +199,34 @@ function parseDateFromRow(row)
   }
 }
 
-function isCourseValid(course)
+function isCourseValid(webCourse, studio)
 {
   for (var prop in PARSER_MAP)
   {
-    if (PARSER_MAP[prop].required && course.hasOwnProperty(prop) === false)
+    if (PARSER_MAP[prop].required)
+    {
+      if (webCourse.hasOwnProperty(prop) === false ||
+          webCourse[prop] === undefined)
+      {
+        return false;
+      }
+    }
+  }
+  // Extra check on the locale info -- if a locale is specified, make sure it's
+  // also included in studio info.
+  if (webCourse['locale'] !== undefined)
+  {
+    if (studio.locales === undefined ||
+        studio.locales[webCourse['locale']] === undefined)
     {
       return false;
     }
   }
+  else if (studio.locale === undefined)
+  {
+    return false;
+  }
+
   return true;
 }
 
@@ -325,29 +344,29 @@ function makeJSONCourses(columnMap, tableRows, studio)
     }
     else if (rowIsValid(row))
     {
-      var course = {};
+      var webCourse = {};
       for (var j = 0; j < row.childNodes.length; ++j)
       {
         if (columnMap[j] !== undefined)
         {
           var cell = row.childNodes[j];
           var key = columnMap[j];
-          course[key] = PARSER_MAP[key].parser(cell);
+          webCourse[key] = PARSER_MAP[key].parser(cell);
         }
         else
         {
           //console.trace('No mapping for column: ' + j);
         }
       }
-      if (isCourseValid(course))
+      if (isCourseValid(webCourse, studio))
       {
-        var dbCourse = dbCourseOfWebCourse(course, currentDate, studio);
+        var dbCourse = dbCourseOfWebCourse(webCourse, currentDate, studio);
         courses.push(dbCourse);
       }
       else
       {
         //console.error('No valid course found:');
-        //console.error(course);
+        //console.error(webCourse);
       }
     }
   }
