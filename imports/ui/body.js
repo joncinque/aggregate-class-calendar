@@ -84,11 +84,6 @@ function getNewTimeFromInput(initialDate, inputTime)
     return initialMoment.toDate();
 }
 
-function addToDb(courseObj)
-{
-  Meteor.call('courses.insert', courseObj);
-}
-
 Template.body.onCreated(function bodyOnCreated() {
   let dict = new ReactiveDict();
   this.state = dict;
@@ -183,8 +178,8 @@ Template.body.events({
       }
       else
       {
-        data.forEach(courses => {
-          courses.forEach(addToDb);
+        data.forEach(message => {
+          console.log(message);
         });
       }
     });
@@ -201,7 +196,9 @@ Template.body.events({
       }
       else
       {
-        data.forEach(addToDb);
+        data.forEach(course=>{
+          Meteor.call('courses.insert', courseObj);
+        });
       }
     });
   },

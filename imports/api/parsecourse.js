@@ -347,6 +347,19 @@ function makeJSONCourses(columnMap, tableRows, studio)
 function parseMBOPage(htmlString, studio, callback)
 {
   const cleanString = cleanupHtml(htmlString);
+  if (cleanString === '')
+  {
+    console.error('Empty string found for studio, retry studio id [' + 
+        studio.studioid + '], location [' + studio.locale + ']');
+    if (callback !== undefined)
+    {
+      return callback([]);
+    }
+    else
+    {
+      return [];
+    }
+  }
   const parser = new xmldom.DOMParser();
   const dom = parser.parseFromString(cleanString, 'text/html');
 
@@ -368,7 +381,7 @@ function parseMBOPage(htmlString, studio, callback)
 export function parsePage(path, studio, callback)
 {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (error, data)=>{
+    fs.readFile(path, 'utf8', (error, data) => {
       if (error)
       {
         reject(error);

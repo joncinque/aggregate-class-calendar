@@ -16,7 +16,7 @@ var PROVIDER_INFO =
   }
 };
 
-function dumpClassTable(providerInfo, studioId, locale, redirectPage)
+function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPage)
 {
   const URL = providerInfo.urlPattern + studioId;
 
@@ -94,16 +94,36 @@ function dumpClassTable(providerInfo, studioId, locale, redirectPage)
         var tableElement = tablepage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
-        var path = studioId + locale + '.html';
-        fs.write(path, tableElement.outerHTML, function(error) {
-          if (error) {
-            //console.error("Error writing:  " + error.message);
-          } else {
-            //console.log("Success writing to " + path);
+        var path = Math.abs(studioId) + locale + '.html';
+        if (tableElement.outerHTML === '')
+        {
+          if (shouldRetry)
+          {
+            //console.error('No html found, retrying [' + path + ']');
+            studiopage.close();
+            tablepage.close();
+            dumpClassTable(false, providerInfo, studioId, locale, redirectPage);
           }
-        });
-        tablepage.close();
-        phantom.exit();
+          else
+          {
+            //console.error('No html found, done trying [' + path + ']');
+            studiopage.close();
+            tablepage.close();
+            phantom.exit();
+          }
+        }
+        else
+        {
+          fs.write(path, tableElement.outerHTML, function(error) {
+            if (error) {
+              //console.error("Error writing:  " + error.message);
+            } else {
+              //console.log("Success writing to " + path);
+            }
+          });
+          tablepage.close();
+          phantom.exit();
+        }
       }
     }
     else
@@ -158,7 +178,6 @@ function dumpClassTable(providerInfo, studioId, locale, redirectPage)
             //console.trace('Successful load, now requesting table resource');
             redirectedToTable = true;
             tablepage.open(tableresource);
-            studiopage.close();
           }
         }
       }
@@ -168,7 +187,7 @@ function dumpClassTable(providerInfo, studioId, locale, redirectPage)
         var tableElement = studiopage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
-        var path = studioId + locale + '.html';
+        var path = Math.abs(studioId) + locale + '.html';
         fs.write(path, tableElement.outerHTML, function(error) {
           if (error) {
             //console.error("Error writing:  " + error.message);
@@ -210,11 +229,11 @@ function dumpClassTable(providerInfo, studioId, locale, redirectPage)
 
 if (system.args.length === 4)
 {
-  dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2], system.args[3]);
+  dumpClassTable(true, PROVIDER_INFO[system.args[1]], system.args[2], system.args[3]);
 }
 else if (system.args.length === 5)
 {
-  dumpClassTable(PROVIDER_INFO[system.args[1]], system.args[2], system.args[3], system.args[4]);
+  dumpClassTable(true, PROVIDER_INFO[system.args[1]], system.args[2], system.args[3], system.args[4]);
 }
 else
 {
