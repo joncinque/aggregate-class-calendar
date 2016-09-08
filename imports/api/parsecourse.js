@@ -130,8 +130,8 @@ const PARSER_MAP =
   locale:
   {
     required: false,
-    column: [ 'Location' ],
-    parser: parseFromData,
+    column: [ 'Location', 'Studio' ],
+    parser: makeParseFirstChildFunction(2, false),
   },
 };
 
@@ -162,7 +162,7 @@ function makeColumnMap(headerRow)
       var propName = propNameOfColumnHeader(data);
       if (propName !== undefined && propName !== "")
       {
-        //console.trace('Mapping for "'+data+'",property "'+propName+'", index '+i);
+        //console.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
         map[i] = propName;
       }
     }
@@ -256,21 +256,31 @@ function parseCourseEnd(webCourse, courseStart)
 
 function dbCourseOfWebCourse(webCourse, currentDate, studio)
 {
-  var dbCourse = 
+  var dbCourse =
   {
     name: webCourse['course'],
-    start: null,
-    end: null,
     teacher: webCourse['teacher'],
-    studio: studio.name,
     room: webCourse['room'],
-    locale: studio.locale,
-    url: studio.url,
-    area: studio.area,
   };
 
   dbCourse.start = parseCourseStart(webCourse, currentDate);
   dbCourse.end = parseCourseEnd(webCourse, dbCourse.start);
+
+  dbCourse.locale = webCourse['locale'];
+  var localeInfo = {};
+  if (dbCourse.locale !== undefined && 
+      studio.locales !== undefined &&
+      studio.locales[dbCourse.locale] !== undefined)
+  {
+    localeInfo = studio.locales[dbCourse.locale];
+  }
+  else
+  {
+    localeInfo = studio.locale;
+  }
+  dbCourse.studio = localeInfo.name;
+  dbCourse.url = localeInfo.url;
+  dbCourse.area = localeInfo.area;
 
   return dbCourse;
 }
@@ -349,8 +359,7 @@ function parseMBOPage(htmlString, studio, callback)
   const cleanString = cleanupHtml(htmlString);
   if (cleanString === '')
   {
-    console.error('Empty string found for studio, retry studio id [' + 
-        studio.studioid + '], location [' + studio.locale + ']');
+    console.error('Empty string found, retry [' + studio.studioid + ']');
     if (callback !== undefined)
     {
       return callback([]);
@@ -360,6 +369,7 @@ function parseMBOPage(htmlString, studio, callback)
       return [];
     }
   }
+
   const parser = new xmldom.DOMParser();
   const dom = parser.parseFromString(cleanString, 'text/html');
 
@@ -378,7 +388,7 @@ function parseMBOPage(htmlString, studio, callback)
   }
 }
 
-export function parsePage(path, studio, callback)
+exports.parsePage = (path, studio, callback) =>
 {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (error, data) => {
@@ -397,12 +407,52 @@ export function parsePage(path, studio, callback)
 if (require.main === module)
 {
   // For testing
-  var studioInfo =
+  var multiStudioInfo =
+  {
+    "name": "Triyoga",
+    "provider": "MBO",
+    "studioid": 1991,
+    "redirectPage":  "",
+    "locales": 
+    {
+      "Soho":
+      {
+        "name": "Triyoga Soho",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "Central London"
+      },
+      "Camden":
+      {
+        "name": "Triyoga Camden",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "North London"
+      },
+      "Covent Garden":
+      {
+        "name": "Triyoga Covent Garden",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "Central London"
+      },
+      "Chelsea":
+      {
+        "name": "Triyoga Chelsea",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "West London"
+      }
+    }
+  };
+  var singleStudioInfo =
   {
     "name": "Blue Cow Yoga",
     "provider": "MBO",
-    "studioid": 23194,
-    "area": "Bank"
+    "studioid": 1991,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "Blue Cow Yoga",
+      "url": "http://bluecowyoga.com/",
+      "area": "Bank"
+    }
   };
 
   function loggerCallback(courses)
@@ -410,5 +460,5 @@ if (require.main === module)
     console.log(courses);
   }
 
-  exports.parsePage(process.argv[2], studioInfo, loggerCallback);
+  exports.parsePage(process.argv[2], singleStudioInfo, loggerCallback);
 }

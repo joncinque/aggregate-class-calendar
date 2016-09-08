@@ -4,188 +4,236 @@
     "provider": "MBO",
     "studioid": 23194,
     "redirectPage":  "",
-    "url": "http://bluecowyoga.com/",
-    "locale": "",
-    "area": "Bank"
+    "locale": 
+    {
+      "name": "Blue Cow Yoga",
+      "url": "http://bluecowyoga.com/",
+      "area": "Bank"
+    }
   },
   {
     "name": "Power Yoga Company",
     "provider": "MBO",
     "studioid": 4706,
     "redirectPage":  "",
-    "url": "http://thepoweryogaco.com/",
-    "locale": "",
-    "area": "West London"
+    "locale": 
+    {
+      "name": "Power Yoga Company",
+      "url": "http://thepoweryogaco.com/",
+      "area": "West London"
+    }
   },
   {
     "name": "Yoga Rise",
     "provider": "MBO",
     "studioid": 138949,
     "redirectPage":  "",
-    "url": "http://www.yogarise.london/",
-    "locale": "",
-    "area": "South London"
+    "locale": 
+    {
+      "name": "Yoga Rise",
+      "url": "http://www.yogarise.london/",
+      "area": "South London"
+    }
   },
   {
     "name": "I Am Yoga",
     "provider": "MBO",
     "studioid": 217848,
     "redirectPage":  "",
-    "url": "http://iamyogalondon.com/",
-    "locale": "",
-    "area": "Central London"
+    "locale": 
+    {
+      "name": "I Am Yoga",
+      "url": "http://iamyogalondon.com/",
+      "area": "Central London"
+    }
   },
   {
     "name": "Yotopia",
     "provider": "MBO",
     "studioid": 16311,
     "redirectPage":  "",
-    "url": "http://yotopia.co.uk/",
-    "locale": "",
-    "area": "Central London"
+    "locale":
+    {
+      "name": "Yotopia",
+      "url": "http://yotopia.co.uk/",
+      "area": "Central London"
+    }
   },
   {
-    "name": "Life Centre Notting Hill",
+    "name": "The Life Centre",
     "provider": "MBO",
     "studioid": -765,
     "redirectPage":  "",
-    "url": "http://www.thelifecentre.com/",
-    "locale": "Notting Hill",
-    "area": "West London"
+    "locales":
+    {
+      "Notting Hill":
+      {
+        "name": "The Life Centre Notting Hill",
+        "url": "http://www.thelifecentre.com/",
+        "area": "West London"
+      },
+      "Islington":
+      {
+        "name": "The Life Centre Islington",
+        "url": "http://www.thelifecentre.com/",
+        "area": "North London"
+      }
+    }
   },
   {
-    "name": "Life Centre Islington",
-    "provider": "MBO",
-    "studioid": -765,
-    "redirectPage":  "",
-    "url": "http://www.thelifecentre.com/",
-    "locale": "Islington",
-    "area": "North London"
-  },
-  {
-    "name": "Triyoga Soho",
-    "provider": "MBO",
-    "studioid": 1991,
-    "redirectPage":  "",
-    "url": "http://www.triyoga.co.uk/",
-    "locale": "Soho",
-    "area": "Central London"
-  },
-  {
-    "name": "Triyoga Camden",
+    "name": "Triyoga",
     "provider": "MBO",
     "studioid": 1991,
     "redirectPage":  "",
-    "url": "http://www.triyoga.co.uk/",
-    "locale": "Camden",
-    "area": "North London"
-  },
-  {
-    "name": "Triyoga Covent Garden",
-    "provider": "MBO",
-    "studioid": 1991,
-    "redirectPage":  "",
-    "url": "http://www.triyoga.co.uk/",
-    "locale": "Covent Garden",
-    "area": "Central London"
-  },
-  {
-    "name": "Triyoga Chelsea",
-    "provider": "MBO",
-    "studioid": 1991,
-    "redirectPage":  "",
-    "url": "http://www.triyoga.co.uk/",
-    "locale": "Chelsea",
-    "area": "West London"
+    "locales": 
+    {
+      "Soho":
+      {
+        "name": "Triyoga Soho",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "Central London"
+      },
+      "Camden":
+      {
+        "name": "Triyoga Camden",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "North London"
+      },
+      "Covent Garden":
+      {
+        "name": "Triyoga Covent Garden",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "Central London"
+      },
+      "Chelsea":
+      {
+        "name": "Triyoga Chelsea",
+        "url": "http://www.triyoga.co.uk/",
+        "area": "West London"
+      }
+    }
   },
   {
     "name": "Indaba Yoga",
     "provider": "MBO",
     "studioid": 11974,
     "redirectPage":  "",
-    "url": "http://indabayoga.com/",
-    "locale": "",
-    "area": "Central London"
+    "locale":
+    {
+      "name": "Indaba Yoga",
+      "url": "http://indabayoga.com/",
+      "area": "Central London"
+    }
   },
   {
     "name": "The Refinery E9",
     "provider": "MBO",
     "studioid": 208867,
     "redirectPage":  "",
-    "url": "http://www.therefinerye9.com/",
-    "locale": "",
-    "area": "East London"
+    "locale":
+    {
+      "name": "The Refinery E9",
+      "url": "http://www.therefinerye9.com/",
+      "area": "East London"
+    }
   },
   {
-    "name": "The Light Centre Moorgate",
+    "name": "The Light Centre",
     "provider": "MBO",
     "studioid": 20481,
     "redirectPage":  "",
-    "url": "http://www.lightcentremoorgate.co.uk/",
-    "locale": "Moorgate",
-    "area": "Bank"
+    "locales":
+    {
+      "Moorgate":
+      {
+        "name": "The Light Centre Moorgate",
+        "url": "http://www.lightcentremoorgate.co.uk/",
+        "area": "Bank"
+      },
+      "Belgravia":
+      {
+        "name": "The Light Centre Belgravia",
+        "url": "http://www.lightcentrebelgravia.co.uk/",
+        "area": "Central London"
+      }
+    }
   },
   {
-    "name": "The Light Centre Belgravia",
-    "provider": "MBO",
-    "studioid": 20481,
-    "redirectPage":  "",
-    "url": "http://www.lightcentrebelgravia.co.uk/",
-    "locale": "Belgravia",
-    "area": "Central London"
-  },
-  {
-    "name": "Yogahaven Clapham",
-    "provider": "MBO",
-    "studioid": 12354,
-    "redirectPage":  "",
-    "url": "http://www.yogahaven.co.uk/london-yoga/clapham/yoga",
-    "locale": "Clapham",
-    "area": "South London"
-  },
-  {
-    "name": "Yogahaven Islington",
+    "name": "Yogahaven",
     "provider": "MBO",
     "studioid": 12354,
     "redirectPage":  "",
-    "url": "http://www.yogahaven.co.uk/london-yoga/islington/yoga",
-    "locale": "Islington",
-    "area": "North London"
+    "locales":
+    {
+      "Clapham":
+      {
+        "name": "Yogahaven Clapham",
+        "url": "http://www.yogahaven.co.uk/london-yoga/clapham/yoga",
+        "area": "South London"
+      },
+      "Islington":
+      {
+        "name": "Yogahaven Islington",
+        "url": "http://www.yogahaven.co.uk/london-yoga/islington/yoga",
+        "area": "North London"
+      }
+    }
   },
   {
     "name": "Yogahaven Richmond",
     "provider": "MBO",
     "studioid": 139714,
     "redirectPage":  "",
-    "url": "http://www.yogahaven.co.uk/london-yoga/richmond/yoga",
-    "locale": "",
-    "area": "West London"
+    "locale": 
+    {
+      "name": "Yogahaven Richmond",
+      "url": "http://www.yogahaven.co.uk/london-yoga/richmond/yoga",
+      "area": "West London"
+    }
   },
   {
     "name": "Yoga West",
     "provider": "MBO",
     "studioid": 43597,
     "redirectPage":  "",
-    "url": "http://www.yogaat.com/yogawest",
-    "locale": "",
-    "area": "West London"
+    "locale":
+    {
+      "name": "Yoga West",
+      "url": "http://www.yogaat.com/yogawest",
+      "area": "West London"
+    }
   },
   {
-    "name": "The Garuda Yoga and Pilates",
+    "name": "Garuda Yoga and Pilates",
     "provider": "MBO",
     "studioid": 24230,
     "redirectPage":  "",
-    "url": "https://www.thegaruda.net/",
-    "locale": "",
-    "area": "North London"
+    "locale":
+    {
+      "name": "Garuda Yoga and Pilates",
+      "url": "https://www.thegaruda.net/",
+      "area": "North London"
+    }
   },
   {
     "name": "Good Vibes",
     "provider": "MBO",
     "studioid": 1769,
     "redirectPage":  "https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7",
-    "url": "http://www.goodvibesfitness.co.uk/",
-    "locale": "",
-    "area": "Central London"
+    "locales": 
+    {
+      "Covent Garden":
+      {
+        "name": "Good Vibes Covent Garden",
+        "url": "http://www.goodvibesfitness.co.uk/",
+        "area": "Central London"
+      },
+      "Fitzrovia":
+      {
+        "name": "Good Vibes Fitzrovia",
+        "url": "http://www.goodvibesfitness.co.uk/",
+        "area": "Central London"
+      }
+    }
   }
 ]

@@ -31,7 +31,7 @@ function makeDBCallback(studio)
     courses.forEach(course => {
       Meteor.call('courses.insert', course);
     });
-    return "Done adding to db!";
+    return "Done adding to db";
   }
 }
 
@@ -59,14 +59,12 @@ function transformToJS(courseArray)
 
 function getCoursesAsync(studio, callback)
 {
-  const htmlFile = Math.abs(studio.studioid) + studio.locale + '.html';
+  const htmlFile = Math.abs(studio.studioid) + '.html';
   return phantomjs.run(Assets.absoluteFilePath('getcourse.js'),
       studio.provider,
       studio.studioid,
-      studio.locale,
       studio.redirectPage)
     .then(program => {
-      program.kill();
       return parsePage(htmlFile, studio, callback);
     })
     .then(data => {
@@ -102,17 +100,16 @@ Meteor.methods({
       return Promise.resolve([]);
     }
   },
-  'coursescraper.getCourses'(studioid, locale)
+  'coursescraper.getCourses'(studioid)
   {
     check(studioid, Number);
-    check(locale, String);
     if (Meteor.isServer)
     {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
       for (let index in studioInfo)
       {
         let studio = studioInfo[index];
-        if (studio.studioid === studioid && studio.locale === locale)
+        if (studio.studioid === studioid)
         {
           return getCoursesAsync(studio, makeArrayCallback(studio));
         }

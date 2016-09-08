@@ -16,7 +16,11 @@ var PROVIDER_INFO =
   }
 };
 
-function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPage)
+function dumpClassTable(providerInfo, // all info about the HTML page
+    studioId, // studio number with the provider
+    redirectPage, // optional extra redirect to use if page is weird
+    numRetries, // how many more times to try scraping
+    timeout) // how long to wait to reload, incremented with each retry
 {
   const URL = providerInfo.urlPattern + studioId;
 
@@ -28,11 +32,12 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
   var redirectedToTable = false;
   var redirected = false;
 
-  tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
-    //console.trace(msg);
-  }
 
   /* For additional debugging
+  tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
+    console.trace(msg);
+  }
+
   studiopage.onLoadStarted = function() {
     console.trace('= onLoadStarted()');
     var currentUrl = studiopage.evaluate(function() {
@@ -56,36 +61,28 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
 
   */
 
+  var ALL_LOCATIONS_INDEX = 0;
+
   tablepage.onLoadFinished = function(status) {
     if (status === 'success')
     {
       //console.trace('Successfully loaded table resource');
-      var changed = tablepage.evaluate(function(locationCssId, locale){
+      var changed = tablepage.evaluate(function(locationCssId, ALL_LOCATIONS_INDEX){
         var locationDropdown = document.querySelector(locationCssId);
-        for (var i = 0; i < locationDropdown.length; ++i)
+        if (locationDropdown.selectedIndex !== ALL_LOCATIONS_INDEX)
         {
-          if (locationDropdown[i].text === locale)
-          {
-            if (locationDropdown.value === locationDropdown[i].value)
-            {
-              return false;
-            }
-            else
-            {
-              locationDropdown.selectedIndex = i;
-              locationDropdown.onchange();
-              return true;
-            }
-          }
+          locationDropdown.selectedIndex = ALL_LOCATIONS_INDEX;
+          locationDropdown.onchange();
+          return true;
         }
         return false;
-      }, providerInfo.locationCssId, locale);
+      }, providerInfo.locationCssId, ALL_LOCATIONS_INDEX);
       //console.trace('Changed location: [' + changed + ']');
       if (changed)
       {
         setTimeout(function(){
           tablepage.reload();
-        }, 3000);
+        }, timeout);
       }
       else
       {
@@ -94,15 +91,19 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
         var tableElement = tablepage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
-        var path = Math.abs(studioId) + locale + '.html';
+        var path = Math.abs(studioId) + '.html';
         if (tableElement.outerHTML === '')
         {
-          if (shouldRetry)
+          if (numRetries > 0)
           {
             //console.error('No html found, retrying [' + path + ']');
             studiopage.close();
             tablepage.close();
-            dumpClassTable(false, providerInfo, studioId, locale, redirectPage);
+            dumpClassTable(providerInfo,
+                studioId,
+                redirectPage,
+                numRetries - 1,
+                timeout + DEFAULT_TIMEOUT_INCREMENT);
           }
           else
           {
@@ -116,9 +117,9 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
         {
           fs.write(path, tableElement.outerHTML, function(error) {
             if (error) {
-              //console.error("Error writing:  " + error.message);
+              console.error('Error writing: ' + error.message);
             } else {
-              //console.log("Success writing to " + path);
+              console.error('Success writing: ' + error.message);
             }
           });
           tablepage.close();
@@ -157,7 +158,7 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
     */
     if (status === 'success')
     {
-      if (redirectPage !== undefined && redirected === false)
+      if (redirectPage !== '' && redirected === false)
       {
         tableresource = null;
         redirected = true;
@@ -178,6 +179,7 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
             //console.trace('Successful load, now requesting table resource');
             redirectedToTable = true;
             tablepage.open(tableresource);
+            studiopage.close();
           }
         }
       }
@@ -187,7 +189,7 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
         var tableElement = studiopage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
-        var path = Math.abs(studioId) + locale + '.html';
+        var path = Math.abs(studioId) + '.html';
         fs.write(path, tableElement.outerHTML, function(error) {
           if (error) {
             //console.error("Error writing:  " + error.message);
@@ -227,13 +229,16 @@ function dumpClassTable(shouldRetry, providerInfo, studioId, locale, redirectPag
   studiopage.open(URL);
 }
 
+var DEFAULT_RETRIES = 0;
+var DEFAULT_TIMEOUT = 10000;
+var DEFAULT_TIMEOUT_INCREMENT = 2000;
 if (system.args.length === 4)
 {
-  dumpClassTable(true, PROVIDER_INFO[system.args[1]], system.args[2], system.args[3]);
-}
-else if (system.args.length === 5)
-{
-  dumpClassTable(true, PROVIDER_INFO[system.args[1]], system.args[2], system.args[3], system.args[4]);
+  dumpClassTable(PROVIDER_INFO[system.args[1]],
+      system.args[2],
+      system.args[3],
+      DEFAULT_RETRIES,
+      DEFAULT_TIMEOUT);
 }
 else
 {

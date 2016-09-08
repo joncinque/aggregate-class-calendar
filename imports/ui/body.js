@@ -188,8 +188,7 @@ Template.body.events({
   'submit .scrape-mbo-page'(event, template) {
     event.preventDefault();
     const studioid = Number(event.target.studioid.value);
-    const locale = event.target.locale.value;
-    Meteor.call('coursescraper.getCourses', studioid, locale, (err, data) => {
+    Meteor.call('coursescraper.getCourses', studioid, (err, data) => {
       if (err)
       {
         console.log(err);
