@@ -5,6 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "fs": "0.0.2",
     "meteor-node-stubs": "~0.2.0",
     "phantomjs-prebuilt": "^2.1.10"

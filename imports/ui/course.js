@@ -25,7 +25,7 @@ Template.course.events({
   'click .toggle-checked'()
   {
     // Update the checked property
-    Meteor.call('courses.update', this._id, !this.checked);
+    //Meteor.call('courses.update', this._id, !this.checked);
   },
   'click .delete'()
   {
