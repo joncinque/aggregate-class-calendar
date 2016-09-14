@@ -8,4 +8,8 @@ Meteor.startup(() => {
   // code to run on server at startup
 
   // ADD INDICES FOR DATABASE HERE
+  Courses._ensureIndex({ "name" : 1 });
+  Courses._ensureIndex({ "start" : 1 });
+  Courses._ensureIndex({ "studio" : 1 });
+  Courses._ensureIndex({ "teacher" : 1 });
 });

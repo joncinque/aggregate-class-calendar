@@ -1,7 +1,9 @@
 <template name="course">
   <li>
-    <button class="delete">&times;</button>
+    {{#if currentUser}}
+      <button class="delete">&times;</button>
+    {{/if}}
     <input type="checkbox" class="toggle-checked" />
-    <span class="text"><strong>{{name}}</strong> - {{teacher}} - {{studio}} - {{startEnd}}</span>
+    <span class="text"><strong>{{name}}</strong> {{startEnd}} Teacher: <strong>{{teacher}}</strong> Studio: <strong>{{studio}}</strong></span>
   </li>
 </template>

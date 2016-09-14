@@ -27,9 +27,6 @@ Meteor.methods({
   // Ported from body.js
   'courses.insert'(courseObj)
   {
-    let ValidMoment = Match.Where((m)=>{
-      return m.isValid();
-    });
     check(courseObj.name, String);
     check(courseObj.start, Date);
     check(courseObj.end, Date);
@@ -49,16 +46,16 @@ Meteor.methods({
     Courses.upsert({
       // Selector
       name: courseObj.name,
-      start: moment(courseObj.start),
-      end: moment(courseObj.end),
+      start: courseObj.start,
       studio: courseObj.studio,
-      room: courseObj.room,
-      url: courseObj.url,
     },
     {
       // Modifier
       $set: {
+        end: courseObj.end,
         teacher: courseObj.teacher,
+        room: courseObj.room,
+        url: courseObj.url,
       }
     });
   },
@@ -93,19 +90,19 @@ Meteor.methods({
   },
   'courses.names'()
   {
-    let data = Courses.find().fetch();
+    let data = Courses.find({}, { sort: { name: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.name});
     return _.pluck(distinctData, "name");
   },
   'courses.teachers'()
   {
-    let data = Courses.find().fetch();
+    let data = Courses.find({}, { sort: { teacher: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.teacher});
     return _.pluck(distinctData, "teacher");
   },
   'courses.studios'()
   {
-    let data = Courses.find().fetch();
+    let data = Courses.find({}, { sort: { studio: 1}}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.studio});
     return _.pluck(distinctData, "studio");
   },

@@ -1,60 +1,64 @@
 <body>
   <div class="container">
     <header>
-      <h1>Available classes - {{availableCount}}</h1>
+      <h1>Matching Classes - {{availableCount}}</h1>
 
       <label class="show-starred">
         <input type="checkbox" />Show checked classes
       </label>
 
-      <form class="scrape-all">
-        <input type="button" value="Scrape all classes" />
-      </form>
-
-      <form class="scrape-mbo-page">
-        <input type="number" name="studioid" />
-        <input type="submit" value="Scrape classes" />
-      </form>
-
       <!-- default login buttons, can be customized -->
-      <!--{{> loginButtons}} -->
+      {{> loginButtons}}
 
       <!-- builtin function to check if someone is logged in -->
-      <!--{{#if currentUser}} -->
+      {{#if currentUser}}
+        <form class="scrape-all">
+          <input type="button" value="Scrape all classes" />
+        </form>
+
+        <form class="scrape-mbo-page">
+          <input type="number" name="studioid" />
+          <input type="submit" value="Scrape classes" />
+        </form>
+
         <form class="new-course">
           <input type="text" name="text" placeholder="Type to add new classes" />
         </form>
-      <!-- {{/if}} -->
+      {{/if}}
 
       <form>
-        <input id="style-filter" type="search" list="styles" placeholder="Class style" />
+        <input id="style_filter" type="search" list="styles" placeholder="Class style" />
         <datalist id="styles">
           {{#each names}}
-            <option value="{{this}}">{{this}}</option>
+            <option>{{this}}</option>
           {{/each}}
         </datalist>
-        <input id="teacher-filter" type="search" list="teachers" placeholder="Teacher" />
+        <input id="teacher_filter" type="search" list="teachers" placeholder="Teacher" />
         <datalist id="teachers">
           {{#each teachers}}
-            <option value="{{this}}">{{this}}</option>
+            <option>{{this}}</option>
           {{/each}}
         </datalist>
-        <input id="studio-filter" type="search" list="studios" placeholder="Studio" />
+        <input id="studio_filter" type="search" list="studios" placeholder="Studio" />
         <datalist id="studios">
           {{#each studios}}
-            <option value="{{this}}">{{this}}</option>
+            <option>{{this}}</option>
           {{/each}}
         </datalist>
       </form>
 
       <form>
         From:
-        <input id="startdate-filter" type="date" required value="{{startdate}}" />
-        <input id="starttime-filter" type="time" required value="{{starttime}}" />
+        <input id="startdate_filter" type="date" required value="{{startdate}}" />
+        <input id="starttime_filter" type="time" required value="{{starttime}}" />
         To:
-        <input id="enddate-filter" type="date" required value="{{enddate}}" />
-        <input id="endtime-filter" type="time" required value="{{endtime}}" />
-    </form>
+        <input id="enddate_filter" type="date" required value="{{enddate}}" />
+        <input id="endtime_filter" type="time" required value="{{endtime}}" />
+
+        <input id="filter_today" type="button" value="Today" />
+        <input id="filter_week" type="button" value="This week" />
+      </form>
+
     </header>
 
     <ul>

@@ -11,7 +11,7 @@ import './course.html';
 Template.course.helpers({
   startEnd()
   {
-    return moment(this.start._d).format("MMM D H:mm") + "-" + moment(this.end._d).format("H:mm");
+    return moment(this.start).format("MMM D H:mm") + "-" + moment(this.end).format("H:mm");
   }
   /*
   isOwner()
