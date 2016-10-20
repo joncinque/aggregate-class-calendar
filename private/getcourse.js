@@ -1,1 +1,1 @@
-../class-scraper/getcourse.js
+../.class-scraper/getcourse.js

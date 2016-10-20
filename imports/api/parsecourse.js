@@ -1,1 +1,1 @@
-../../class-scraper/parsecourse.js
+../../.class-scraper/parsecourse.js
