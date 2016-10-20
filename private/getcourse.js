@@ -1,0 +1,1 @@
+../class-scraper/getcourse.js
