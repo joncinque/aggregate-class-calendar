@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Centric",
+    "provider": "MBO",
+    "studioid": 36253,
+    "redirectPage":  "",
+    "locales":
+    {
+      "Yogacentric":
+      {
+        "name": "Yoga Centric",
+        "url": "http://www.yogacentric.co.uk/",
+        "area": "North London"
+      },
+      "Centric: 3 Tribes":
+      {
+        "name": "Centric:3Tribes",
+        "url": "http://www.3tribes.co.uk/",
+        "area": "North London"
+      }
+    }
+  }
+]
