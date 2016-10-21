@@ -111,7 +111,7 @@ Meteor.methods({
         let studio = studioInfo[index];
         if (studio.studioid === studioid)
         {
-          return getCoursesAsync(studio, makeArrayCallback(studio));
+          return getCoursesAsync(studio, Meteor.bindEnvironment(makeDBCallback(studio)));
         }
       }
     }
