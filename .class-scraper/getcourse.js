@@ -247,7 +247,7 @@ function dumpClassTable(providerInfo, // all info about the HTML page
 }
 
 var DEFAULT_RETRIES = 0;
-var DEFAULT_TIMEOUT = 1000;
+var DEFAULT_TIMEOUT = 2000;
 var DEFAULT_TIMEOUT_INCREMENT = 2000;
 var VERBOSE = false;
 if (system.args.length === 4)
