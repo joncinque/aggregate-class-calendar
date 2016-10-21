@@ -20,7 +20,8 @@ function dumpClassTable(providerInfo, // all info about the HTML page
     studioId, // studio number with the provider
     redirectPage, // optional extra redirect to use if page is weird
     numRetries, // how many more times to try scraping
-    timeout) // how long to wait to reload, incremented with each retry
+    timeout, // how long to wait to reload, incremented with each retry
+    verbose) // extra printing
 {
   const URL = providerInfo.urlPattern + studioId;
 
@@ -33,7 +34,7 @@ function dumpClassTable(providerInfo, // all info about the HTML page
   var redirected = false;
 
 
-  /* For additional debugging
+  /* For really verbose debugging
   tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
     console.trace(msg);
   }
@@ -58,78 +59,83 @@ function dumpClassTable(providerInfo, // all info about the HTML page
     console.trace('= onResourceRequested()');
     console.trace('  request: ' + JSON.stringify(request, undefined, 4));
   };
-
   */
 
   var ALL_LOCATIONS_INDEX = 0;
 
+  dumpPageTimeout = null;
   tablepage.onLoadFinished = function(status) {
     if (status === 'success')
     {
-      //console.trace('Successfully loaded table resource');
-      var changed = tablepage.evaluate(function(locationCssId, ALL_LOCATIONS_INDEX){
-        var locationDropdown = document.querySelector(locationCssId);
-        if (locationDropdown.selectedIndex !== ALL_LOCATIONS_INDEX)
-        {
-          locationDropdown.selectedIndex = ALL_LOCATIONS_INDEX;
-          locationDropdown.onchange();
-          return true;
-        }
-        return false;
-      }, providerInfo.locationCssId, ALL_LOCATIONS_INDEX);
-      //console.trace('Changed location: [' + changed + ']');
-      if (changed)
+      // Use a timeout here because iframes all trigger "onLoadFinished" again
+      if (verbose) {
+        console.log('Finished loading table resource');
+      }
+
+      if (dumpPageTimeout === null)
       {
-        setTimeout(function(){
-          tablepage.reload();
+        dumpPageTimeout = setTimeout(function(){
+          var changed = tablepage.evaluate(function(locationCssId, ALL_LOCATIONS_INDEX){
+            var locationDropdown = document.querySelector(locationCssId);
+            if (locationDropdown.selectedIndex !== ALL_LOCATIONS_INDEX)
+            {
+              locationDropdown.selectedIndex = ALL_LOCATIONS_INDEX;
+              locationDropdown.onchange();
+              return true;
+            }
+            return false;
+          }, providerInfo.locationCssId, ALL_LOCATIONS_INDEX);
+          if (verbose) {
+            console.trace('Changed location: [' + changed + ']');
+          }
+          setTimeout(function(){
+            // The execution of "evaluate" is sandboxed, so extra parameters must be
+            // passed in from the outside like so.
+            var tableElement = tablepage.evaluate(function(tableCssClass) {
+              return document.querySelector(tableCssClass);
+            }, providerInfo.tableCssClass);
+            var path = Math.abs(studioId) + '.html';
+            if (tableElement.outerHTML === '')
+            {
+              if (numRetries > 0)
+              {
+                if (verbose) {
+                  console.error('No html found, retrying [' + path + ']');
+                }
+                studiopage.close();
+                tablepage.close();
+                dumpClassTable(providerInfo,
+                    studioId,
+                    redirectPage,
+                    timeout + DEFAULT_TIMEOUT_INCREMENT,
+                    numRetries - 1,
+                    verbose);
+              }
+              else
+              {
+                if (verbose) {
+                  console.error('No html found, done trying [' + path + ']');
+                }
+                studiopage.close();
+                tablepage.close();
+                phantom.exit();
+              }
+            }
+            else
+            {
+              fs.write(path, tableElement.outerHTML, function(error) {
+                if (error) {
+                  console.error('Error writing: ' + error.message);
+                } else {
+                  console.error('Success writing: ' + error.message);
+                }
+              });
+              tablepage.close();
+              phantom.exit();
+            }
+          }, changed ? timeout : 0);
         }, timeout);
       }
-      else
-      {
-        // The execution of "evaluate" is sandboxed, so extra parameters must be
-        // passed in from the outside like so.
-        var tableElement = tablepage.evaluate(function(tableCssClass) {
-          return document.querySelector(tableCssClass);
-        }, providerInfo.tableCssClass);
-        var path = Math.abs(studioId) + '.html';
-        if (tableElement.outerHTML === '')
-        {
-          if (numRetries > 0)
-          {
-            //console.error('No html found, retrying [' + path + ']');
-            studiopage.close();
-            tablepage.close();
-            dumpClassTable(providerInfo,
-                studioId,
-                redirectPage,
-                numRetries - 1,
-                timeout + DEFAULT_TIMEOUT_INCREMENT);
-          }
-          else
-          {
-            //console.error('No html found, done trying [' + path + ']');
-            studiopage.close();
-            tablepage.close();
-            phantom.exit();
-          }
-        }
-        else
-        {
-          fs.write(path, tableElement.outerHTML, function(error) {
-            if (error) {
-              console.error('Error writing: ' + error.message);
-            } else {
-              console.error('Success writing: ' + error.message);
-            }
-          });
-          tablepage.close();
-          phantom.exit();
-        }
-      }
-    }
-    else
-    {
-      //console.trace('Error loading table resource');
     }
   }
 
@@ -138,24 +144,24 @@ function dumpClassTable(providerInfo, // all info about the HTML page
         response.stage === "end" &&
         response.url.match(providerInfo.tableResourcePattern))
     {
-      /* additional debugging
-      console.trace('= onResourceReceived()' );
-      console.trace('  id: ' + response.id + ', stage: "' + response.stage + '", url: ' + response.url);
-      */
-      //console.trace('Will get table resource: ' + response.url);
+      if (verbose) {
+        console.trace('= onResourceReceived()' );
+        console.trace('  id: ' + response.id + ', stage: "' + response.stage + '", url: ' + response.url);
+        console.trace('Will get table resource: ' + response.url);
+      }
       tableresource = response.url;
     }
   };
 
   studiopage.onLoadFinished = function(status) {
-    /* For additonal debugging
-    console.trace('= onLoadFinished()');
-    console.trace('  status: ' + status);
-    var currentUrl = studiopage.evaluate(function() {
-      return window.location.href;
-    });
-    console.trace('  url: ' + currentUrl);
-    */
+    if (verbose) {
+      console.trace('= onLoadFinished()');
+      console.trace('  status: ' + status);
+      var currentUrl = studiopage.evaluate(function() {
+        return window.location.href;
+      });
+      console.trace('  url: ' + currentUrl);
+    }
     if (status === 'success')
     {
       if (redirectPage !== '' && redirected === false)
@@ -171,12 +177,16 @@ function dumpClassTable(providerInfo, // all info about the HTML page
         {
           if (tableresource === null)
           {
-            //console.trace('Table resource not found, forcing redirect');
+            if (verbose) {
+              console.trace('Table resource not found, forcing redirect');
+            }
             studiopage.open(providerInfo.forcePage);
           }
           else
           {
-            //console.trace('Successful load, now requesting table resource');
+            if (verbose) {
+              console.trace('Successful load, now requesting table resource');
+            }
             redirectedToTable = true;
             tablepage.open(tableresource);
             studiopage.close();
@@ -185,16 +195,22 @@ function dumpClassTable(providerInfo, // all info about the HTML page
       }
       else
       {
-        //console.trace('Successful load of page, getting table');
+        if (verbose) {
+          console.trace('Successful load of page, getting table');
+        }
         var tableElement = studiopage.evaluate(function(tableCssClass) {
           return document.querySelector(tableCssClass);
         }, providerInfo.tableCssClass);
         var path = Math.abs(studioId) + '.html';
         fs.write(path, tableElement.outerHTML, function(error) {
           if (error) {
-            //console.error("Error writing:  " + error.message);
+            if (verbose) {
+              console.error("Error writing:  " + error.message);
+            }
           } else {
-            //console.log("Success writing to " + path);
+            if (verbose) {
+              console.log("Success writing to " + path);
+            }
           }
         });
         studiopage.close();
@@ -203,8 +219,9 @@ function dumpClassTable(providerInfo, // all info about the HTML page
     }
     else
     {
-      //console.error('Error loading studio page');
-      //phantom.exit();
+      if (verbose) {
+        console.error('Error loading studio page');
+      }
     }
   };
 
@@ -230,15 +247,17 @@ function dumpClassTable(providerInfo, // all info about the HTML page
 }
 
 var DEFAULT_RETRIES = 0;
-var DEFAULT_TIMEOUT = 10000;
+var DEFAULT_TIMEOUT = 1000;
 var DEFAULT_TIMEOUT_INCREMENT = 2000;
+var VERBOSE = false;
 if (system.args.length === 4)
 {
   dumpClassTable(PROVIDER_INFO[system.args[1]],
       system.args[2],
       system.args[3],
       DEFAULT_RETRIES,
-      DEFAULT_TIMEOUT);
+      DEFAULT_TIMEOUT,
+      VERBOSE);
 }
 else
 {

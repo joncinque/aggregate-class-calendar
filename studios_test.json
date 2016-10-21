@@ -1,23 +1,14 @@
 [
   {
-    "name": "Centric",
+    "name": "Blue Cow Yoga",
     "provider": "MBO",
-    "studioid": 36253,
+    "studioid": 23194,
     "redirectPage":  "",
-    "locales":
+    "locale": 
     {
-      "Yogacentric":
-      {
-        "name": "Yoga Centric",
-        "url": "http://www.yogacentric.co.uk/",
-        "area": "North London"
-      },
-      "Centric: 3 Tribes":
-      {
-        "name": "Centric:3Tribes",
-        "url": "http://www.3tribes.co.uk/",
-        "area": "North London"
-      }
+      "name": "Blue Cow Yoga",
+      "url": "http://bluecowyoga.com/",
+      "area": "Bank"
     }
   }
 ]
