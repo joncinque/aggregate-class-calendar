@@ -327,6 +327,45 @@ function rowIsValid(row)
   return true;
 }
 
+function checkAllLocalesPresent(courses, studio)
+{
+  if (studio.locales === undefined)
+  {
+    // Only one locale, so we're OK
+    return true;
+  }
+
+  var localePresentMap = {};
+  for (var locale in studio.locales)
+  {
+    localePresentMap[locale] = false;
+  }
+
+  for (var i = 0; i < courses.length; ++i)
+  {
+    var courseLocale = courses[i].locale;
+    if (localePresentMap.hasOwnProperty(courseLocale))
+    {
+      localePresentMap[courseLocale] = true;
+    }
+    else
+    {
+      console.error('Unknown locale found in course: [' + courseLocale + ']');
+    }
+  }
+
+  var allPresent = true;
+  for (var locale in localePresentMap)
+  {
+    if (localePresentMap[locale] === false)
+    {
+      allPresent = false;
+      console.error('Locale [' + locale + '] has no courses, double-check it');
+    }
+  }
+  return allPresent;
+}
+
 function makeJSONCourses(columnMap, tableRows, studio)
 {
   const FIRST_DATA_ROW_LOCATION = 1; // MAGIC NUMBER
@@ -370,6 +409,11 @@ function makeJSONCourses(columnMap, tableRows, studio)
       }
     }
   }
+
+  if (checkAllLocalesPresent(courses, studio) === false)
+  {
+    console.error('Issue found with studio ['+studio.studioid+']');
+  }
   return courses;
 }
 
@@ -378,7 +422,7 @@ function parseMBOPage(htmlString, studio, callback)
   const cleanString = cleanupHtml(htmlString);
   if (cleanString === '')
   {
-    console.error('Empty string found, retry [' + studio.studioid + ']');
+    console.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
     if (callback !== undefined)
     {
       return callback([]);
