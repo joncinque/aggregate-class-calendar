@@ -13,100 +13,120 @@ import './body.html';
 // import '../api/coursescraper.js';
 
 const EMPTY = '';
+const COURSE_LIMIT = 1000;
 
 function makeRegex(searchString)
 {
   return new RegExp(searchString, 'i');
 }
 
-function getSortArgs()
+function getOptionArgs(doSort)
 {
-    return { sort: { start: 1, studio: 1, name: 1, teacher: 1 } };
+  if (doSort === undefined)
+  {
+    doSort = true;
+  }
+  let optionArgs = { limit: COURSE_LIMIT };
+  if (doSort)
+  {
+    optionArgs.sort = { start: 1, studio: 1, name: 1, teacher: 1 };
+  }
+  return optionArgs
 }
 
 function getSearchArgs(instance)
 {
-    let argList = [];
+  let argList = [];
 
-    // apply date/time filter
-    argList.push({ start: { $gte: instance.state.get('startFilter') } });
-    argList.push({ start: { $lte: instance.state.get('endFilter') } });
+  // apply date/time filter
+  argList.push({ start: { $gte: instance.state.get('startFilter') } });
+  argList.push({ start: { $lte: instance.state.get('endFilter') } });
 
-    // apply style filter
-    let styleFilter = instance.state.get('styleFilter');
-    if (styleFilter !== EMPTY)
-    {
-      console.log('Style filter: ' + styleFilter);
-      argList.push({ name: makeRegex(styleFilter) });
-    }
+  // apply class filter
+  let classFilter = instance.state.get('classFilter');
+  if (classFilter !== EMPTY)
+  {
+    console.log('Class filter: ' + classFilter);
+    argList.push({ name: makeRegex(classFilter) });
+  }
 
-    // apply teacher filter
-    let teacherFilter = instance.state.get('teacherFilter');
-    if (teacherFilter !== EMPTY)
-    {
-      console.log('Teacher filter: ' + teacherFilter);
-      argList.push({ teacher: makeRegex(teacherFilter) });
-    }
+  // apply teacher filter
+  let teacherFilter = instance.state.get('teacherFilter');
+  if (teacherFilter !== EMPTY)
+  {
+    console.log('Teacher filter: ' + teacherFilter);
+    argList.push({ teacher: makeRegex(teacherFilter) });
+  }
 
-    // apply studio filter
-    let studioFilter = instance.state.get('studioFilter');
-    if (studioFilter !== EMPTY)
-    {
-      console.log('Studio filter: ' + studioFilter);
-      argList.push({ studio: makeRegex(studioFilter) });
-    }
+  // apply studio filter
+  let studioFilter = instance.state.get('studioFilter');
+  if (studioFilter !== EMPTY)
+  {
+    console.log('Studio filter: ' + studioFilter);
+    argList.push({ studio: makeRegex(studioFilter) });
+  }
 
-    // make the search with an 'and' clause
-    return { $and: argList };
+  // make the search with an 'and' clause
+  return { $and: argList };
 }
 
 function getNowDatetime()
 {
-    return moment().toDate();
+  return moment().toDate();
 }
 
 function getLaterDatetime()
 {
-    return moment().set({
-      'hour': 23,
-      'minute': 59,
-      'second': 0,
-      'millisecond': 0}).toDate();
+  return moment().set({
+    'hour': 23,
+    'minute': 59,
+    'second': 0,
+    'millisecond': 0}).toDate();
 }
 
 function getNewDateFromInput(initialDate, inputDate)
 {
-    return moment(initialDate).set({
-          'year': inputDate.getFullYear(),
-          'month': inputDate.getMonth(),
-          'date': inputDate.getDate()
-        }).toDate();
+  return moment(initialDate).set({
+        'year': inputDate.getFullYear(),
+        'month': inputDate.getMonth(),
+        'date': inputDate.getDate()
+      }).toDate();
 }
 
 function getNewTimeFromInput(initialDate, inputTime)
 {
-    let inputMoment = moment(inputTime, 'HH:mm');
-    return moment(initialDate).set({
-          'hour': inputMoment.hour(),
-          'minute': inputMoment.minute()
-        }).toDate();
+  let inputMoment = moment(inputTime, 'HH:mm');
+  return moment(initialDate).set({
+        'hour': inputMoment.hour(),
+        'minute': inputMoment.minute()
+      }).toDate();
 }
 
 function setDateFilters(instance, startMoment, endMoment)
 {
-    let startdateFilter = document.getElementById("startdate_filter");
-    let enddateFilter = document.getElementById("enddate_filter");
-    let starttimeFilter = document.getElementById("starttime_filter");
-    let endtimeFilter = document.getElementById("endtime_filter");
+  let startdateFilter = document.getElementById("startdate_filter");
+  let enddateFilter = document.getElementById("enddate_filter");
+  let starttimeFilter = document.getElementById("starttime_filter");
+  let endtimeFilter = document.getElementById("endtime_filter");
 
-    startdateFilter.value = startMoment.format('YYYY-MM-DD');
-    enddateFilter.value = endMoment.format('YYYY-MM-DD');
+  startdateFilter.value = startMoment.format('YYYY-MM-DD');
+  enddateFilter.value = endMoment.format('YYYY-MM-DD');
 
-    starttimeFilter = startMoment.format('HH:mm');
-    endtimeFilter = endMoment.format('HH:mm');
+  starttimeFilter = startMoment.format('HH:mm');
+  endtimeFilter = endMoment.format('HH:mm');
 
-    instance.state.set('startFilter', startMoment.toDate());
-    instance.state.set('endFilter', endMoment.toDate());
+  instance.state.set('startFilter', startMoment.toDate());
+  instance.state.set('endFilter', endMoment.toDate());
+}
+
+function initFilters(reactive_dict)
+{
+  reactive_dict.set('classFilter', EMPTY);
+  reactive_dict.set('teacherFilter', EMPTY);
+  reactive_dict.set('studioFilter', EMPTY);
+
+  reactive_dict.set('startFilter', getNowDatetime());
+  reactive_dict.set('endFilter', getLaterDatetime());
 }
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -124,13 +144,7 @@ Template.body.onCreated(function bodyOnCreated() {
     dict.set('studios', data);
   });
 
-  // init filters
-  dict.set('styleFilter', EMPTY);
-  dict.set('teacherFilter', EMPTY);
-  dict.set('studioFilter', EMPTY);
-
-  dict.set('startFilter', getNowDatetime());
-  dict.set('endFilter', getLaterDatetime());
+  initFilters(dict);
 });
 
 Template.body.helpers({
@@ -139,14 +153,24 @@ Template.body.helpers({
     if (instance.state.get('showStarred'))
     {
       // if hide completed is checked on the reactive dict, then filter
-      return Courses.find(getSearchArgs(instance), getSortArgs());
+      return Courses.find(getSearchArgs(instance), getOptionArgs());
     }
 
-    return Courses.find(getSearchArgs(instance), getSortArgs());
+    return Courses.find(getSearchArgs(instance), getOptionArgs());
   },
   availableCount() {
     const instance = Template.instance();
-    return Courses.find(getSearchArgs(instance)).count();
+    let count = Courses.find(getSearchArgs(instance), getOptionArgs(/*doSort=*/false)).count();
+    if (count >= COURSE_LIMIT) 
+    {
+      return String(count) + "+";
+    }
+    return String(count);
+  },
+  showAlert() {
+    const instance = Template.instance();
+    let count = Courses.find(getSearchArgs(instance), getOptionArgs(/*doSort=*/false)).count();
+    return count >= COURSE_LIMIT;
   },
   // drop-downs for filter
   names() {
@@ -231,6 +255,15 @@ Template.body.events({
   },
 
   // helper clicks
+  'click #filter_now'(event, instance) {
+    let todayStart = moment().set({ 'second': 0,
+      'millisecond': 0});
+    let todayEnd = moment().set({'hour': 23,
+      'minute': 59,
+      'second': 0,
+      'millisecond': 0});
+    setDateFilters(instance, todayStart, todayEnd);
+  },
   'click #filter_today'(event, instance) {
     let todayStart = moment().set({'hour': 0,
       'minute': 0,
@@ -241,6 +274,19 @@ Template.body.events({
       'second': 0,
       'millisecond': 0});
     setDateFilters(instance, todayStart, todayEnd);
+  },
+  'click #filter_tomorrow'(event, instance) {
+    let tomorrowStart = moment().set({'hour': 0,
+      'minute': 0,
+      'second': 0,
+      'millisecond': 0});
+    tomorrowStart.add(1, 'days');
+    let tomorrowEnd = moment().set({'hour': 23,
+      'minute': 59,
+      'second': 0,
+      'millisecond': 0});
+    tomorrowEnd.add(1, 'days');
+    setDateFilters(instance, tomorrowStart, tomorrowEnd);
   },
   'click #filter_week'(event, instance) {
     let weekStart = moment().set({'weekday': 0,
@@ -256,9 +302,21 @@ Template.body.events({
     setDateFilters(instance, weekStart, weekEnd);
   },
 
+  'click #filter_reset'(event, instance) {
+    let classFilter = document.getElementById("class_filter");
+    let teacherFilter = document.getElementById("teacher_filter");
+    let studioFilter = document.getElementById("studio_filter");
+
+    classFilter.value = EMPTY;
+    teacherFilter.value = EMPTY;
+    studioFilter.value = EMPTY;
+
+    initFilters(instance.state);
+  },
+
   // set filters
-  'blur #style_filter'(event, instance) {
-    instance.state.set('styleFilter', event.target.value);
+  'blur #class_filter'(event, instance) {
+    instance.state.set('classFilter', event.target.value);
   },
   'blur #teacher_filter'(event, instance) {
     instance.state.set('teacherFilter', event.target.value);

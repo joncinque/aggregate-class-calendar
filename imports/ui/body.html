@@ -1,71 +1,118 @@
 <body>
   <div class="container">
-    <header>
-      <h1>Matching Classes - {{availableCount}}</h1>
+    <div class="panel-group">
+      <header>
+        <div class="panel-heading">
+          <h1 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" href="#filterform">Matching Classes - {{availableCount}}</a>
+          </h1>
 
-      <label class="show-starred">
-        <input type="checkbox" />Show checked classes
-      </label>
+          <label class="show-starred">
+            <input type="checkbox" />Show checked classes
+          </label>
 
-      <!-- default login buttons, can be customized -->
-      {{> loginButtons}}
+          {{#if showAlert}}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               Over 1000 results returned, please limit search criteria.
+            </div>
+          {{/if}}
+        </div>
+        <div id="filterform" class="panel-collapse collapse in">
+          <!-- default login buttons, can be customized -->
+          {{> loginButtons}}
 
-      <!-- builtin function to check if someone is logged in -->
-      {{#if currentUser}}
-        <form class="scrape-all">
-          <input type="button" value="Scrape all classes" />
-        </form>
+          <!-- builtin function to check if someone is logged in -->
+          {{#if currentUser}}
+            <form class="scrape-all">
+              <input type="button" value="Scrape all classes" />
+            </form>
 
-        <form class="scrape-mbo-page">
-          <input type="number" name="studioid" />
-          <input type="submit" value="Scrape classes" />
-        </form>
+            <form class="scrape-mbo-page">
+              <input type="number" name="studioid" />
+              <input type="submit" value="Scrape classes" />
+            </form>
 
-        <form class="new-course">
-          <input type="text" name="text" placeholder="Type to add new classes" />
-        </form>
-      {{/if}}
+            <form class="new-course">
+              <input type="text" name="text" placeholder="Type to add new classes" />
+            </form>
+          {{/if}}
 
-      <form>
-        <input id="style_filter" type="search" list="styles" placeholder="Class style" />
-        <datalist id="styles">
-          {{#each names}}
-            <option>{{this}}</option>
-          {{/each}}
-        </datalist>
-        <input id="teacher_filter" type="search" list="teachers" placeholder="Teacher" />
-        <datalist id="teachers">
-          {{#each teachers}}
-            <option>{{this}}</option>
-          {{/each}}
-        </datalist>
-        <input id="studio_filter" type="search" list="studios" placeholder="Studio" />
-        <datalist id="studios">
-          {{#each studios}}
-            <option>{{this}}</option>
-          {{/each}}
-        </datalist>
-      </form>
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
+              <div class="col-lg-2 col-sm-3 col-xs-10">
+                <input id="class_filter" type="search" list="classes" class="form-control" placeholder="Enter class" />
+              </div>
+              <datalist id="classes">
+                {{#each names}}
+                  <option>{{this}}</option>
+                {{/each}}
+              </datalist>
+              <label for="teacher_filter" class="col-lg-1 col-sm-1 col-xs-2">Teacher</label>
+              <div class="col-lg-2 col-sm-3 col-xs-10">
+                <input id="teacher_filter" type="search" list="teachers" class="form-control" placeholder="Enter teacher" />
+              </div>
+              <datalist id="teachers">
+                {{#each teachers}}
+                  <option>{{this}}</option>
+                {{/each}}
+              </datalist>
+              <label for="studio_filter" class="col-lg-1 col-sm-1 col-xs-2">Studio</label>
+              <div class="col-lg-2 col-sm-3 col-xs-10">
+                <input id="studio_filter" type="search" list="studios" class="form-control" placeholder="Enter studio" />
+              </div>
+              <datalist id="studios">
+                {{#each studios}}
+                  <option>{{this}}</option>
+                {{/each}}
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label for="startdate_filter" class="col-lg-1 col-sm-1 col-xs-2">From</label>
+              <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
+                <input id="startdate_filter" class="form-control" type="date" required value="{{startdate}}" />
+              </div>
+              <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
+              </div>
+              <label for="enddate_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
+              <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
+                <input id="enddate_filter" class="form-control" type="date" required value="{{enddate}}" />
+              </div>
+              <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
+              </div>
+            </div>
 
-      <form>
-        From:
-        <input id="startdate_filter" type="date" required value="{{startdate}}" />
-        <input id="starttime_filter" type="time" required value="{{starttime}}" />
-        To:
-        <input id="enddate_filter" type="date" required value="{{enddate}}" />
-        <input id="endtime_filter" type="time" required value="{{endtime}}" />
+            <div class="btn-group" role="group" aria-label="...">
+              <input type="button" id="filter_now" class="btn btn-default" value="Now" />
+              <input type="button" id="filter_today" class="btn btn-default" value="Today" />
+              <input type="button" id="filter_tomorrow" class="btn btn-default" value="Tomorrow" />
+              <input type="button" id="filter_week" class="btn btn-default" value="Week" />
+            </div>
 
-        <input id="filter_today" type="button" value="Today" />
-        <input id="filter_week" type="button" value="This week" />
-      </form>
+            <input type="button" id="filter_reset" class="btn btn-default" value="Reset all" />
+          </form>
+        </div>
+      </header>
+    </div>
 
-    </header>
-
-    <ul>
-      {{#each courses}}
-        {{> course}}
-      {{/each}}
-    </ul>
+    <table class="table table-striped table-hover">
+      <thead> <tr>
+        <th class="col-xs-1 no-right-padding"></th>
+        <th class="col-xs-3">Class</th>
+        <th class="col-xs-2">Day</th>
+        <th class="col-xs-2">Time</th>
+        <th class="col-xs-2">Teacher</th>
+        <th class="col-xs-2">Studio</th>
+      </tr> </thead>
+      <tbody>
+        {{#each courses}}
+          {{> course}}
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </body>
 

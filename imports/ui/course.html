@@ -1,9 +1,10 @@
 <template name="course">
-  <li>
-    {{#if currentUser}}
-      <button class="delete">&times;</button>
-    {{/if}}
-    <input type="checkbox" class="toggle-checked" />
-    <span class="text"><strong>{{name}}</strong> {{startEnd}} Teacher: <strong>{{teacher}}</strong> Studio: <strong>{{studio}}</strong></span>
-  </li>
+  <tr>
+    <td class="col-xs-1 no-right-padding"><input type="checkbox" class="toggle-checked" />{{#if currentUser}}<button class="delete">&times;</button>{{/if}}</td>
+    <td class="col-xs-3">{{name}}</td>
+    <td class="col-xs-2">{{day}}</td>
+    <td class="col-xs-2">{{startEnd}}</td>
+    <td class="col-xs-2">{{teacher}}</td>
+    <td class="col-xs-2">{{studio}}</td>
+  </tr>
 </template>

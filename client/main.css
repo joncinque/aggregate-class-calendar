@@ -18,7 +18,6 @@ body {
 }
  
 .container {
-  max-width: 600px;
   margin: 0 auto;
   min-height: 100%;
   background: white;
@@ -42,6 +41,18 @@ h1 {
   display: inline-block;
   margin-right: 1em;
 }
+
+.panel-heading .accordion-toggle:after {
+  /* symbol for "opening" panels */
+  font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+  content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+  float: right;        /* adjust as needed */
+  color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+  /* symbol for "collapsed" panels */
+  content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
  
 form {
   margin-top: 10px;
@@ -62,13 +73,7 @@ form {
 .new-course input:focus{
   outline: 0;
 }
- 
-ul {
-  margin: 0;
-  padding: 0;
-  background: white;
-}
- 
+
 .delete {
   float: right;
   font-weight: bold;
@@ -109,18 +114,17 @@ header .show-starred {
 .toggle-private {
   margin-left: 5px;
 }
+
+.no-left-padding {
+  padding-left: 0 !important;
+}
+
+.no-right-padding {
+  padding-right: 0 !important;
+}
  
-@media (max-width: 600px) {
-  li {
-    padding: 12px 15px;
-  }
- 
-  .search {
-    width: 150px;
-    clear: both;
-  }
- 
-  .new-course input {
-    padding-bottom: 5px;
+@media (max-width: @screen-xs-max) {
+  header {
+    padding: 0px 0px 0px 0px;
   }
 }
