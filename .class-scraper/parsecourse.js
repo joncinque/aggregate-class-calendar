@@ -288,7 +288,7 @@ function styleOfName(courseName)
   }
   else
   {
-    console.log("No match found for course name: " + courseName);
+    //console.log("No match found for course name: " + courseName);
     return "Other";
   }
 }
