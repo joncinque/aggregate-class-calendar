@@ -1,5 +1,29 @@
 [
   {
+    "name": "Barbican Yoga Cave",
+    "provider": "MBO",
+    "studioid": 253770,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Barbican Yoga Cave",
+      "url": "http://barbicanyogacave.com/",
+      "postcode": "EC"
+    }
+  },
+  {
+    "name": "Battersea Yoga",
+    "provider": "MBO",
+    "studioid": 83692,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Battersea Yoga",
+      "url": "http://batterseayoga.com/",
+      "postcode": "SW"
+    }
+  },
+  {
     "name": "Blue Cow Yoga",
     "provider": "MBO",
     "studioid": 23194,
@@ -8,31 +32,184 @@
     {
       "name": "Blue Cow Yoga",
       "url": "http://bluecowyoga.com/",
-      "area": "Bank"
+      "postcode": "EC"
     }
   },
   {
-    "name": "Power Yoga Company",
+    "name": "Centric",
     "provider": "MBO",
-    "studioid": 4706,
+    "studioid": 36253,
     "redirectPage":  "",
-    "locale": 
+    "locales":
     {
-      "name": "Power Yoga Company",
-      "url": "http://thepoweryogaco.com/",
-      "area": "West London"
+      "Yogacentric":
+      {
+        "name": "Yoga Centric",
+        "url": "http://www.yogacentric.co.uk/",
+        "postcode": "N"
+      },
+      "Centric: 3 Tribes":
+      {
+        "name": "Centric:3Tribes",
+        "url": "http://www.3tribes.co.uk/",
+        "postcode": "N"
+      }
     }
   },
   {
-    "name": "Yoga Rise",
+    "name": "Down to Earth",
     "provider": "MBO",
-    "studioid": 138949,
+    "studioid": 179970,
     "redirectPage":  "",
-    "locale": 
+    "locale":
     {
-      "name": "Yoga Rise",
-      "url": "http://www.yogarise.london/",
-      "area": "South London"
+      "name": "Down to Earth",
+      "url": "http://downtoearthlondon.co.uk/",
+      "postcode": "NW"
+    }
+  },
+  {
+    "name": "Dragonfly Yoga",
+    "provider": "MBO",
+    "studioid": 221895,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Dragonfly Yoga",
+      "url": "http://www.dragonfly-yoga.org/",
+      "postcode": "SE"
+    }
+  },
+  {
+    "name": "East of Eden",
+    "provider": "MBO",
+    "studioid": -192241,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "East of Eden",
+      "url": "http://www.edeneast.co.uk/",
+      "postcode": "E"
+    }
+  },
+  {
+    "name": "Evolve Wellness Centre",
+    "provider": "MBO",
+    "studioid": 12023,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Evolve Wellness Centre",
+      "url": "http://www.evolvewellnesscentre.com/",
+      "postcode": "SW"
+    }
+  },
+  {
+    "name": "Fierce Grace",
+    "provider": "MBO",
+    "studioid": 1694,
+    "redirectPage":  "",
+    "locales":
+    {
+      "Fierce Grace City":
+      {
+        "name": "Fierce Grace City",
+        "url": "http://www.fiercegracecity.com/",
+        "postcode": "N"
+      },
+      "Fierce Grace North":
+      {
+        "name": "Fierce Grace North",
+        "url": "http://www.fiercegracenorth.com/",
+        "postcode": "NW"
+      },
+      "Fierce Grace West":
+      {
+        "name": "Fierce Grace West",
+        "url": "http://www.fiercegracewest.com/",
+        "postcode": "W"
+      }
+    }
+  },
+  {
+    "name": "Fierce Grace Finchley",
+    "provider": "MBO",
+    "studioid": 135556,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Fierce Grace Finchley",
+      "url": "http://www.fiercegracefinchley.com/",
+      "postcode": "N"
+    }
+  },
+  {
+    "name": "Fierce Grace Primrose Hill",
+    "provider": "MBO",
+    "studioid": 16517,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Fierce Grace Primrose Hill",
+      "url": "http://www.fiercegraceprimrosehill.com/",
+      "postcode": "NW"
+    }
+  },
+  {
+    "name": "Fierce Grace Brixton",
+    "provider": "MBO",
+    "studioid": 192378,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Fierce Grace Brixton",
+      "url": "http://www.fiercegracebrixton.co.uk/",
+      "postcode": "SW"
+    }
+  },
+  {
+    "name": "Garuda Yoga and Pilates",
+    "provider": "MBO",
+    "studioid": 24230,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Garuda Yoga and Pilates",
+      "url": "https://www.thegaruda.net/",
+      "postcode": "NW"
+    }
+  },
+  {
+    "name": "Good Vibes",
+    "provider": "MBO",
+    "studioid": 1769,
+    "redirectPage":  "https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7",
+    "locales": 
+    {
+      "Covent Garden":
+      {
+        "name": "Good Vibes Covent Garden",
+        "url": "http://www.goodvibesfitness.co.uk/",
+        "postcode": "WC"
+      },
+      "Fitzrovia":
+      {
+        "name": "Good Vibes Fitzrovia",
+        "url": "http://www.goodvibesfitness.co.uk/",
+        "postcode": "W"
+      }
+    }
+  },
+  {
+    "name": "The Hot Spot",
+    "provider": "MBO",
+    "studioid": 1134,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "The Hot Spot",
+      "url": "http://thehotspotyoga.co.uk/",
+      "postcode": "SW"
     }
   },
   {
@@ -44,19 +221,19 @@
     {
       "name": "I Am Yoga",
       "url": "http://iamyogalondon.com/",
-      "area": "Central London"
+      "postcode": "W"
     }
   },
   {
-    "name": "Yotopia",
+    "name": "Indaba Yoga",
     "provider": "MBO",
-    "studioid": 16311,
+    "studioid": 11974,
     "redirectPage":  "",
     "locale":
     {
-      "name": "Yotopia",
-      "url": "http://yotopia.co.uk/",
-      "area": "Central London"
+      "name": "Indaba Yoga",
+      "url": "http://indabayoga.com/",
+      "postcode": "NW"
     }
   },
   {
@@ -70,13 +247,142 @@
       {
         "name": "The Life Centre Notting Hill",
         "url": "http://www.thelifecentre.com/",
-        "area": "West London"
+        "postcode": "W"
       },
       "Islington":
       {
         "name": "The Life Centre Islington",
         "url": "http://www.thelifecentre.com/",
-        "area": "North London"
+        "postcode": "N"
+      }
+    }
+  },
+  {
+    "name": "The Light Centre",
+    "provider": "MBO",
+    "studioid": 20481,
+    "redirectPage":  "",
+    "locales":
+    {
+      "Moorgate":
+      {
+        "name": "The Light Centre Moorgate",
+        "url": "http://www.lightcentremoorgate.co.uk/",
+        "postcode": "EC"
+      },
+      "Belgravia":
+      {
+        "name": "The Light Centre Belgravia",
+        "url": "http://www.lightcentrebelgravia.co.uk/",
+        "postcode": "SW"
+      }
+    }
+  },
+  {
+    "name": "Lumi Power Yoga",
+    "provider": "MBO",
+    "studioid": 40542,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Lumi Power Yoga",
+      "url": "http://www.lumipoweryoga.com/",
+      "postcode": "W"
+    }
+  },
+  {
+    "name": "More Yoga",
+    "provider": "MBO",
+    "studioid": 256292,
+    "redirectPage":  "",
+    "locales":
+    {
+      "MoreYoga Finsbury Park":
+      {
+        "name": "More Yoga Finsbury Park",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "postcode": "N"
+      },
+      "MoreYoga Exmouth Market":
+      {
+        "name": "More Yoga Exmouth Market",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "postcode": "EC"
+      },
+      "MoreYoga Old Street":
+      {
+        "name": "More Yoga Old Street",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "postcode": "EC"
+      }
+    }
+  },
+  {
+    "name": "Power Yoga Company",
+    "provider": "MBO",
+    "studioid": 4706,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "Power Yoga Company",
+      "url": "http://thepoweryogaco.com/",
+      "postcode": "SW"
+    }
+  },
+  {
+    "name": "The Refinery E9",
+    "provider": "MBO",
+    "studioid": 208867,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "The Refinery E9",
+      "url": "http://www.therefinerye9.com/",
+      "postcode": "E"
+    }
+  },
+  {
+    "name": "Samsara Mind and Body",
+    "provider": "MBO",
+    "studioid": 37798,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Samsara Mind and Body",
+      "url": "http://samsaramindandbody.com/",
+      "postcode": "SW"
+    }
+  },
+  {
+    "name": "The Shala",
+    "provider": "MBO",
+    "studioid": 2155,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "The Shala",
+      "url": "http://www.theshala.co.uk/",
+      "postcode": "SE"
+    }
+  },
+  {
+    "name": "Stretch",
+    "provider": "MBO",
+    "studioid": 26803,
+    "redirectPage":  "",
+    "locales": 
+    {
+      "Ada Street":
+      {
+        "name": "Stretch Ada Street",
+        "url": "http://stretch-london.com/",
+        "postcode": "E"
+      },
+      "Columbia Road":
+      {
+        "name": "Stretch Columbia Road",
+        "url": "http://stretch-london.com/",
+        "postcode": "E"
       }
     }
   },
@@ -91,71 +397,50 @@
       {
         "name": "Triyoga Soho",
         "url": "http://www.triyoga.co.uk/",
-        "area": "Central London"
+        "postcode": "W"
       },
       "Camden":
       {
         "name": "Triyoga Camden",
         "url": "http://www.triyoga.co.uk/",
-        "area": "North London"
+        "postcode": "NW"
       },
       "Covent Garden":
       {
         "name": "Triyoga Covent Garden",
         "url": "http://www.triyoga.co.uk/",
-        "area": "Central London"
+        "postcode": "WC"
       },
       "Chelsea":
       {
         "name": "Triyoga Chelsea",
         "url": "http://www.triyoga.co.uk/",
-        "area": "West London"
+        "postcode": "SW"
       }
     }
   },
   {
-    "name": "Indaba Yoga",
+    "name": "Union Station Yoga",
     "provider": "MBO",
-    "studioid": 11974,
+    "studioid": 197586,
     "redirectPage":  "",
     "locale":
     {
-      "name": "Indaba Yoga",
-      "url": "http://indabayoga.com/",
-      "area": "Central London"
+      "name": "Union Station Yoga",
+      "url": "http://www.unionstationyoga.co.uk/",
+      "postcode": "SW"
     }
   },
   {
-    "name": "The Refinery E9",
+    "name": "The Well Garden",
     "provider": "MBO",
-    "studioid": 208867,
+    "studioid": 192421,
     "redirectPage":  "",
     "locale":
     {
-      "name": "The Refinery E9",
-      "url": "http://www.therefinerye9.com/",
-      "area": "East London"
-    }
-  },
-  {
-    "name": "The Light Centre",
-    "provider": "MBO",
-    "studioid": 20481,
-    "redirectPage":  "",
-    "locales":
-    {
-      "Moorgate":
-      {
-        "name": "The Light Centre Moorgate",
-        "url": "http://www.lightcentremoorgate.co.uk/",
-        "area": "Bank"
-      },
-      "Belgravia":
-      {
-        "name": "The Light Centre Belgravia",
-        "url": "http://www.lightcentrebelgravia.co.uk/",
-        "area": "Central London"
-      }
+      "name": "The Well Garden",
+      "url": "http://thewellgarden.co.uk/",
+      "postcode": "E"
     }
   },
   {
@@ -169,13 +454,13 @@
       {
         "name": "Yogahaven Clapham",
         "url": "http://www.yogahaven.co.uk/london-yoga/clapham/yoga",
-        "area": "South London"
+        "postcode": "SW"
       },
       "Islington":
       {
         "name": "Yogahaven Islington",
         "url": "http://www.yogahaven.co.uk/london-yoga/islington/yoga",
-        "area": "North London"
+        "postcode": "N"
       }
     }
   },
@@ -188,133 +473,19 @@
     {
       "name": "Yogahaven Richmond",
       "url": "http://www.yogahaven.co.uk/london-yoga/richmond/yoga",
-      "area": "Southwest London"
+      "postcode": "TW"
     }
   },
   {
-    "name": "Yoga West",
-    "provider": "MBO",
-    "studioid": 43597,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Yoga West",
-      "url": "http://www.yogaat.com/yogawest",
-      "area": "West London"
-    }
-  },
-  {
-    "name": "Garuda Yoga and Pilates",
-    "provider": "MBO",
-    "studioid": 24230,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Garuda Yoga and Pilates",
-      "url": "https://www.thegaruda.net/",
-      "area": "North London"
-    }
-  },
-  {
-    "name": "Good Vibes",
-    "provider": "MBO",
-    "studioid": 1769,
-    "redirectPage":  "https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7",
-    "locales": 
-    {
-      "Covent Garden":
-      {
-        "name": "Good Vibes Covent Garden",
-        "url": "http://www.goodvibesfitness.co.uk/",
-        "area": "Central London"
-      },
-      "Fitzrovia":
-      {
-        "name": "Good Vibes Fitzrovia",
-        "url": "http://www.goodvibesfitness.co.uk/",
-        "area": "Central London"
-      }
-    }
-  },
-  {
-    "name": "Stretch",
-    "provider": "MBO",
-    "studioid": 26803,
-    "redirectPage":  "",
-    "locales": 
-    {
-      "Ada Street":
-      {
-        "name": "Stretch Ada Street",
-        "url": "http://stretch-london.com/",
-        "area": "East London"
-      },
-      "Columbia Road":
-      {
-        "name": "Stretch Columbia Road",
-        "url": "http://stretch-london.com/",
-        "area": "East London"
-      }
-    }
-  },
-  {
-    "name": "Yoke Dalston",
-    "provider": "MBO",
-    "studioid": 314529,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Yoke Dalston",
-      "url": "http://yokedalston.co.uk/",
-      "area": "East London"
-    }
-  },
-  {
-    "name": "yogahome",
+    "name": "Yogahome",
     "provider": "MBO",
     "studioid": 29783,
     "redirectPage":  "",
     "locale":
     {
-      "name": "yogahome",
+      "name": "Yogahome",
       "url": "http://yogahome.com/",
-      "area": "North London"
-    }
-  },
-  {
-    "name": "Barbican Yoga Cave",
-    "provider": "MBO",
-    "studioid": 253770,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Barbican Yoga Cave",
-      "url": "http://barbicanyogacave.com/",
-      "area": "Bank"
-    }
-  },
-  {
-    "name": "The Well Garden",
-    "provider": "MBO",
-    "studioid": 192421,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "The Well Garden",
-      "url": "http://thewellgarden.co.uk/",
-      "area": "East London"
-    }
-  },
-  {
-    "name": "Union Station Yoga",
-    "provider": "MBO",
-    "studioid": 197586,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Union Station Yoga",
-      "url": "http://www.unionstationyoga.co.uk/",
-      "area": "South London"
+      "postcode": "N"
     }
   },
   {
@@ -326,139 +497,67 @@
     {
       "name": "The Yoga Edge",
       "url": "http://www.theyogaedge.co.uk/",
-      "area": "South London"
+      "postcode": "SE"
     }
   },
   {
-    "name": "The Shala",
+    "name": "Yoga on the Lane",
     "provider": "MBO",
-    "studioid": 2155,
+    "studioid": 94169,
     "redirectPage":  "",
     "locale":
     {
-      "name": "The Shala",
-      "url": "http://www.theshala.co.uk/",
-      "area": "South London"
+      "name": "Yoga on the Lane",
+      "url": "http://www.yogaonthelane.com/",
+      "postcode": "E"
     }
   },
   {
-    "name": "Samsara Mind and Body",
+    "name": "Yogarise Peckham",
     "provider": "MBO",
-    "studioid": 37798,
+    "studioid": 138949,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "Yogarise Peckham",
+      "url": "http://www.yogarise.london/",
+      "postcode": "SE"
+    }
+  },
+  {
+    "name": "Yoga West",
+    "provider": "MBO",
+    "studioid": 43597,
     "redirectPage":  "",
     "locale":
     {
-      "name": "Samsara Mind and Body",
-      "url": "http://samsaramindandbody.com/",
-      "area": "Southwest London"
+      "name": "Yoga West",
+      "url": "http://www.yogaat.com/yogawest",
+      "postcode": "W"
     }
   },
   {
-    "name": "More Yoga",
+    "name": "Yoke Dalston",
     "provider": "MBO",
-    "studioid": 256292,
-    "redirectPage":  "",
-    "locales":
-    {
-      "MoreYoga Finsbury Park":
-      {
-        "name": "More Yoga Finsbury Park",
-        "url": "http://www.morefit.co.uk/moreyoga/",
-        "area": "North London"
-      },
-      "MoreYoga Exmouth Market":
-      {
-        "name": "More Yoga Exmouth Market",
-        "url": "http://www.morefit.co.uk/moreyoga/",
-        "area": "Central London"
-      },
-      "MoreYoga Old Street":
-      {
-        "name": "More Yoga Old Street",
-        "url": "http://www.morefit.co.uk/moreyoga/",
-        "area": "City"
-      }
-    }
-  },
-  {
-    "name": "Lumi Power Yoga",
-    "provider": "MBO",
-    "studioid": 40542,
+    "studioid": 314529,
     "redirectPage":  "",
     "locale":
     {
-      "name": "Lumi Power Yoga",
-      "url": "http://www.lumipoweryoga.com/",
-      "area": "West London"
+      "name": "Yoke Dalston",
+      "url": "http://yokedalston.co.uk/",
+      "postcode": "N"
     }
   },
   {
-    "name": "evolve wellness centre",
+    "name": "Yotopia",
     "provider": "MBO",
-    "studioid": 12023,
+    "studioid": 16311,
     "redirectPage":  "",
     "locale":
     {
-      "name": "evolve wellness centre",
-      "url": "http://www.evolvewellnesscentre.com/",
-      "area": "West London"
-    }
-  },
-  {
-    "name": "Down to Earth",
-    "provider": "MBO",
-    "studioid": 179970,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Down to Earth",
-      "url": "http://downtoearthlondon.co.uk/",
-      "area": "North London"
-    }
-  },
-  {
-    "name": "Dragonfly Yoga",
-    "provider": "MBO",
-    "studioid": 221895,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Dragonfly Yoga",
-      "url": "http://www.dragonfly-yoga.org/",
-      "area": "South London"
-    }
-  },
-  {
-    "name": "Battersea Yoga",
-    "provider": "MBO",
-    "studioid": 83692,
-    "redirectPage":  "",
-    "locale":
-    {
-      "name": "Battersea Yoga",
-      "url": "http://batterseayoga.com/",
-      "area": "Southwest London"
-    }
-  },
-  {
-    "name": "Centric",
-    "provider": "MBO",
-    "studioid": 36253,
-    "redirectPage":  "",
-    "locales":
-    {
-      "Yogacentric":
-      {
-        "name": "Yoga Centric",
-        "url": "http://www.yogacentric.co.uk/",
-        "area": "North London"
-      },
-      "Centric: 3 Tribes":
-      {
-        "name": "Centric:3Tribes",
-        "url": "http://www.3tribes.co.uk/",
-        "area": "North London"
-      }
+      "name": "Yotopia",
+      "url": "http://yotopia.co.uk/",
+      "postcode": "WC"
     }
   }
 ]
