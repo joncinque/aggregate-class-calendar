@@ -6,6 +6,7 @@ var parsecourse = require('./parsecourse');
 function logCourse(course)
 {
   console.log("{ name: '" + course.name + "'");
+  console.log("  , style: '" + course.style + "'");
   console.log("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
   console.log("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
   console.log("  , room: '" + course.room + "'");
@@ -13,7 +14,7 @@ function logCourse(course)
   console.log("  , teacher: '" + course.teacher + "'");
   console.log("  , url: '" + course.url + "'");
   console.log("  , locale: '" + course.locale + "'");
-  console.log("  , area: '" + course.area + "'");
+  console.log("  , postcode: '" + course.postcode + "'");
   console.log("}");
 }
 

@@ -13,6 +13,8 @@ var PROVIDER_INFO =
     tableResourcePattern: /^https:\/\/clients.mindbodyonline.com\/classic\/mainclass/,
     tableCssClass: '.classSchedule-mainTable-loaded',
     locationCssId: '#optLocation',
+    viewModeCssId: '#week-tog-c',
+    selectedViewModeCssId: '#week-tog-c.date-tog-sel-c',
   }
 };
 
@@ -32,7 +34,6 @@ function dumpClassTable(providerInfo, // all info about the HTML page
   var tableresource = null;
   var redirectedToTable = false;
   var redirected = false;
-
 
   /* For really verbose debugging
   tablepage.onConsoleMessage = function(msg, lineNum, sourceId) {
@@ -75,65 +76,90 @@ function dumpClassTable(providerInfo, // all info about the HTML page
       if (dumpPageTimeout === null)
       {
         dumpPageTimeout = setTimeout(function(){
-          var changed = tablepage.evaluate(function(locationCssId, ALL_LOCATIONS_INDEX){
+          var locationChanged = tablepage.evaluate(function(locationCssId, ALL_LOCATIONS_INDEX){
             var locationDropdown = document.querySelector(locationCssId);
-            if (locationDropdown.selectedIndex !== ALL_LOCATIONS_INDEX)
+            var changed = false;
+            if (locationDropdown !== null &&
+                locationDropdown.selectedIndex !== ALL_LOCATIONS_INDEX)
             {
               locationDropdown.selectedIndex = ALL_LOCATIONS_INDEX;
               locationDropdown.onchange();
-              return true;
+              changed = true;
             }
-            return false;
+            return changed;
           }, providerInfo.locationCssId, ALL_LOCATIONS_INDEX);
           if (verbose) {
-            console.trace('Changed location: [' + changed + ']');
+            console.trace('Changed location: [' + locationChanged + ']');
           }
-          setTimeout(function(){
-            // The execution of "evaluate" is sandboxed, so extra parameters must be
-            // passed in from the outside like so.
-            var tableElement = tablepage.evaluate(function(tableCssClass) {
-              return document.querySelector(tableCssClass);
-            }, providerInfo.tableCssClass);
-            var path = Math.abs(studioId) + '.html';
-            if (tableElement.outerHTML === '')
-            {
-              if (numRetries > 0)
+
+          setTimeout(function() {
+            var viewChanged = tablepage.evaluate(function(viewModeCssId, selectedViewModeCssId){
+              var correctView = document.querySelector(selectedViewModeCssId);
+              console.log(correctView);
+              if (correctView !== null && correctView !== undefined)
               {
-                if (verbose) {
-                  console.error('No html found, retrying [' + path + ']');
-                }
-                studiopage.close();
-                tablepage.close();
-                dumpClassTable(providerInfo,
-                    studioId,
-                    redirectPage,
-                    timeout + DEFAULT_TIMEOUT_INCREMENT,
-                    numRetries - 1,
-                    verbose);
+                return false;
               }
               else
               {
-                if (verbose) {
-                  console.error('No html found, done trying [' + path + ']');
+                var viewMode = document.querySelector(viewModeCssId);
+                console.log(viewMode);
+                viewMode.click();
+                return true;
+              }
+            }, providerInfo.viewModeCssId, providerInfo.selectedViewModeCssId);
+
+            if (verbose) {
+              console.trace('Changed view mode: [' + viewChanged + ']');
+            }
+
+            setTimeout(function(){
+              // The execution of "evaluate" is sandboxed, so pass in extra 
+              // parameters from the outside.
+              var tableElement = tablepage.evaluate(function(tableCssClass) {
+                return document.querySelector(tableCssClass);
+              }, providerInfo.tableCssClass);
+              var path = Math.abs(studioId) + '.html';
+              if (tableElement.outerHTML === '')
+              {
+                if (numRetries > 0)
+                {
+                  if (verbose) {
+                    console.error('No html found, retrying [' + path + ']');
+                  }
+                  studiopage.close();
+                  tablepage.close();
+                  dumpClassTable(providerInfo,
+                      studioId,
+                      redirectPage,
+                      timeout + DEFAULT_TIMEOUT_INCREMENT,
+                      numRetries - 1,
+                      verbose);
                 }
-                studiopage.close();
+                else
+                {
+                  if (verbose) {
+                    console.error('No html found, done trying [' + path + ']');
+                  }
+                  studiopage.close();
+                  tablepage.close();
+                  phantom.exit();
+                }
+              }
+              else
+              {
+                fs.write(path, tableElement.outerHTML, function(error) {
+                  if (error) {
+                    console.error('Error writing: ' + error.message);
+                  } else {
+                    console.error('Success writing: ' + error.message);
+                  }
+                });
                 tablepage.close();
                 phantom.exit();
               }
-            }
-            else
-            {
-              fs.write(path, tableElement.outerHTML, function(error) {
-                if (error) {
-                  console.error('Error writing: ' + error.message);
-                } else {
-                  console.error('Success writing: ' + error.message);
-                }
-              });
-              tablepage.close();
-              phantom.exit();
-            }
-          }, changed ? timeout : 0);
+            }, viewChanged ? timeout : 0);
+          }, locationChanged ? timeout : 0);
         }, timeout);
       }
     }
@@ -247,7 +273,7 @@ function dumpClassTable(providerInfo, // all info about the HTML page
 }
 
 var DEFAULT_RETRIES = 0;
-var DEFAULT_TIMEOUT = 1000;
+var DEFAULT_TIMEOUT = 5000;
 var DEFAULT_TIMEOUT_INCREMENT = 2000;
 var VERBOSE = false;
 if (system.args.length === 4)

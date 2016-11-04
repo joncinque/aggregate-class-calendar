@@ -230,6 +230,69 @@ function isCourseValid(webCourse, studio)
   return true;
 }
 
+const HIGH_PRIORITY = 1;
+const MEDIUM_PRIORITY = 2;
+const LOW_PRIORITY = 3;
+const LOWEST_PRIORITY = 4;
+const NO_PRIORITY = 5;
+// We add in a "priorty" field because some classes contain multiple keywords
+// This way, "Mysore-style Ashtanga" is tagged as "Mysore" and not "Ashtanga".
+const STYLE_MAP =
+{
+  Anusara: { regex: /anusara/i,               priority: HIGH_PRIORITY },
+  Ashtanga: { regex: /ashtanga|astanga/i,     priority: MEDIUM_PRIORITY },
+  Barre: { regex: /barre|ballet/i,            priority: HIGH_PRIORITY },
+  Basic: { regex: /basic|beginner/i,          priority: LOWEST_PRIORITY },
+  Community: { regex: /community/i,           priority: MEDIUM_PRIORITY },
+  Dharma: { regex: /dharma|mittra/i,          priority: HIGH_PRIORITY },
+  Flow: { regex: /flow/i,                     priority: NO_PRIORITY },
+  Forrest: { regex: /forrest/i,               priority: HIGH_PRIORITY },
+  Hatha: { regex: /hatha/i,                   priority: LOW_PRIORITY },
+  Hot: { regex: /hot/i,                       priority: MEDIUM_PRIORITY },
+  Iyengar: { regex: /iyengar/i,               priority: HIGH_PRIORITY },
+  Jivamukti: { regex: /jivamukti|spiritual/i, priority: HIGH_PRIORITY },
+  Kundalini: { regex: /kundalini/i,           priority: HIGH_PRIORITY },
+  Meditation: { regex: /meditation|meditate|mindful/i,priority: LOW_PRIORITY },
+  Mysore: { regex: /mysore/i,                 priority: HIGH_PRIORITY },
+  Nidra: { regex: /nidra/i,                   priority: HIGH_PRIORITY },
+  Pilates: { regex: /pilates|apparatus/i,     priority: HIGH_PRIORITY },
+  Power: { regex: /power|dynamic/i,           priority: LOW_PRIORITY },
+  Pranayama: { regex: /pranayama/i,           priority: LOW_PRIORITY },
+  Pregnancy: { regex: /pregnancy|natal/i,     priority: HIGH_PRIORITY },
+  Restorative: { regex: /restorative|restore|recharge/i, priority: MEDIUM_PRIORITY },
+  Rocket: { regex: /rocket/i,                 priority: HIGH_PRIORITY },
+  Sivananda: { regex: /sivananda/i,           priority: HIGH_PRIORITY },
+  Vinyasa: { regex: /vinyasa/i,               priority: LOWEST_PRIORITY },
+  Yin: { regex: /yin/i,                       priority: HIGH_PRIORITY },
+}
+
+function styleOfName(courseName)
+{
+  var priority = undefined;
+  var style = undefined;
+  for (var prop in STYLE_MAP)
+  {
+    if (courseName.match(STYLE_MAP[prop].regex) !== null)
+    {
+      if (priority === undefined || STYLE_MAP[prop].priority < priority)
+      {
+        priority = STYLE_MAP[prop].priority;
+        style = prop;
+      }
+    }
+  }
+
+  if (style !== undefined)
+  {
+    return style;
+  }
+  else
+  {
+    console.log("No match found for course name: " + courseName);
+    return "Other";
+  }
+}
+
 function parseCourseStart(webCourse, currentDate)
 {
   var courseStart = moment(webCourse['start'], 'HH:mm');
@@ -282,6 +345,8 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
     room: webCourse['room'],
   };
 
+  dbCourse.style = styleOfName(dbCourse.name);
+
   dbCourse.start = parseCourseStart(webCourse, currentDate);
   dbCourse.end = parseCourseEnd(webCourse, dbCourse.start);
 
@@ -299,7 +364,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
   }
   dbCourse.studio = localeInfo.name;
   dbCourse.url = localeInfo.url;
-  dbCourse.area = localeInfo.area;
+  dbCourse.postcode = localeInfo.postcode;
 
   return dbCourse;
 }
@@ -482,25 +547,25 @@ if (require.main === module)
       {
         "name": "Triyoga Soho",
         "url": "http://www.triyoga.co.uk/",
-        "area": "Central London"
+        "postcode": "W"
       },
       "Camden":
       {
         "name": "Triyoga Camden",
         "url": "http://www.triyoga.co.uk/",
-        "area": "North London"
+        "postcode": "NW"
       },
       "Covent Garden":
       {
         "name": "Triyoga Covent Garden",
         "url": "http://www.triyoga.co.uk/",
-        "area": "Central London"
+        "postcode": "WC"
       },
       "Chelsea":
       {
         "name": "Triyoga Chelsea",
         "url": "http://www.triyoga.co.uk/",
-        "area": "West London"
+        "postcode": "SW"
       }
     }
   };
@@ -514,7 +579,7 @@ if (require.main === module)
     {
       "name": "Blue Cow Yoga",
       "url": "http://bluecowyoga.com/",
-      "area": "Bank"
+      "postcode": "EC"
     }
   };
 
