@@ -35,4 +35,8 @@ Template.course.events({
   {
     Meteor.call('courses.remove', this._id);
   },
+  'click .course-row'(event, instance) {
+    console.log(event);
+    console.log(this);
+  }
 });

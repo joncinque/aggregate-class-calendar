@@ -48,6 +48,8 @@ Meteor.methods({
       name: courseObj.name,
       start: courseObj.start,
       studio: courseObj.studio,
+      style: courseObj.style,
+      postcode: courseObj.postcode,
     },
     {
       // Modifier
@@ -91,19 +93,31 @@ Meteor.methods({
   'courses.names'()
   {
     let data = Courses.find({}, { sort: { name: 1 }}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.name});
+    let distinctData = _.uniq(data, false, function(d) {return d.name.toLowerCase().trim();});
     return _.pluck(distinctData, "name");
   },
-  'courses.teachers'()
+  'courses.postcodes'()
   {
-    let data = Courses.find({}, { sort: { teacher: 1 }}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.teacher});
-    return _.pluck(distinctData, "teacher");
+    let data = Courses.find({}, { sort: { postcode: 1 }}).fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.postcode;});
+    return _.pluck(distinctData, "postcode");
   },
   'courses.studios'()
   {
     let data = Courses.find({}, { sort: { studio: 1}}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.studio});
+    let distinctData = _.uniq(data, false, function(d) {return d.studio;});
     return _.pluck(distinctData, "studio");
+  },
+  'courses.styles'()
+  {
+    let data = Courses.find({}, { sort: { style: 1}}).fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.style;});
+    return _.pluck(distinctData, "style");
+  },
+  'courses.teachers'()
+  {
+    let data = Courses.find({}, { sort: { teacher: 1 }}).fetch();
+    let distinctData = _.uniq(data, false, function(d) {return d.teacher.toLowerCase().trim();});
+    return _.pluck(distinctData, "teacher");
   },
 });

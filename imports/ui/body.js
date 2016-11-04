@@ -31,7 +31,7 @@ function getOptionArgs(doSort)
   {
     optionArgs.sort = { start: 1, studio: 1, name: 1, teacher: 1 };
   }
-  return optionArgs
+  return optionArgs;
 }
 
 function getSearchArgs(instance)
@@ -64,6 +64,22 @@ function getSearchArgs(instance)
   {
     console.log('Studio filter: ' + studioFilter);
     argList.push({ studio: makeRegex(studioFilter) });
+  }
+
+  // apply style filter
+  let styleFilter = instance.state.get('styleFilter');
+  if (styleFilter.length > 0)
+  {
+    console.log('Style filter: ' + styleFilter);
+    argList.push({ style: { $in: styleFilter } });
+  }
+
+  // apply postcode filter
+  let postcodeFilter = instance.state.get('postcodeFilter');
+  if (postcodeFilter.length > 0)
+  {
+    console.log('Postcode filter: ' + postcodeFilter);
+    argList.push({ postcode: { $in: postcodeFilter } });
   }
 
   // make the search with an 'and' clause
@@ -121,12 +137,17 @@ function setDateFilters(instance, startMoment, endMoment)
 
 function initFilters(reactive_dict)
 {
+  reactive_dict.set('styleFilter', []);
+  reactive_dict.set('postcodeFilter', []);
+
   reactive_dict.set('classFilter', EMPTY);
   reactive_dict.set('teacherFilter', EMPTY);
   reactive_dict.set('studioFilter', EMPTY);
 
   reactive_dict.set('startFilter', getNowDatetime());
   reactive_dict.set('endFilter', getLaterDatetime());
+
+  reactive_dict.set('availableCount', 0);
 }
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -137,11 +158,17 @@ Template.body.onCreated(function bodyOnCreated() {
   Meteor.call('courses.names', (err,data) => {
     dict.set('names', data);
   });
-  Meteor.call('courses.teachers', (err,data) => {
-    dict.set('teachers', data);
+  Meteor.call('courses.postcodes', (err,data) => {
+    dict.set('postcodes', data);
   });
   Meteor.call('courses.studios', (err,data) => {
     dict.set('studios', data);
+  });
+  Meteor.call('courses.styles', (err,data) => {
+    dict.set('styles', data);
+  });
+  Meteor.call('courses.teachers', (err,data) => {
+    dict.set('teachers', data);
   });
 
   initFilters(dict);
@@ -149,18 +176,19 @@ Template.body.onCreated(function bodyOnCreated() {
 
 Template.body.helpers({
   courses() {
-    const instance = Template.instance();
+    let instance = Template.instance();
     if (instance.state.get('showStarred'))
     {
       // if hide completed is checked on the reactive dict, then filter
-      return Courses.find(getSearchArgs(instance), getOptionArgs());
     }
 
-    return Courses.find(getSearchArgs(instance), getOptionArgs());
+    let results = Courses.find(getSearchArgs(instance), getOptionArgs());
+    instance.state.set('availableCount', results.count());
+    return results;
   },
   availableCount() {
     const instance = Template.instance();
-    let count = Courses.find(getSearchArgs(instance), getOptionArgs(/*doSort=*/false)).count();
+    let count = instance.state.get('availableCount');
     if (count >= COURSE_LIMIT) 
     {
       return String(count) + "+";
@@ -169,18 +197,24 @@ Template.body.helpers({
   },
   showAlert() {
     const instance = Template.instance();
-    let count = Courses.find(getSearchArgs(instance), getOptionArgs(/*doSort=*/false)).count();
+    let count = instance.state.get('availableCount');
     return count >= COURSE_LIMIT;
   },
   // drop-downs for filter
   names() {
     return Template.instance().state.get('names');
   },
-  teachers() {
-    return Template.instance().state.get('teachers');;
+  postcodes() {
+    return Template.instance().state.get('postcodes');
   },
   studios() {
     return Template.instance().state.get('studios');;
+  },
+  styles() {
+    return Template.instance().state.get('styles');;
+  },
+  teachers() {
+    return Template.instance().state.get('teachers');;
   },
   // defaults for date entries
   startdate() {
@@ -303,6 +337,18 @@ Template.body.events({
   },
 
   'click #filter_reset'(event, instance) {
+    let styleFilters = document.getElementsByClassName("style_filter");
+    let postcodeFilters = document.getElementsByClassName("postcode_filter");
+    // no "forEach" method exists on NodeList yet
+    for (let i = 0; i < styleFilters.length; ++i)
+    {
+      styleFilters[i].checked = false;
+    }
+    for (let i = 0; i < postcodeFilters.length; ++i)
+    {
+      postcodeFilters[i].checked = false;
+    }
+
     let classFilter = document.getElementById("class_filter");
     let teacherFilter = document.getElementById("teacher_filter");
     let studioFilter = document.getElementById("studio_filter");
@@ -315,6 +361,38 @@ Template.body.events({
   },
 
   // set filters
+  'click .style_filter'(event, instance) {
+    let styleFilter = instance.state.get('styleFilter');
+    let index = styleFilter.indexOf(event.target.value);
+    if (event.target.checked) {
+      // Add the element
+      if (index < 0) {
+        styleFilter.push(event.target.value);
+      }
+    } else {
+      // Remove the element if unchecked
+      if (index > -1) {
+        styleFilter.splice(index, 1);
+      }
+    }
+    instance.state.set('styleFilter', styleFilter);
+  },
+  'click .postcode_filter'(event, instance) {
+    let postcodeFilter = instance.state.get('postcodeFilter');
+    let index = postcodeFilter.indexOf(event.target.value);
+    if (event.target.checked) {
+      // Add the element
+      if (index < 0) {
+        postcodeFilter.push(event.target.value);
+      }
+    } else {
+      // Remove the element if unchecked
+      if (index > -1) {
+        postcodeFilter.splice(index, 1);
+      }
+    }
+    instance.state.set('postcodeFilter', postcodeFilter);
+  },
   'blur #class_filter'(event, instance) {
     instance.state.set('classFilter', event.target.value);
   },

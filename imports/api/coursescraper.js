@@ -15,6 +15,7 @@ function logCourse(course)
   console.log("  , teacher: '" + course.teacher + "'");
   console.log("  , url: '" + course.url + "'");
   console.log("  , locale: '" + course.locale + "'");
+  console.log("  , style: '" + course.style + "'");
   console.log("  , postcode: '" + course.postcode + "'");
   console.log("}");
 }

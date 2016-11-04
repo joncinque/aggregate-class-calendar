@@ -1,10 +1,12 @@
 <template name="course">
-  <tr>
+  <tr class="course-row">
     <td class="col-xs-1 no-right-padding"><input type="checkbox" class="toggle-checked" />{{#if currentUser}}<button class="delete">&times;</button>{{/if}}</td>
-    <td class="col-xs-3">{{name}}</td>
+    <td class="col-xs-2">{{name}}</td>
     <td class="col-xs-2">{{day}}</td>
     <td class="col-xs-2">{{startEnd}}</td>
     <td class="col-xs-2">{{teacher}}</td>
     <td class="col-xs-2">{{studio}}</td>
+    <td class="col-xs-1">{{style}}</td>
+    <td class="col-xs-1">{{postcode}}</td>
   </tr>
 </template>
