@@ -237,7 +237,7 @@ const LOWEST_PRIORITY = 4;
 const NO_PRIORITY = 5;
 // We add in a "priorty" field because some classes contain multiple keywords
 // This way, "Mysore-style Ashtanga" is tagged as "Mysore" and not "Ashtanga".
-const STYLE_MAP =
+exports.STYLE_MAP =
 {
   Anusara: { regex: /anusara/i,               priority: HIGH_PRIORITY },
   Ashtanga: { regex: /ashtanga|astanga/i,     priority: MEDIUM_PRIORITY },
@@ -270,13 +270,13 @@ function styleOfName(courseName)
 {
   var priority = undefined;
   var style = undefined;
-  for (var prop in STYLE_MAP)
+  for (var prop in exports.STYLE_MAP)
   {
-    if (courseName.match(STYLE_MAP[prop].regex) !== null)
+    if (courseName.match(exports.STYLE_MAP[prop].regex) !== null)
     {
-      if (priority === undefined || STYLE_MAP[prop].priority < priority)
+      if (priority === undefined || exports.STYLE_MAP[prop].priority < priority)
       {
-        priority = STYLE_MAP[prop].priority;
+        priority = exports.STYLE_MAP[prop].priority;
         style = prop;
       }
     }
