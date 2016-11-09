@@ -7,6 +7,11 @@ import moment from 'moment';
 
 export const Courses = new Mongo.Collection('courses');
 
+function getFilterStartDate()
+{
+  return moment().subtract(2, 'weeks').toDate();
+}
+
 // Separate what information is sent from the server from what's on the client
 if (Meteor.isServer)
 {
@@ -24,7 +29,6 @@ if (Meteor.isServer)
 }
 
 Meteor.methods({
-  // Ported from body.js
   'courses.insert'(courseObj)
   {
     check(courseObj.name, String);
@@ -92,31 +96,15 @@ Meteor.methods({
   },
   'courses.names'()
   {
-    let data = Courses.find({}, { sort: { name: 1 }}).fetch();
+    let data = Courses.find({ start: { $gte: getFilterStartDate() } },
+                            { sort: { name: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.name.toLowerCase().trim();});
     return _.pluck(distinctData, "name");
   },
-  'courses.postcodes'()
-  {
-    let data = Courses.find({}, { sort: { postcode: 1 }}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.postcode;});
-    return _.pluck(distinctData, "postcode");
-  },
-  'courses.studios'()
-  {
-    let data = Courses.find({}, { sort: { studio: 1}}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.studio;});
-    return _.pluck(distinctData, "studio");
-  },
-  'courses.styles'()
-  {
-    let data = Courses.find({}, { sort: { style: 1}}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.style;});
-    return _.pluck(distinctData, "style");
-  },
   'courses.teachers'()
   {
-    let data = Courses.find({}, { sort: { teacher: 1 }}).fetch();
+    let data = Courses.find({ start: { $gte: getFilterStartDate() } },
+                            { sort: { teacher: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.teacher.toLowerCase().trim();});
     return _.pluck(distinctData, "teacher");
   },

@@ -11,6 +11,7 @@ import './body.html';
 
 // not needed, but helps sort out dependencies
 // import '../api/coursescraper.js';
+// import '../api/studios.js';
 
 const EMPTY = '';
 const COURSE_LIMIT = 1000;
@@ -158,17 +159,13 @@ Template.body.onCreated(function bodyOnCreated() {
   Meteor.call('courses.names', (err,data) => {
     dict.set('names', data);
   });
-  Meteor.call('courses.postcodes', (err,data) => {
-    dict.set('postcodes', data);
-  });
-  Meteor.call('courses.studios', (err,data) => {
-    dict.set('studios', data);
-  });
-  Meteor.call('courses.styles', (err,data) => {
-    dict.set('styles', data);
-  });
   Meteor.call('courses.teachers', (err,data) => {
     dict.set('teachers', data);
+  });
+  Meteor.call('studios.info', (err,data) => {
+    dict.set('postcodes', data.postcodes);
+    dict.set('studios', data.names);
+    dict.set('styles', data.styles);
   });
 
   initFilters(dict);
