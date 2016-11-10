@@ -4,7 +4,13 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import moment from 'moment';
 
-import { Courses } from '../api/courses.js';
+import { getNewDateFromInput, getNewTimeFromInput, } from './lib/dateutil.js';
+
+import { EMPTY,
+  getCourseResults,
+  initCourseDict,
+  initFilters,
+  maxCoursesReached } from './lib/searchutil.js';
 
 import './course.js';
 import './body.html';
@@ -12,112 +18,6 @@ import './body.html';
 // not needed, but helps sort out dependencies
 // import '../api/coursescraper.js';
 // import '../api/studios.js';
-
-const EMPTY = '';
-const COURSE_LIMIT = 1000;
-
-function makeRegex(searchString)
-{
-  return new RegExp(searchString, 'i');
-}
-
-function getOptionArgs(doSort)
-{
-  if (doSort === undefined)
-  {
-    doSort = true;
-  }
-  let optionArgs = { limit: COURSE_LIMIT };
-  if (doSort)
-  {
-    optionArgs.sort = { start: 1, studio: 1, name: 1, teacher: 1 };
-  }
-  return optionArgs;
-}
-
-function getSearchArgs(instance)
-{
-  let argList = [];
-
-  // apply date/time filter
-  argList.push({ start: { $gte: instance.state.get('startFilter') } });
-  argList.push({ start: { $lte: instance.state.get('endFilter') } });
-
-  // apply class filter
-  let classFilter = instance.state.get('classFilter');
-  if (classFilter !== EMPTY)
-  {
-    console.log('Class filter: ' + classFilter);
-    argList.push({ name: makeRegex(classFilter) });
-  }
-
-  // apply teacher filter
-  let teacherFilter = instance.state.get('teacherFilter');
-  if (teacherFilter !== EMPTY)
-  {
-    console.log('Teacher filter: ' + teacherFilter);
-    argList.push({ teacher: makeRegex(teacherFilter) });
-  }
-
-  // apply studio filter
-  let studioFilter = instance.state.get('studioFilter');
-  if (studioFilter !== EMPTY)
-  {
-    console.log('Studio filter: ' + studioFilter);
-    argList.push({ studio: makeRegex(studioFilter) });
-  }
-
-  // apply style filter
-  let styleFilter = instance.state.get('styleFilter');
-  if (styleFilter.length > 0)
-  {
-    console.log('Style filter: ' + styleFilter);
-    argList.push({ style: { $in: styleFilter } });
-  }
-
-  // apply postcode filter
-  let postcodeFilter = instance.state.get('postcodeFilter');
-  if (postcodeFilter.length > 0)
-  {
-    console.log('Postcode filter: ' + postcodeFilter);
-    argList.push({ postcode: { $in: postcodeFilter } });
-  }
-
-  // make the search with an 'and' clause
-  return { $and: argList };
-}
-
-function getNowDatetime()
-{
-  return moment().toDate();
-}
-
-function getLaterDatetime()
-{
-  return moment().set({
-    'hour': 23,
-    'minute': 59,
-    'second': 0,
-    'millisecond': 0}).toDate();
-}
-
-function getNewDateFromInput(initialDate, inputDate)
-{
-  return moment(initialDate).set({
-        'year': inputDate.getFullYear(),
-        'month': inputDate.getMonth(),
-        'date': inputDate.getDate()
-      }).toDate();
-}
-
-function getNewTimeFromInput(initialDate, inputTime)
-{
-  let inputMoment = moment(inputTime, 'HH:mm');
-  return moment(initialDate).set({
-        'hour': inputMoment.hour(),
-        'minute': inputMoment.minute()
-      }).toDate();
-}
 
 function setDateFilters(instance, startMoment, endMoment)
 {
@@ -136,39 +36,10 @@ function setDateFilters(instance, startMoment, endMoment)
   instance.state.set('endFilter', endMoment.toDate());
 }
 
-function initFilters(reactive_dict)
-{
-  reactive_dict.set('styleFilter', []);
-  reactive_dict.set('postcodeFilter', []);
-
-  reactive_dict.set('classFilter', EMPTY);
-  reactive_dict.set('teacherFilter', EMPTY);
-  reactive_dict.set('studioFilter', EMPTY);
-
-  reactive_dict.set('startFilter', getNowDatetime());
-  reactive_dict.set('endFilter', getLaterDatetime());
-
-  reactive_dict.set('availableCount', 0);
-}
-
 Template.body.onCreated(function bodyOnCreated() {
   let dict = new ReactiveDict();
   this.state = dict;
-  // get whatever is in the 'courses' channel from the server
-  Meteor.subscribe('courses');
-  Meteor.call('courses.names', (err,data) => {
-    dict.set('names', data);
-  });
-  Meteor.call('courses.teachers', (err,data) => {
-    dict.set('teachers', data);
-  });
-  Meteor.call('studios.info', (err,data) => {
-    dict.set('postcodes', data.postcodes);
-    dict.set('studios', data.names);
-    dict.set('styles', data.styles);
-  });
-
-  initFilters(dict);
+  initCourseDict(dict);
 });
 
 Template.body.helpers({
@@ -179,14 +50,14 @@ Template.body.helpers({
       // if hide completed is checked on the reactive dict, then filter
     }
 
-    let results = Courses.find(getSearchArgs(instance), getOptionArgs());
+    let results = getCourseResults(instance);
     instance.state.set('availableCount', results.count());
     return results;
   },
   availableCount() {
     const instance = Template.instance();
     let count = instance.state.get('availableCount');
-    if (count >= COURSE_LIMIT) 
+    if (maxCoursesReached(instance))
     {
       return String(count) + "+";
     }
@@ -194,8 +65,7 @@ Template.body.helpers({
   },
   showAlert() {
     const instance = Template.instance();
-    let count = instance.state.get('availableCount');
-    return count >= COURSE_LIMIT;
+    return maxCoursesReached(instance);
   },
   // drop-downs for filter
   names() {
@@ -251,12 +121,9 @@ Template.body.events({
   },
   'click .scrape-all'() {
     Meteor.call('coursescraper.getAllCourses', (err, data) => {
-      if (err)
-      {
+      if (err) {
         console.log(err);
-      }
-      else
-      {
+      } else {
         data.forEach(message => {
           console.log(message);
         });
@@ -267,16 +134,11 @@ Template.body.events({
     // Prevent default browser form submit
     event.preventDefault();
     const studioid = Number(event.target.studioid.value);
-    console.log('studio id: ' + studioid);
-    if (studioid !== 0)
-    {
+    if (studioid !== 0) {
       Meteor.call('coursescraper.getCourses', studioid, (err, data) => {
-        if (err)
-        {
+        if (err) {
           console.log(err);
-        }
-        else
-        {
+        } else {
           data.forEach(course=>{
             Meteor.call('courses.insert', courseObj);
           });
@@ -398,6 +260,21 @@ Template.body.events({
   },
   'blur #studio_filter'(event, instance) {
     instance.state.set('studioFilter', event.target.value);
+  },
+  'keypress #class_filter'(event, instance) {
+    if (event.which === 13) {
+      instance.state.set('classFilter', event.target.value);
+    }
+  },
+  'keypress #teacher_filter'(event, instance) {
+    if (event.which === 13) {
+      instance.state.set('teacherFilter', event.target.value);
+    }
+  },
+  'keypress #studio_filter'(event, instance) {
+    if (event.which === 13) {
+      instance.state.set('studioFilter', event.target.value);
+    }
   },
   'blur #startdate_filter'(event, instance) {
     console.log(event.target.valueAsDate);
