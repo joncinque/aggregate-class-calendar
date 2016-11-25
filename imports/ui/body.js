@@ -7,12 +7,12 @@ import moment from 'moment';
 import { getNewDateFromInput, getNewTimeFromInput, } from './lib/dateutil.js';
 
 import { EMPTY,
-  getCourseResults,
   initCourseDict,
   initFilters,
   maxCoursesReached } from './lib/searchutil.js';
 
-import './course.js';
+import './coursetable.js';
+
 import './body.html';
 
 // not needed, but helps sort out dependencies
@@ -43,21 +43,13 @@ Template.body.onCreated(function bodyOnCreated() {
 });
 
 Template.body.helpers({
-  courses() {
-    let instance = Template.instance();
-    if (instance.state.get('showStarred'))
-    {
-      // if hide completed is checked on the reactive dict, then filter
-    }
-
-    let results = getCourseResults(instance);
-    instance.state.set('availableCount', results.count());
-    return results;
+  state() {
+    return Template.instance().state;
   },
   availableCount() {
     const instance = Template.instance();
     let count = instance.state.get('availableCount');
-    if (maxCoursesReached(instance))
+    if (maxCoursesReached(instance.state))
     {
       return String(count) + "+";
     }
@@ -65,7 +57,7 @@ Template.body.helpers({
   },
   showAlert() {
     const instance = Template.instance();
-    return maxCoursesReached(instance);
+    return maxCoursesReached(instance.state);
   },
   // drop-downs for filter
   names() {
@@ -123,10 +115,6 @@ Template.body.events({
     Meteor.call('coursescraper.getAllCourses', (err, data) => {
       if (err) {
         console.log(err);
-      } else {
-        data.forEach(message => {
-          console.log(message);
-        });
       }
     });
   },
@@ -277,28 +265,24 @@ Template.body.events({
     }
   },
   'blur #startdate_filter'(event, instance) {
-    console.log(event.target.valueAsDate);
     let startDate = instance.state.get('startFilter');
     instance.state.set(
         'startFilter', 
         getNewDateFromInput(startDate, event.target.valueAsDate));
   },
   'blur #starttime_filter'(event, instance) {
-    console.log(event.target.value);
     let startDate = instance.state.get('startFilter');
     instance.state.set(
         'startFilter',
         getNewTimeFromInput(startDate, event.target.value));
   },
   'blur #enddate_filter'(event, instance) {
-    console.log(event.target.valueAsDate);
     let endDate = instance.state.get('endFilter');
     instance.state.set(
         'endFilter',
         getNewDateFromInput(endDate, event.target.valueAsDate));
   },
   'blur #endtime_filter'(event, instance) {
-    console.log(event.target.value);
     let endDate = instance.state.get('endFilter');
     instance.state.set(
         'endFilter',

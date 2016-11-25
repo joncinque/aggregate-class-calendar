@@ -10,9 +10,9 @@ const makeRegex = (searchString)=>
   return new RegExp(searchString, 'i');
 }
 
-export const maxCoursesReached = (instance)=>
+export const maxCoursesReached = (reactiveDict)=>
 {
-  let count = instance.state.get('availableCount');
+  let count = reactiveDict.get('availableCount');
   return count >= COURSE_LIMIT;
 }
 
@@ -30,16 +30,19 @@ const getOptionArgs = (doSort)=>
   return optionArgs;
 }
 
-const getSearchArgs = (instance)=>
+const getSearchArgs = (reactiveDict)=>
 {
   let argList = [];
 
   // apply date/time filter
-  argList.push({ start: { $gte: instance.state.get('startFilter') } });
-  argList.push({ start: { $lte: instance.state.get('endFilter') } });
+  let startFilter = reactiveDict.get('startFilter');
+  let endFilter = reactiveDict.get('endFilter');
+  console.log('Start: ' + startFilter + ' End: ' + endFilter);
+  argList.push({ start: { $gte: startFilter } });
+  argList.push({ start: { $lte: endFilter } });
 
   // apply class filter
-  let classFilter = instance.state.get('classFilter');
+  let classFilter = reactiveDict.get('classFilter');
   if (classFilter !== EMPTY)
   {
     console.log('Class filter: ' + classFilter);
@@ -47,7 +50,7 @@ const getSearchArgs = (instance)=>
   }
 
   // apply teacher filter
-  let teacherFilter = instance.state.get('teacherFilter');
+  let teacherFilter = reactiveDict.get('teacherFilter');
   if (teacherFilter !== EMPTY)
   {
     console.log('Teacher filter: ' + teacherFilter);
@@ -55,7 +58,7 @@ const getSearchArgs = (instance)=>
   }
 
   // apply studio filter
-  let studioFilter = instance.state.get('studioFilter');
+  let studioFilter = reactiveDict.get('studioFilter');
   if (studioFilter !== EMPTY)
   {
     console.log('Studio filter: ' + studioFilter);
@@ -63,7 +66,7 @@ const getSearchArgs = (instance)=>
   }
 
   // apply style filter
-  let styleFilter = instance.state.get('styleFilter');
+  let styleFilter = reactiveDict.get('styleFilter');
   if (styleFilter.length > 0)
   {
     console.log('Style filter: ' + styleFilter);
@@ -71,7 +74,7 @@ const getSearchArgs = (instance)=>
   }
 
   // apply postcode filter
-  let postcodeFilter = instance.state.get('postcodeFilter');
+  let postcodeFilter = reactiveDict.get('postcodeFilter');
   if (postcodeFilter.length > 0)
   {
     console.log('Postcode filter: ' + postcodeFilter);
@@ -97,9 +100,11 @@ export const initFilters = (reactiveDict)=>
   reactiveDict.set('availableCount', 0);
 }
 
-export const getCourseResults = (instance) =>
+export const getCourseResults = (reactiveDict) =>
 {
-  return Courses.find(getSearchArgs(instance), getOptionArgs());
+  let results = Courses.find(getSearchArgs(reactiveDict), getOptionArgs());
+  reactiveDict.set('availableCount', results.count());
+  return results;
 }
 
 export const initCourseDict = (reactiveDict)=>

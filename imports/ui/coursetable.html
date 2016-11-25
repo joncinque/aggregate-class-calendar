@@ -1,0 +1,62 @@
+<template name="coursetable">
+  <table class="table table-striped table-hover">
+    <thead> <tr>
+      <th class="col-xs-1 no-right-padding"></th>
+      <th class="col-xs-2">Class</th>
+      <th class="col-xs-2">Day</th>
+      <th class="col-xs-2">Time</th>
+      <th class="col-xs-2">Teacher</th>
+      <th class="col-xs-2">Studio</th>
+      <th class="col-xs-1">Style</th>
+      <th class="col-xs-1">Area</th>
+    </tr> </thead>
+    <tbody>
+      {{#each courses}}
+        {{> course courseData=this setCourseFunc=setCourseFunc }}
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{> coursemodal activeCourse=activeCourse }}
+</template>
+
+<template name="coursemodal">
+  <div class="modal fade" id="coursemodal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        {{#with activeCourse}}
+        <div class="modal-header">
+          <h3 class="modal-title">{{name}}</h3>
+          <h4 class="modal-title">With {{teacher}}, on {{day}}, {{startEnd}}</h4>
+        </div>
+
+        <div class="modal-body">
+          <h5>{{studio}}</h5>
+          <p>
+            Studio - 
+            <a href="{{url}}" target="_blank">{{url}}
+              <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+            </a>
+            <br />
+            Booking -  
+            <a href="{{schedule}}" target="_blank">{{schedule}}
+              <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+            </a>
+          </p>
+          <p>
+            Postcode - {{postcode}}
+            {{#if hasRoom}}, Room - {{room}}{{/if}}
+            {{#if hasLocale}}, Locale - {{locale}}{{/if}}
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <a href="{{url}}" target="_blank"><button type="button" class="btn btn-primary">Share</button></a>
+          <a href="{{url}}" target="_blank"><button type="button" class="btn btn-primary">Donate</button></a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+        {{/with}}
+      </div>
+    </div>
+  </div>
+</template>

@@ -9,14 +9,19 @@ import './course.html';
 
 // Add all functions on the "class" here
 Template.course.helpers({
-  startEnd()
-  {
-    return moment(this.start).format("H:mm") + "-" + moment(this.end).format("H:mm");
+  startEnd() {
+    let data = Template.currentData().courseData;
+    return moment(data.start).format("H:mm") + "-" + moment(data.end).format("H:mm");
   },
-  day()
-  {
-    return moment(this.start).format("ddd MMM D");
-  }
+  day() {
+    return moment(Template.currentData().courseData.start).format("ddd MMM D");
+  },
+  name() { return Template.currentData().courseData.name; },
+  teacher() { return Template.currentData().courseData.teacher; },
+  studio() { return Template.currentData().courseData.studio; },
+  style() { return Template.currentData().courseData.style; },
+  postcode() { return Template.currentData().courseData.postcode; },
+  courseData() { return Template.currentData().courseData; },
   /*
   isOwner()
   {
@@ -36,7 +41,7 @@ Template.course.events({
     Meteor.call('courses.remove', this._id);
   },
   'click .course-row'(event, instance) {
-    console.log(event);
-    console.log(this);
+    let data = Template.currentData().courseData;
+    Template.currentData().setCourseFunc(data);
   }
 });
