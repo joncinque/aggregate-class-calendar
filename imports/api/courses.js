@@ -15,16 +15,13 @@ function getFilterStartDate()
 // Separate what information is sent from the server from what's on the client
 if (Meteor.isServer)
 {
-  Meteor.publish('courses', function () {
-    return Courses.find();
-    /*
-    {
-      $or: [
-        { private: { $ne: true } },
-        { owner: this.userId },
-      ],
-    });
-    */
+  Meteor.publish('courses', () => {
+    let weekStart = moment().set({'weekday': 0,
+      'hour': 0,
+      'minute': 0,
+      'second': 0,
+      'millisecond': 0}).toDate();
+    return Courses.find({ start: { $gte: weekStart } });
   });
 }
 
@@ -97,6 +94,7 @@ Meteor.methods({
   },
   'courses.names'()
   {
+    this.unblock();
     let data = Courses.find({ start: { $gte: getFilterStartDate() } },
                             { sort: { name: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.name.toLowerCase().trim();});
@@ -104,6 +102,7 @@ Meteor.methods({
   },
   'courses.teachers'()
   {
+    this.unblock();
     let data = Courses.find({ start: { $gte: getFilterStartDate() } },
                             { sort: { teacher: 1 }}).fetch();
     let distinctData = _.uniq(data, false, function(d) {return d.teacher.toLowerCase().trim();});

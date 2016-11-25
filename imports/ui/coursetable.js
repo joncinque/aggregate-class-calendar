@@ -3,8 +3,6 @@ import { Template } from 'meteor/templating';
 
 import moment from 'moment';
 
-import { getCourseResults } from './lib/searchutil.js';
-
 import './course.js';
 
 import './coursetable.html';
@@ -17,7 +15,7 @@ Template.coursetable.helpers({
     }
   },
   courses() {
-    return getCourseResults(this.parentState);
+    return Template.currentData().courses;
   },
   activeCourse() {
     return Session.get('activeCourse');

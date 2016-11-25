@@ -5,6 +5,7 @@ import { STYLE_MAP } from './parsecourse.js';
 Meteor.methods({
   'studios.info'(courseObj)
   {
+    this.unblock();
     let allInfo = 
     {
       postcodes: [],

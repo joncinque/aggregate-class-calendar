@@ -32,6 +32,8 @@ const getOptionArgs = (doSort)=>
 
 const getSearchArgs = (reactiveDict)=>
 {
+  let e = new Error();
+  console.log(e.stack);
   let argList = [];
 
   // apply date/time filter
@@ -110,12 +112,16 @@ export const getCourseResults = (reactiveDict) =>
 export const initCourseDict = (reactiveDict)=>
 {
   // get whatever is in the 'courses' channel from the server
-  Meteor.subscribe('courses');
-  Meteor.call('courses.names', (err,data) => {
-    reactiveDict.set('names', data);
-  });
-  Meteor.call('courses.teachers', (err,data) => {
-    reactiveDict.set('teachers', data);
+  Meteor.subscribe('courses',{
+    onReady: ()=>{
+      Meteor.call('courses.names', (err,data) => {
+        reactiveDict.set('names', data);
+      });
+      Meteor.call('courses.teachers', (err,data) => {
+        reactiveDict.set('teachers', data);
+      });
+    },
+    onError: ()=>{ console.log('Could not subscribe to courses'); },
   });
   Meteor.call('studios.info', (err,data) => {
     reactiveDict.set('postcodes', data.postcodes);

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { getNewDateFromInput, getNewTimeFromInput, } from './lib/dateutil.js';
 
 import { EMPTY,
+  getCourseResults,
   initCourseDict,
   initFilters,
   maxCoursesReached } from './lib/searchutil.js';
@@ -54,6 +55,9 @@ Template.body.helpers({
       return String(count) + "+";
     }
     return String(count);
+  },
+  courses() {
+    return getCourseResults(Template.instance().state);
   },
   showAlert() {
     const instance = Template.instance();
