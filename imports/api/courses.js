@@ -62,6 +62,7 @@ Meteor.methods({
         teacher: courseObj.teacher,
         room: courseObj.room,
         url: courseObj.url,
+        booking: courseObj.booking,
       }
     });
   },
