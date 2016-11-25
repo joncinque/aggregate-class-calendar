@@ -364,6 +364,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
   }
   dbCourse.studio = localeInfo.name;
   dbCourse.url = localeInfo.url;
+  dbCourse.booking = localeInfo.booking;
   dbCourse.postcode = localeInfo.postcode;
 
   return dbCourse;
