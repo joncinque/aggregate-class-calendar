@@ -3,7 +3,7 @@ import { getLaterDatetime, getNowDatetime } from './dateutil.js';
 import { Courses } from '../../api/courses.js';
 
 const EMPTY = '';
-const COURSE_LIMIT = 1000;
+const COURSE_LIMIT = 500;
 
 const makeRegex = (searchString)=>
 {
