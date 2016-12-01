@@ -18,7 +18,7 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 
 reactive-dict@1.1.8
-accounts-ui@1.1.9
+accounts-ui
 accounts-password
 practicalmeteor:mocha
 shell-server@0.2.1
@@ -27,6 +27,7 @@ meteorhacks:kadira
 iron:router
 accounts-base
 aldeed:collection2
+aldeed:simple-schema
 dburles:collection-helpers
 alanning:roles
 fortawesome:fontawesome
