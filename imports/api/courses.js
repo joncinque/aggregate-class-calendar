@@ -7,6 +7,61 @@ import moment from 'moment';
 
 export const Courses = new Mongo.Collection('courses');
 
+let Schemas = {};
+
+Schemas.Courses = new SimpleSchema({
+  name: {
+    type: String,
+    label: 'Class name',
+    max: 1000
+  },
+  start: {
+    type: Date,
+    label: 'Start datetime',
+  },
+  end: {
+    type: Date,
+    label: 'Start datetime',
+  },
+  studio: {
+    type: String,
+    label: 'Studio',
+    max: 100
+  },
+  style: {
+    type: String,
+    label: 'Style',
+    max: 50
+  },
+  postcode: {
+    type: String,
+    label: 'Postcode',
+    max: 20
+  },
+  teacher: {
+    type: String,
+    label: 'Teacher',
+    max: 100
+  },
+  room: {
+    type: String,
+    label: 'Room',
+    max: 100
+  },
+  url: {
+    type: String,
+    label: 'Studio URL',
+    max: 200
+  },
+  booking: {
+    type: String,
+    label: 'Booking URL',
+    max: 200
+  }
+});
+
+Courses.attachSchema(Schemas.Courses);
+
 function getFilterStartDate()
 {
   return moment().subtract(2, 'weeks').toDate();
