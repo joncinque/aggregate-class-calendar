@@ -14,7 +14,7 @@ import { EMPTY,
 
 import './coursetable.js';
 
-import './body.html';
+import './coursesearch.html';
 
 // not needed, but helps sort out dependencies
 // import '../api/coursescraper.js';
@@ -37,13 +37,13 @@ function setDateFilters(instance, startMoment, endMoment)
   instance.state.set('endFilter', endMoment.toDate());
 }
 
-Template.body.onCreated(function bodyOnCreated() {
+Template.coursesearch.onCreated(function () {
   let dict = new ReactiveDict();
   this.state = dict;
   initCourseDict(dict);
 });
 
-Template.body.helpers({
+Template.coursesearch.helpers({
   state() {
     return Template.instance().state;
   },
@@ -94,7 +94,7 @@ Template.body.helpers({
   },
 });
 
-Template.body.events({
+Template.coursesearch.events({
   'submit .new-task'(event) {
     // See what the event has
     console.log(event);
