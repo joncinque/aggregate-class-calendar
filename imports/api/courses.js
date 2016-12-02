@@ -1,7 +1,6 @@
 // Business logic objects go here
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Match, check } from 'meteor/check';
 
 import moment from 'moment';
 
@@ -21,7 +20,7 @@ Schemas.Courses = new SimpleSchema({
   },
   end: {
     type: Date,
-    label: 'Start datetime',
+    label: 'End datetime',
   },
   studio: {
     type: String,
@@ -41,11 +40,13 @@ Schemas.Courses = new SimpleSchema({
   teacher: {
     type: String,
     label: 'Teacher',
+    optional: true,
     max: 100
   },
   room: {
     type: String,
     label: 'Room',
+    optional: true,
     max: 100
   },
   url: {
@@ -83,14 +84,6 @@ if (Meteor.isServer)
 Meteor.methods({
   'courses.insert'(courseObj)
   {
-    check(courseObj.name, String);
-    check(courseObj.start, Date);
-    check(courseObj.end, Date);
-    check(courseObj.studio, String);
-    check(courseObj.teacher, String);
-    check(courseObj.url, String);
-    check(courseObj.room, Match.Maybe(String));
-
     // Make sure user is logged in
     /*
     if (! this.userId)
@@ -121,8 +114,6 @@ Meteor.methods({
   // Ported from course.js in imports/ui
   'courses.remove'(courseId)
   {
-    check(courseId, String);
-
     const course = Courses.findOne(courseId);
     /*
     if (task.private && task.owner !== this.userId)
@@ -131,21 +122,6 @@ Meteor.methods({
     }
     */
     Courses.remove(courseId);
-  },
-  'courses.update'(courseId, setChecked)
-  {
-    check(courseId, String);
-    check(setChecked, Boolean);
-
-    const course = Courses.findOne(courseId);
-    /*
-    if (task.private && task.owner !== this.userId)
-    {
-      throw new Meteor.Error('not-authorized');
-    }
-    */
-
-    Courses.update(courseId, { $set: { checked: setChecked } });
   },
   'courses.names'()
   {

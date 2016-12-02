@@ -33,8 +33,7 @@ Template.course.helpers({
 Template.course.events({
   'click .toggle-checked'()
   {
-    // Update the checked property
-    //Meteor.call('courses.update', this._id, !this.checked);
+    // Update the checked property locally
   },
   'click .delete'()
   {

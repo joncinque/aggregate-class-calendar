@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
@@ -114,29 +113,6 @@ Template.coursesearch.events({
   },
   'change .show-starred input'(event, instance) {
     instance.state.set('showStarred', event.target.checked);
-  },
-  'click .scrape-all'() {
-    Meteor.call('coursescraper.getAllCourses', (err, data) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-  },
-  'submit .scrape-mbo-page'(event) {
-    // Prevent default browser form submit
-    event.preventDefault();
-    const studioid = Number(event.target.studioid.value);
-    if (studioid !== 0) {
-      Meteor.call('coursescraper.getCourses', studioid, (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          data.forEach(course=>{
-            Meteor.call('courses.insert', courseObj);
-          });
-        }
-      });
-    }
   },
 
   // helper clicks

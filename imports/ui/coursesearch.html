@@ -19,20 +19,8 @@
           {{/if}}
         </div>
         <div id="filterform" class="panel-collapse collapse in">
-          <!-- default login buttons, can be customized -->
-          {{> loginButtons}}
-
-          <!-- builtin function to check if someone is logged in -->
           {{#if currentUser}}
-            <form class="scrape-all">
-              <input type="button" value="Scrape all classes" />
-            </form>
-
-            <form class="scrape-mbo-page">
-              <input type="number" name="studioid" />
-              <input type="submit" value="Scrape classes" />
-            </form>
-
+            <!-- TODO add popup for creating classes -->
             <form class="new-course">
               <input type="text" name="text" placeholder="Type to add new classes" />
             </form>
