@@ -31,3 +31,6 @@ meteorhacks:kadira
 twbs:bootstrap
 fortawesome:fontawesome
 yogiben:admin
+percolate:synced-cron
+shell-server
+votercircle:winston

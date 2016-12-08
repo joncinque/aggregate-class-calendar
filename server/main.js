@@ -15,13 +15,4 @@ Meteor.startup(() => {
   Courses._ensureIndex({ "studio" : 1 });
   Courses._ensureIndex({ "style" : 1 });
   Courses._ensureIndex({ "teacher" : 1 });
-
-  // Add admin user
-  //let id = Accounts.createUser({
-  //  email: "***.******@*****.***",
-  //  password: "********",
-  //  profile: { name: "***" }
-  //});
-
-  //Roles.addUsersToRoles(id, ['admin'], 'default-group');
 });
