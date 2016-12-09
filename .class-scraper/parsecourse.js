@@ -46,9 +46,9 @@ function parseAllChildren(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      console.error('Bad cell without children or data: [');
-      console.error(cell);
-      console.error(']');
+      logger.debug('Bad cell without children or data: [');
+      logger.debug(cell);
+      logger.debug(']');
     }
   }
   else
@@ -78,9 +78,9 @@ function parseFirstChild(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      console.error('Bad cell without children or data: [');
-      console.error(cell);
-      console.error(']');
+      logger.debug('Bad cell without children or data: [');
+      logger.debug(cell);
+      logger.debug(']');
     }
     return;
   }
@@ -162,7 +162,7 @@ function makeColumnMap(headerRow)
       var propName = propNameOfColumnHeader(data);
       if (propName !== undefined && propName !== "")
       {
-        //console.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
+        //logger.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
         map[i] = propName;
       }
     }
@@ -186,15 +186,18 @@ function parseDateFromRow(row)
     {
       const dateElement = firstData.childNodes[DATE_LOCATION].data.trim();
       const parsedDate = moment(dateElement, 'DD MMM YYYY');
+      /*
       if (parsedDate.isValid())
       {
-        //console.trace('Current date: ' + parsedDate.format('DD MMM YYYY'));
+        logger.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
       }
       else
       {
-        //console.error('Problem parsing date from data element in:"' + dateElement + '"');
+        logger.error('Problem parsing date from data element in:"' + dateElement + '"');
       }
+      */
       return parsedDate;
+
     }
   }
 }
@@ -288,7 +291,7 @@ function styleOfName(courseName)
   }
   else
   {
-    //console.log("No match found for course name: " + courseName);
+    logger.debug("No match found for course name: " + courseName);
     return "Other";
   }
 }
@@ -304,7 +307,7 @@ function parseCourseStart(webCourse, currentDate)
   }
   else
   {
-    //console.error('Error parsing time from start time: ' + webCourse['start']);
+    logger.error('Error parsing time from start time: ' + webCourse['start']);
   }
   return courseStart;
 }
@@ -331,7 +334,7 @@ function parseCourseEnd(webCourse, courseStart)
   }
   if (courseEnd.isValid() === false)
   {
-    //console.error('Error parsing end time from duration: ' + webCourse['Duration']);
+    logger.error('Error parsing end time from duration: ' + webCourse['Duration']);
   }
   return courseEnd;
 }
@@ -416,7 +419,7 @@ function checkAllLocalesPresent(courses, studio)
     }
     else
     {
-      console.error('Unknown locale found in course: [' + courseLocale + ']');
+      logger.error('Unknown locale found in course: [' + courseLocale + ']');
     }
   }
 
@@ -426,7 +429,7 @@ function checkAllLocalesPresent(courses, studio)
     if (localePresentMap[locale] === false)
     {
       allPresent = false;
-      console.error('Locale [' + locale + '] has no courses, double-check it');
+      logger.error('Locale [' + locale + '] has no courses, double-check it');
     }
   }
   return allPresent;
@@ -460,7 +463,7 @@ function makeJSONCourses(columnMap, tableRows, studio)
         }
         else
         {
-          //console.trace('No mapping for column: ' + j);
+          //logger.debug('No mapping for column: ' + j);
         }
       }
       if (isCourseValid(webCourse, studio))
@@ -470,15 +473,15 @@ function makeJSONCourses(columnMap, tableRows, studio)
       }
       else
       {
-        //console.error('No valid course found:');
-        //console.error(webCourse);
+        logger.debug('No valid course found:');
+        logger.debug(webCourse);
       }
     }
   }
 
   if (checkAllLocalesPresent(courses, studio) === false)
   {
-    console.error('Issue found with studio ['+studio.studioid+']');
+    logger.error('Issue found with studio ['+studio.studioid+']');
   }
   return courses;
 }
@@ -488,7 +491,7 @@ function parseMBOPage(htmlString, studio, callback)
   const cleanString = cleanupHtml(htmlString);
   if (cleanString === '')
   {
-    console.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
+    logger.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
     if (callback !== undefined)
     {
       return callback([]);
@@ -586,7 +589,7 @@ if (require.main === module)
 
   function loggerCallback(courses)
   {
-    console.log(courses);
+    logger.info(courses);
   }
 
   exports.parsePage(process.argv[2], singleStudioInfo, loggerCallback);
