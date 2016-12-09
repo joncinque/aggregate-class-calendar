@@ -1,8 +1,8 @@
-let fileDebugOptions = {
-  name: 'file.debug',
+let fileInfoOptions = {
+  name: 'file.info',
   filename: 'out.log',
   colorize: true,
-  level : 'debug',
+  level : 'info',
   levels : {debug: 0, info : 1, warn: 2, error: 3},
   colors : {debug: 'blue', info : 'green', warn: 'orange', error: 'red'},
   json: true,
@@ -24,8 +24,8 @@ let fileErrorOptions = {
 
 // Share the same transport(=File) between 2 different files...
 // one for debug & the other file for errors only.
-//logger.addTransport('file', fileDebugOptions);
-//logger.addTransport('file', fileErrorOptions);
+logger.addTransport('file', fileInfoOptions);
+logger.addTransport('file', fileErrorOptions);
 
 let papertrailOptions = {
   host: 'logs5.papertrailapp.com', // Replace with your papertrail app URL

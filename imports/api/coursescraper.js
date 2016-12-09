@@ -7,24 +7,24 @@ import { parsePage } from './parsecourse.js';
 
 function logCourse(course)
 {
-  console.log("{ name: '" + course.name + "'");
-  console.log("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
-  console.log("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
-  console.log("  , room: '" + course.room + "'");
-  console.log("  , studio: '" + course.studio + "'");
-  console.log("  , teacher: '" + course.teacher + "'");
-  console.log("  , url: '" + course.url + "'");
-  console.log("  , locale: '" + course.locale + "'");
-  console.log("  , style: '" + course.style + "'");
-  console.log("  , postcode: '" + course.postcode + "'");
-  console.log("}");
+  logger.info("{ name: '" + course.name + "'");
+  logger.info("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
+  logger.info("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
+  logger.info("  , room: '" + course.room + "'");
+  logger.info("  , studio: '" + course.studio + "'");
+  logger.info("  , teacher: '" + course.teacher + "'");
+  logger.info("  , url: '" + course.url + "'");
+  logger.info("  , locale: '" + course.locale + "'");
+  logger.info("  , style: '" + course.style + "'");
+  logger.info("  , postcode: '" + course.postcode + "'");
+  logger.info("}");
 }
 
 function makeDBCallback(studio)
 {
   return (courses) =>
   {
-    console.log('Finished for studio: ' + studio.name);
+    logger.info('Finished for studio: ' + studio.name);
     courses.forEach(course => {
       course.start = course.start.toDate();
       course.end = course.end.toDate();
@@ -40,7 +40,7 @@ function makeArrayCallback(studio)
 {
   return (courses) =>
   {
-    console.log('Finished for studio: ' + studio.name);
+    logger.info('Finished for studio: ' + studio.name);
     courses.forEach(course => {
       course.start = course.start.toDate();
       course.end = course.end.toDate();
@@ -91,7 +91,7 @@ Meteor.methods({
         }
         else
         {
-          console.log('Cannot process studio without provider: ' + studio);
+          logger.error('Cannot process studio without provider: ' + studio);
         }
       }
       return Promise.all(studioScrapePromises);

@@ -27,4 +27,17 @@ Template.scraper.events({
       });
     }
   },
+  'submit .get-log-file'(event) {
+    event.preventDefault();
+    const logfilename = event.target.logfilename.value;
+    if (logfilename !== "") {
+      Meteor.call('logfile.getlog', logfilename, (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          event.target.logfilecontents.value = data;
+        }
+      });
+    }
+  },
 });
