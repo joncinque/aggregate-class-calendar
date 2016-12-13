@@ -128,7 +128,8 @@ Meteor.methods({
     this.unblock();
     let data = Courses.find({ start: { $gte: getFilterStartDate() } },
                             { sort: { name: 1 }}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.name.toLowerCase().trim();});
+    let distinctData = _.uniq(data, true, 
+        (d)=>{ return (d.name === undefined) ? "" : d.name.toLowerCase().trim(); });
     return _.pluck(distinctData, "name");
   },
   'courses.teachers'()
@@ -136,7 +137,8 @@ Meteor.methods({
     this.unblock();
     let data = Courses.find({ start: { $gte: getFilterStartDate() } },
                             { sort: { teacher: 1 }}).fetch();
-    let distinctData = _.uniq(data, false, function(d) {return d.teacher.toLowerCase().trim();});
+    let distinctData = _.uniq(data, true,
+        (d)=>{ return (d.teacher === undefined) ? "" : d.teacher.toLowerCase().trim(); });
     return _.pluck(distinctData, "teacher");
   },
 });
