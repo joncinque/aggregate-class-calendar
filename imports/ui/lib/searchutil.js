@@ -32,8 +32,6 @@ const getOptionArgs = (doSort)=>
 
 const getSearchArgs = (reactiveDict)=>
 {
-  let e = new Error();
-  console.log(e.stack);
   let argList = [];
 
   // apply date/time filter

@@ -8,7 +8,7 @@ must be created through console and added to the "admin" role.  Currently, this
 only works with one user within 'adminEmails'.
 To add a user during initial setup, use the following command from meteor shell,
 through the shell-server package:
-$ let id = Accouts.createUser({email: "..", password: "..", profile: { name: ".." }});
+$ let id = Accounts.createUser({email: "..", password: "..", profile: { name: ".." }});
 $ Roles.addUsersToRoles(id, ['admin'], 'default-group');
 
 # logger setup, server/logging.js

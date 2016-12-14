@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
+import '/imports/startup/both/accounts-config.js';
+
 // Import ALL files with "Meteor.method" here otherwise it won't be found
 import { Courses } from '../imports/api/courses.js';
-import '../imports/api/coursescraper.js';
-import '../imports/api/logfile.js';
-import '../imports/api/studios.js';
+import '/imports/api/coursescraper.js';
+import '/imports/api/logfile.js';
+import '/imports/api/studios.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
