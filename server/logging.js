@@ -27,6 +27,12 @@ let fileErrorOptions = {
 logger.addTransport('file', fileInfoOptions);
 logger.addTransport('file', fileErrorOptions);
 
+let consoleOptions = {
+  colorize: true,
+  level : 'info',
+};
+logger.addTransport('console', consoleOptions);
+
 let papertrailOptions = {
   host: 'logs5.papertrailapp.com', // Replace with your papertrail app URL
   port: 44279, // Replace with your papertrail app's port number
