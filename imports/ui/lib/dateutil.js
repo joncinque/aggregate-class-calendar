@@ -1,5 +1,11 @@
 import moment from 'moment';
 
+export const getDaysOfWeek = () =>
+{
+  const days = [ 1, 2, 3, 4, 5, 6, 7 ];
+  return days.map(x=>moment().weekday(x).format('ddd'));
+}
+
 export const getNewDateFromInput = (initialDate, inputDate) =>
 {
   return moment(initialDate).set({
@@ -30,4 +36,39 @@ export const getLaterDatetime = ()=>
     'minute': 59,
     'second': 0,
     'millisecond': 0}).toDate();
+}
+
+export const initDayFilter = ()=>
+{
+  const days = getDaysOfWeek();
+  let dayFilter = {};
+  days.forEach(day=>dayFilter[day] = 0);
+  dayFilter[moment().format('ddd')] = true;
+  return dayFilter;
+}
+
+export const getStartOfDay = (day)=>
+{
+  let startOfDay = moment(day, 'ddd').set({
+    'hour': 0,
+    'minute': 0,
+    'second': 0,
+    'millisecond': 0});
+  if (startOfDay.weekday() === 0) {
+    startOfDay.day(7);
+  }
+  return startOfDay;
+}
+
+export const getEndOfDay = (day)=>
+{
+  let endOfDay = moment(day, 'ddd').set({
+    'hour': 23,
+    'minute': 59,
+    'second': 0,
+    'millisecond': 0});
+  if (endOfDay.weekday() === 0) {
+    endOfDay.day(7);
+  }
+  return endOfDay;
 }

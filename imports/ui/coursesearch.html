@@ -27,95 +27,131 @@
           {{/if}}
 
           <form class="form-horizontal">
+
             <div class="panel-group">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#styleform">Style</a>
+                    <a class="accordion-toggle" data-toggle="collapse" href="#styleform">Style{{selectedStyles}}</a>
                   </h4>
                 </div>
                 <div id="styleform" class="panel-body panel-collapse collapse in">
                   <div class="row">
                     {{#each styles}}
-                      <div class="col-sm-2 col-xs-4">
-                        <label class="checkbox-inline">
-                          <input type="checkbox" class="style_filter" value="{{this}}">{{this}}
-                        </label>
-                      </div>
+                      {{> stylecheck val=this }}
                     {{/each}}
                   </div>
                 </div>
               </div>
+
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Area</a>
+                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Area{{selectedPostcodes}}</a>
                   </h4>
                 </div>
                 <div id="postcodeform" class="panel-body panel-collapse collapse in">
                   <div class="row">
                     {{#each postcodes}}
-                      <div class="col-sm-1 col-xs-2">
+                      {{> postcodecheck val=this }}
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" href="#dayform">Day{{selectedDays}}</a>
+                  </h4>
+                </div>
+                <div id="dayform" class="panel-body panel-collapse collapse in">
+                  <div class="row">
+                    {{#each daysofweek}}
+                      {{> daycheck val=this }}
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" href="#timeform">Time</a>
+                  </h4>
+                </div>
+                <div id="timeform" class="panel-body panel-collapse collapse in">
+                  <div class="row">
+                    {{#each timesofday}}
+                      <div class="col-sm-2 col-xs-3">
                         <label class="checkbox-inline">
-                          <input type="checkbox" class="postcode_filter" value="{{this}}">{{this}}
+                          <input type="checkbox" class="timeofday_filter" value="{{this}}">{{this}}
                         </label>
                       </div>
                     {{/each}}
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
-              <div class="col-lg-2 col-sm-3 col-xs-10">
-                <input id="class_filter" type="search" list="classes" class="form-control" placeholder="Enter class" />
-              </div>
-              <datalist id="classes">
-                {{#each names}}
-                  <option>{{this}}</option>
-                {{/each}}
-              </datalist>
-              <label for="teacher_filter" class="col-lg-1 col-sm-1 col-xs-2">Teacher</label>
-              <div class="col-lg-2 col-sm-3 col-xs-10">
-                <input id="teacher_filter" type="search" list="teachers" class="form-control" placeholder="Enter teacher" />
-              </div>
-              <datalist id="teachers">
-                {{#each teachers}}
-                  <option>{{this}}</option>
-                {{/each}}
-              </datalist>
-              <label for="studio_filter" class="col-lg-1 col-sm-1 col-xs-2">Studio</label>
-              <div class="col-lg-2 col-sm-3 col-xs-10">
-                <input id="studio_filter" type="search" list="studios" class="form-control" placeholder="Enter studio" />
-              </div>
-              <datalist id="studios">
-                {{#each studios}}
-                  <option>{{this}}</option>
-                {{/each}}
-              </datalist>
-            </div>
-            <div class="form-group">
-              <label for="startdate_filter" class="col-lg-1 col-sm-1 col-xs-2">From</label>
-              <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
-                <input id="startdate_filter" class="form-control" type="date" required value="{{startdate}}" />
-              </div>
-              <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
-              </div>
-              <label for="enddate_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
-              <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
-                <input id="enddate_filter" class="form-control" type="date" required value="{{enddate}}" />
-              </div>
-              <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
-              </div>
-            </div>
 
-            <div class="btn-group" role="group" aria-label="...">
-              <input type="button" id="filter_now" class="btn btn-default" value="Now" />
-              <input type="button" id="filter_today" class="btn btn-default" value="Today" />
-              <input type="button" id="filter_tomorrow" class="btn btn-default" value="Tomorrow" />
-              <input type="button" id="filter_week" class="btn btn-default" value="Week" />
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" href="#advancedform">Advanced</a>
+                  </h4>
+                </div>
+                <div id="advancedform" class="panel-body panel-collapse collapse">
+                  <!-- Begin Text Filters -->
+                  <div class="form-group row">
+                    <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-10">
+                      <input id="class_filter" type="search" list="classes" class="form-control" placeholder="Enter class" />
+                    </div>
+                    <datalist id="classes">
+                      {{#each names}}
+                        <option>{{this}}</option>
+                      {{/each}}
+                    </datalist>
+                    <label for="teacher_filter" class="col-lg-1 col-sm-1 col-xs-2">Teacher</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-10">
+                      <input id="teacher_filter" type="search" list="teachers" class="form-control" placeholder="Enter teacher" />
+                    </div>
+                    <datalist id="teachers">
+                      {{#each teachers}}
+                        <option>{{this}}</option>
+                      {{/each}}
+                    </datalist>
+                    <label for="studio_filter" class="col-lg-1 col-sm-1 col-xs-2">Studio</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-10">
+                      <input id="studio_filter" type="search" list="studios" class="form-control" placeholder="Enter studio" />
+                    </div>
+                    <datalist id="studios">
+                      {{#each studios}}
+                        <option>{{this}}</option>
+                      {{/each}}
+                    </datalist>
+                  </div>
+                  <!-- End Text Filters -->
+
+                  <!-- Begin Date Filters -->
+                  <div class="form-group row">
+                    <label for="startdate_filter" class="col-lg-1 col-sm-1 col-xs-2">From</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
+                      <input id="startdate_filter" class="form-control" type="date" required value="{{startdate}}" />
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                      <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
+                    </div>
+                    <label for="enddate_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
+                      <input id="enddate_filter" class="form-control" type="date" required value="{{enddate}}" />
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                      <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
+                    </div>
+                  </div>
+                  <!-- End Date Filters -->
+                </div>
+              </div>
             </div>
 
             <input type="button" id="filter_reset" class="btn btn-default" value="Reset all" />
@@ -125,5 +161,29 @@
     </div>
 
     {{> coursetable courses=courses }}
+  </div>
+</template>
+
+<template name="daycheck">
+  <div class="col-sm-1 col-xs-3">
+    <label class="checkbox-inline">
+      <input type="checkbox" class="dayofweek_filter" value="{{val}}" checked={{isDayChecked val}}>{{val}}
+    </label>
+  </div>
+</template>
+
+<template name="postcodecheck">
+  <div class="col-sm-1 col-xs-3">
+    <label class="checkbox-inline">
+      <input type="checkbox" class="postcode_filter" value="{{val}}">{{val}}
+    </label>
+  </div>
+</template>
+
+<template name="stylecheck">
+  <div class="col-sm-2 col-xs-6">
+    <label class="checkbox-inline">
+      <input type="checkbox" class="style_filter" value="{{val}}">{{val}}
+    </label>
   </div>
 </template>

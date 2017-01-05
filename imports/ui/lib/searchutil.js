@@ -1,4 +1,9 @@
-import { getLaterDatetime, getNowDatetime } from './dateutil.js';
+import { getLaterDatetime,
+  getNowDatetime,
+  getDaysOfWeek,
+  getStartOfDay,
+  getEndOfDay,
+  initDayFilter } from './dateutil.js';
 
 import { Courses } from '../../api/courses.js';
 
@@ -9,6 +14,12 @@ const makeRegex = (searchString)=>
 {
   return new RegExp(searchString, 'i');
 }
+
+export const getTimesOfDay = ()=>
+{
+  return ['Morning', 'Midday', 'Evening'];
+}
+
 
 export const maxCoursesReached = (reactiveDict)=>
 {
@@ -35,14 +46,34 @@ const getSearchArgs = (reactiveDict)=>
   let argList = [];
 
   // apply date/time filter
-  let startFilter = reactiveDict.get('startFilter');
-  let endFilter = reactiveDict.get('endFilter');
+  const startFilter = reactiveDict.get('startFilter');
+  const endFilter = reactiveDict.get('endFilter');
   console.log('Start: ' + startFilter + ' End: ' + endFilter);
-  argList.push({ start: { $gte: startFilter } });
-  argList.push({ start: { $lte: endFilter } });
+  //argList.push({ start: { $gte: startFilter } });
+  //argList.push({ start: { $lte: endFilter } });
+
+  // apply day filter
+  let dayList = [];
+  const dayFilter = reactiveDict.get('dayFilter'); 
+  for (let key in dayFilter) {
+    if (dayFilter[key] === true) {
+      dayList.push({ $and: [ 
+        { start: { $gte: getStartOfDay(key).toDate() } },
+        { start: { $lte: getEndOfDay(key).toDate() } }
+      ]});
+      console.log('Key: ' + key + 
+          ' Start: ' + getStartOfDay(key).toDate() +
+          ' End: ' + getEndOfDay(key).toDate());
+    }
+  }
+  if (dayList.length === 0) {
+    argList.push({ _id: -1 });
+  } else {
+    argList.push({ $or: dayList });
+  }
 
   // apply class filter
-  let classFilter = reactiveDict.get('classFilter');
+  const classFilter = reactiveDict.get('classFilter');
   if (classFilter !== EMPTY)
   {
     console.log('Class filter: ' + classFilter);
@@ -50,7 +81,7 @@ const getSearchArgs = (reactiveDict)=>
   }
 
   // apply teacher filter
-  let teacherFilter = reactiveDict.get('teacherFilter');
+  const teacherFilter = reactiveDict.get('teacherFilter');
   if (teacherFilter !== EMPTY)
   {
     console.log('Teacher filter: ' + teacherFilter);
@@ -89,6 +120,7 @@ export const initFilters = (reactiveDict)=>
 {
   reactiveDict.set('styleFilter', []);
   reactiveDict.set('postcodeFilter', []);
+  reactiveDict.set('dayFilter', initDayFilter());
 
   reactiveDict.set('classFilter', EMPTY);
   reactiveDict.set('teacherFilter', EMPTY);
@@ -126,6 +158,4 @@ export const initCourseDict = (reactiveDict)=>
     reactiveDict.set('studios', data.names);
     reactiveDict.set('styles', data.styles);
   });
-
-  initFilters(reactiveDict);
 }

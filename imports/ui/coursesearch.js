@@ -3,10 +3,13 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import moment from 'moment';
 
-import { getNewDateFromInput, getNewTimeFromInput, } from './lib/dateutil.js';
+import { getNewDateFromInput,
+  getNewTimeFromInput,
+  getDaysOfWeek } from './lib/dateutil.js';
 
 import { EMPTY,
   getCourseResults,
+  getTimesOfDay,
   initCourseDict,
   initFilters,
   maxCoursesReached } from './lib/searchutil.js';
@@ -19,27 +22,20 @@ import './coursesearch.html';
 // import '../api/coursescraper.js';
 // import '../api/studios.js';
 
-function setDateFilters(instance, startMoment, endMoment)
+function resetAllCheckBoxes(checkboxes)
 {
-  let startdateFilter = document.getElementById("startdate_filter");
-  let enddateFilter = document.getElementById("enddate_filter");
-  let starttimeFilter = document.getElementById("starttime_filter");
-  let endtimeFilter = document.getElementById("endtime_filter");
-
-  startdateFilter.value = startMoment.format('YYYY-MM-DD');
-  enddateFilter.value = endMoment.format('YYYY-MM-DD');
-
-  starttimeFilter = startMoment.format('HH:mm');
-  endtimeFilter = endMoment.format('HH:mm');
-
-  instance.state.set('startFilter', startMoment.toDate());
-  instance.state.set('endFilter', endMoment.toDate());
+  // no "forEach" method exists on NodeList yet
+  for (let i = 0; i < checkboxes.length; ++i)
+  {
+    checkboxes[i].checked = false;
+  }
 }
 
 Template.coursesearch.onCreated(function () {
   let dict = new ReactiveDict();
   this.state = dict;
   initCourseDict(dict);
+  initFilters(dict);
 });
 
 Template.coursesearch.helpers({
@@ -63,6 +59,12 @@ Template.coursesearch.helpers({
     return maxCoursesReached(instance.state);
   },
   // drop-downs for filter
+  daysofweek() {
+    return getDaysOfWeek();
+  },
+  timesofday() {
+    return getTimesOfDay();
+  },
   names() {
     return Template.instance().state.get('names');
   },
@@ -70,13 +72,45 @@ Template.coursesearch.helpers({
     return Template.instance().state.get('postcodes');
   },
   studios() {
-    return Template.instance().state.get('studios');;
+    return Template.instance().state.get('studios');
   },
   styles() {
-    return Template.instance().state.get('styles');;
+    return Template.instance().state.get('styles');
   },
   teachers() {
-    return Template.instance().state.get('teachers');;
+    return Template.instance().state.get('teachers');
+  },
+  // For the titles
+  selectedDays() {
+    let dayString = '';
+    const dayFilter = Template.instance().state.get('dayFilter');
+    for (let dayName in dayFilter) {
+      if (dayFilter[dayName] === true) {
+        if (dayString === '') {
+          dayString += ' - ';
+        } else {
+          dayString += ', ';
+        }
+        dayString += dayName;
+      }
+    }
+    return dayString;
+  },
+  selectedPostcodes() {
+    let postcodes = Template.instance().state.get('postcodeFilter').slice(0);
+    let postcodeString = postcodes.sort().join(', ');
+    if (postcodeString !== '') {
+      return ' - ' + postcodeString;
+    }
+    return postcodeString;
+  },
+  selectedStyles() {
+    let styles = Template.instance().state.get('styleFilter').slice(0);
+    let styleString = styles.sort().join(', ');
+    if (styleString !== '') {
+      return ' - ' + styleString;
+    }
+    return styleString;
   },
   // defaults for date entries
   startdate() {
@@ -90,6 +124,12 @@ Template.coursesearch.helpers({
   },
   endtime() {
     return moment(Template.instance().state.get('endFilter')).format('HH:mm');
+  },
+});
+
+Template.daycheck.helpers({
+  isDayChecked(dayname) {
+    return dayname === moment().format('ddd');
   },
 });
 
@@ -116,65 +156,13 @@ Template.coursesearch.events({
   },
 
   // helper clicks
-  'click #filter_now'(event, instance) {
-    let todayStart = moment().set({ 'second': 0,
-      'millisecond': 0});
-    let todayEnd = moment().set({'hour': 23,
-      'minute': 59,
-      'second': 0,
-      'millisecond': 0});
-    setDateFilters(instance, todayStart, todayEnd);
-  },
-  'click #filter_today'(event, instance) {
-    let todayStart = moment().set({'hour': 0,
-      'minute': 0,
-      'second': 0,
-      'millisecond': 0});
-    let todayEnd = moment().set({'hour': 23,
-      'minute': 59,
-      'second': 0,
-      'millisecond': 0});
-    setDateFilters(instance, todayStart, todayEnd);
-  },
-  'click #filter_tomorrow'(event, instance) {
-    let tomorrowStart = moment().set({'hour': 0,
-      'minute': 0,
-      'second': 0,
-      'millisecond': 0});
-    tomorrowStart.add(1, 'days');
-    let tomorrowEnd = moment().set({'hour': 23,
-      'minute': 59,
-      'second': 0,
-      'millisecond': 0});
-    tomorrowEnd.add(1, 'days');
-    setDateFilters(instance, tomorrowStart, tomorrowEnd);
-  },
-  'click #filter_week'(event, instance) {
-    let weekStart = moment().set({'weekday': 0,
-      'hour': 0,
-      'minute': 0,
-      'second': 0,
-      'millisecond': 0});
-    let weekEnd = moment().set({'weekday': 6,
-      'hour': 23,
-      'minute': 59,
-      'second': 0,
-      'millisecond': 0});
-    setDateFilters(instance, weekStart, weekEnd);
-  },
-
   'click #filter_reset'(event, instance) {
     let styleFilters = document.getElementsByClassName("style_filter");
+    resetAllCheckBoxes(styleFilters);
     let postcodeFilters = document.getElementsByClassName("postcode_filter");
-    // no "forEach" method exists on NodeList yet
-    for (let i = 0; i < styleFilters.length; ++i)
-    {
-      styleFilters[i].checked = false;
-    }
-    for (let i = 0; i < postcodeFilters.length; ++i)
-    {
-      postcodeFilters[i].checked = false;
-    }
+    resetAllCheckBoxes(postcodeFilters);
+    let dayFilters = document.getElementsByClassName("dayofweek_filter");
+    resetAllCheckBoxes(dayFilters);
 
     let classFilter = document.getElementById("class_filter");
     let teacherFilter = document.getElementById("teacher_filter");
@@ -219,6 +207,11 @@ Template.coursesearch.events({
       }
     }
     instance.state.set('postcodeFilter', postcodeFilter);
+  },
+  'click .dayofweek_filter'(event, instance) {
+    let dayFilter = instance.state.get('dayFilter');
+    dayFilter[event.target.value] = event.target.checked;
+    instance.state.set('dayFilter', dayFilter);
   },
   'blur #class_filter'(event, instance) {
     instance.state.set('classFilter', event.target.value);
