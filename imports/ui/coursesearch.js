@@ -3,8 +3,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import moment from 'moment';
 
-import { getNewDateFromInput,
-  getNewTimeFromInput,
+import { getNewTimeFromInput,
   getDaysOfWeek } from './lib/dateutil.js';
 
 import { EMPTY,
@@ -112,15 +111,9 @@ Template.coursesearch.helpers({
     }
     return styleString;
   },
-  // defaults for date entries
-  startdate() {
-    return moment(Template.instance().state.get('startFilter')).format('YYYY-MM-DD');
-  },
+  // defaults for time entries
   starttime() {
     return moment(Template.instance().state.get('startFilter')).format('HH:mm');
-  },
-  enddate() {
-    return moment(Template.instance().state.get('endFilter')).format('YYYY-MM-DD');
   },
   endtime() {
     return moment(Template.instance().state.get('endFilter')).format('HH:mm');
@@ -237,23 +230,11 @@ Template.coursesearch.events({
       instance.state.set('studioFilter', event.target.value);
     }
   },
-  'blur #startdate_filter'(event, instance) {
-    let startDate = instance.state.get('startFilter');
-    instance.state.set(
-        'startFilter', 
-        getNewDateFromInput(startDate, event.target.valueAsDate));
-  },
   'blur #starttime_filter'(event, instance) {
     let startDate = instance.state.get('startFilter');
     instance.state.set(
         'startFilter',
         getNewTimeFromInput(startDate, event.target.value));
-  },
-  'blur #enddate_filter'(event, instance) {
-    let endDate = instance.state.get('endFilter');
-    instance.state.set(
-        'endFilter',
-        getNewDateFromInput(endDate, event.target.valueAsDate));
   },
   'blur #endtime_filter'(event, instance) {
     let endDate = instance.state.get('endFilter');

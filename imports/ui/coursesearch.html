@@ -82,14 +82,25 @@
                 </div>
                 <div id="timeform" class="panel-body panel-collapse collapse in">
                   <div class="row">
-                    {{#each timesofday}}
-                      <div class="col-sm-2 col-xs-3">
-                        <label class="checkbox-inline">
-                          <input type="checkbox" class="timeofday_filter" value="{{this}}">{{this}}
-                        </label>
-                      </div>
-                    {{/each}}
+                    <label for="timeofday_filter" class="col-sm-1 col-xs-2">Shortcut</label>
+                    <div class="btn-group">
+                      {{#each timesofday}}
+                        {{> timeofdaybtn val=this }}
+                      {{/each}}
+                    </div>
                   </div>
+                  <!-- Begin Time Filters -->
+                  <div class="row top-buffer">
+                    <label for="starttime_filter" class="col-sm-1 col-xs-2">From</label>
+                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                      <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
+                    </div>
+                    <label for="endtime_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
+                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
+                      <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
+                    </div>
+                  </div>
+                  <!-- End Time Filters -->
                 </div>
               </div>
 
@@ -132,24 +143,6 @@
                   </div>
                   <!-- End Text Filters -->
 
-                  <!-- Begin Date Filters -->
-                  <div class="form-group row">
-                    <label for="startdate_filter" class="col-lg-1 col-sm-1 col-xs-2">From</label>
-                    <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
-                      <input id="startdate_filter" class="form-control" type="date" required value="{{startdate}}" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                      <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
-                    </div>
-                    <label for="enddate_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
-                    <div class="col-lg-2 col-sm-3 col-xs-6 no-right-padding">
-                      <input id="enddate_filter" class="form-control" type="date" required value="{{enddate}}" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                      <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
-                    </div>
-                  </div>
-                  <!-- End Date Filters -->
                 </div>
               </div>
             </div>
@@ -186,4 +179,8 @@
       <input type="checkbox" class="style_filter" value="{{val}}">{{val}}
     </label>
   </div>
+</template>
+
+<template name="timeofdaybtn">
+  <input type="button" class="timeofday_filter btn btn-default" value="{{val}}" />
 </template>

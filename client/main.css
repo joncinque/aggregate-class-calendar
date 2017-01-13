@@ -122,6 +122,10 @@ header .show-starred {
 .no-right-padding {
   padding-right: 0 !important;
 }
+
+.top-buffer {
+  margin-top: 10px;
+}
  
 @media (max-width: @screen-xs-max) {
   header {

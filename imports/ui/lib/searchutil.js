@@ -1,9 +1,8 @@
 import { getLaterDatetime,
   getNowDatetime,
   getDaysOfWeek,
-  getStartOfDay,
-  getEndOfDay,
-  initDayFilter } from './dateutil.js';
+  initDayFilter,
+  makeDatetime } from './dateutil.js';
 
 import { Courses } from '../../api/courses.js';
 
@@ -45,12 +44,10 @@ const getSearchArgs = (reactiveDict)=>
 {
   let argList = [];
 
-  // apply date/time filter
+  // get time filters
   const startFilter = reactiveDict.get('startFilter');
   const endFilter = reactiveDict.get('endFilter');
   console.log('Start: ' + startFilter + ' End: ' + endFilter);
-  //argList.push({ start: { $gte: startFilter } });
-  //argList.push({ start: { $lte: endFilter } });
 
   // apply day filter
   let dayList = [];
@@ -58,12 +55,12 @@ const getSearchArgs = (reactiveDict)=>
   for (let key in dayFilter) {
     if (dayFilter[key] === true) {
       dayList.push({ $and: [ 
-        { start: { $gte: getStartOfDay(key).toDate() } },
-        { start: { $lte: getEndOfDay(key).toDate() } }
+        { start: { $gte: makeDatetime(key, startFilter).toDate() } },
+        { start: { $lte: makeDatetime(key, endFilter).toDate() } }
       ]});
       console.log('Key: ' + key + 
-          ' Start: ' + getStartOfDay(key).toDate() +
-          ' End: ' + getEndOfDay(key).toDate());
+          ' Start: ' + makeDatetime(key, startFilter).toDate() +
+          ' End: ' + makeDatetime(key, endFilter).toDate());
     }
   }
   if (dayList.length === 0) {
