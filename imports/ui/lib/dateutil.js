@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+const getWeekdayOfDayName = (dayName) =>
+{
+}
+
 export const getDaysOfWeek = () =>
 {
   const days = [ 1, 2, 3, 4, 5, 6, 7 ];
@@ -49,12 +53,12 @@ export const initDayFilter = ()=>
 
 export const makeDatetime = (day, timeObj)=>
 {
-  let madeDatetime = moment(day, 'ddd').set({
+  let madeDatetime = moment().set({
+    'isoWeekday': moment(day, 'ddd').isoWeekday(), // tricky...
     'hour': timeObj.getHours(),
     'minute': timeObj.getMinutes(),
     'second': 0,
     'millisecond': 0});
-  madeDatetime.add(7, 'day'); // advance a week by hand for some reason
   return madeDatetime;
 }
 
