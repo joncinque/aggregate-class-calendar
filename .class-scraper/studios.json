@@ -58,6 +58,13 @@
         "url": "http://www.3tribes.co.uk/",
         "booking": "https://clients.mindbodyonline.com/classic/home?studioid=36253",
         "postcode": "N"
+      },
+      "Muswell Hill":
+      {
+        "name": "Yogacentric: Muswell Hill",
+        "url": "http://www.yogacentric.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=36253",
+        "postcode": "N"
       }
     }
   },
@@ -183,6 +190,19 @@
     }
   },
   {
+    "name": "Fold Yoga London",
+    "provider": "MBO",
+    "studioid": 778930,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Fold Yoga London",
+      "url": "http://www.fold-london.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=778930",
+      "postcode": "N"
+    }
+  },
+  {
     "name": "Garuda Yoga and Pilates",
     "provider": "MBO",
     "studioid": 24230,
@@ -232,16 +252,16 @@
     }
   },
   {
-    "name": "I Am Yoga",
+    "name": "The House of Yoga",
     "provider": "MBO",
-    "studioid": 217848,
+    "studioid": 26980,
     "redirectPage":  "",
-    "locale": 
+    "locale":
     {
-      "name": "I Am Yoga",
-      "url": "http://iamyogalondon.com/",
-      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=217848",
-      "postcode": "W"
+      "name": "The House of Yoga",
+      "url": "https://thehouseofyoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=26980",
+      "postcode": "SW"
     }
   },
   {
@@ -344,6 +364,19 @@
         "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
         "postcode": "EC"
       }
+    }
+  },
+  {
+    "name": "One Yoga London",
+    "provider": "MBO",
+    "studioid": 260779,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "One Yoga London",
+      "url": "https://www.oneyogalondon.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=260779",
+      "postcode": "N"
     }
   },
   {
@@ -534,6 +567,32 @@
     }
   },
   {
+    "name": "Yogarise Peckham",
+    "provider": "MBO",
+    "studioid": 138949,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "Yogarise Peckham",
+      "url": "http://www.yogarise.london/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=138949",
+      "postcode": "SE"
+    }
+  },
+  {
+    "name": "Yoga Creation",
+    "provider": "MBO",
+    "studioid": 93888,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Yoga Creation",
+      "url": "http://www.yogacreation.co.uk",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=93888",
+      "postcode": "E"
+    }
+  },
+  {
     "name": "The Yoga Edge",
     "provider": "MBO",
     "studioid": 49898,
@@ -557,19 +616,6 @@
       "url": "http://www.yogaonthelane.com/",
       "booking": "https://clients.mindbodyonline.com/classic/home?studioid=94169",
       "postcode": "E"
-    }
-  },
-  {
-    "name": "Yogarise Peckham",
-    "provider": "MBO",
-    "studioid": 138949,
-    "redirectPage":  "",
-    "locale": 
-    {
-      "name": "Yogarise Peckham",
-      "url": "http://www.yogarise.london/",
-      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=138949",
-      "postcode": "SE"
     }
   },
   {
