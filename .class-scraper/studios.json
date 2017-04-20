@@ -69,6 +69,19 @@
     }
   },
   {
+    "name": "Chroma Yoga",
+    "provider": "MBO",
+    "studioid": 793358,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Chroma Yoga",
+      "url": "http://www.chromayoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=793358",
+      "postcode": "EC"
+    }
+  },
+  {
     "name": "Down to Earth",
     "provider": "MBO",
     "studioid": 179970,
@@ -563,6 +576,19 @@
       "name": "Yogahome",
       "url": "http://yogahome.com/",
       "booking": "https://clients.mindbodyonline.com/classic/home?studioid=29783",
+      "postcode": "N"
+    }
+  },
+  {
+    "name": "Yogalogy",
+    "provider": "MBO",
+    "studioid": 231109,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Yogalogy",
+      "url": "http://www.yogalogy.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=231109",
       "postcode": "N"
     }
   },
