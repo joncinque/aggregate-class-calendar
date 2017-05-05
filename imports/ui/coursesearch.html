@@ -2,14 +2,19 @@
   <div class="container">
     <div class="panel-group">
       <header>
+        <div class="panel-heading main-title">
+          <h1>Yogi's Choice</h1>
+        </div>
         <div class="panel-heading">
-          <h1 class="panel-title">
+          <h1 class="panel-title main-accordion">
             <a class="accordion-toggle" data-toggle="collapse" href="#filterform">Matching Classes - {{availableCount}}</a>
           </h1>
 
+          <!--
           <label class="show-starred">
             <input type="checkbox" />Show checked classes
           </label>
+          -->
 
           {{#if showAlert}}
             <div class="alert alert-warning alert-dismissible" role="alert">
@@ -19,12 +24,13 @@
           {{/if}}
         </div>
         <div id="filterform" class="panel-collapse collapse in">
+          <!-- TODO add popup for creating classes
           {{#if currentUser}}
-            <!-- TODO add popup for creating classes -->
             <form class="new-course">
               <input type="text" name="text" placeholder="Type to add new classes" />
             </form>
           {{/if}}
+          -->
 
           <form class="form-horizontal">
 
@@ -82,22 +88,19 @@
                 </div>
                 <div id="timeform" class="panel-body panel-collapse collapse in">
                   <div class="row">
-                    <label for="timeofday_filter" class="col-sm-1 col-xs-2"></label>
-                    <div class="btn-group">
+                  <!-- Begin Time Filters -->
+                    <label for="starttime_filter" class="col-xs-2 col-md-1">From</label>
+                    <div class="col-sm-2 col-xs-4 no-left-padding">
+                      <input id="starttime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{starttime}}" />
+                    </div>
+                    <label for="endtime_filter" class="col-xs-2 col-md-1">To</label>
+                    <div class="col-sm-2 col-xs-4 no-left-padding">
+                      <input id="endtime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{endtime}}" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 btn-group">
                       {{#each timesofday}}
                         {{> timeofdaybtn val=this }}
                       {{/each}}
-                    </div>
-                  </div>
-                  <!-- Begin Time Filters -->
-                  <div class="row top-buffer">
-                    <label for="starttime_filter" class="col-sm-1 col-xs-2">From</label>
-                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                      <input id="starttime_filter" class="form-control" type="time" required value="{{starttime}}" />
-                    </div>
-                    <label for="endtime_filter" class="col-lg-1 col-sm-1 col-xs-2">To</label>
-                    <div class="col-lg-2 col-sm-2 col-xs-4 no-left-padding">
-                      <input id="endtime_filter" class="form-control" type="time" required value="{{endtime}}" />
                     </div>
                   </div>
                   <!-- End Time Filters -->

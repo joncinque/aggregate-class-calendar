@@ -10,6 +10,31 @@ export const getDaysOfWeek = () =>
   return days.map(x=>moment().weekday(x).format('ddd'));
 }
 
+export const getTimesOfDay = ()=>
+{
+  return ['Morning', 'Midday', 'Evening'];
+}
+
+export const getStartForTimeOfDay = (tod)=>
+{
+  switch (tod)
+  {
+    case 'Morning': return '00:00';
+    case 'Midday': return '10:00';
+    case 'Evening': return '16:00';
+  }
+}
+
+export const getEndForTimeOfDay = (tod)=>
+{
+  switch (tod)
+  {
+    case 'Morning': return '10:00';
+    case 'Midday': return '16:00';
+    case 'Evening': return '23:59';
+  }
+}
+
 export const getNewDateFromInput = (initialDate, inputDate) =>
 {
   return moment(initialDate).set({

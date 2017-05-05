@@ -14,12 +14,6 @@ const makeRegex = (searchString)=>
   return new RegExp(searchString, 'i');
 }
 
-export const getTimesOfDay = ()=>
-{
-  return ['Morning', 'Midday', 'Evening'];
-}
-
-
 export const maxCoursesReached = (reactiveDict)=>
 {
   let count = reactiveDict.get('availableCount');

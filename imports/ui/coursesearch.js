@@ -4,11 +4,13 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import moment from 'moment';
 
 import { getNewTimeFromInput,
-  getDaysOfWeek } from './lib/dateutil.js';
+  getDaysOfWeek,
+  getTimesOfDay,
+  getStartForTimeOfDay,
+  getEndForTimeOfDay } from './lib/dateutil.js';
 
 import { EMPTY,
   getCourseResults,
-  getTimesOfDay,
   initCourseDict,
   initFilters,
   maxCoursesReached } from './lib/searchutil.js';
@@ -241,5 +243,17 @@ Template.coursesearch.events({
     instance.state.set(
         'endFilter',
         getNewTimeFromInput(endDate, event.target.value));
+  },
+  'click .timeofday_filter'(event, instance) {
+    const startTime = getStartForTimeOfDay(event.target.value);
+    let startDate = instance.state.get('startFilter');
+    instance.state.set(
+        'startFilter',
+        getNewTimeFromInput(startDate, startTime));
+    const endTime = getEndForTimeOfDay(event.target.value);
+    let endDate = instance.state.get('endFilter');
+    instance.state.set(
+        'endFilter',
+        getNewTimeFromInput(endDate, endTime));
   },
 });
