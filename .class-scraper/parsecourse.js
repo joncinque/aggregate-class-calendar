@@ -512,12 +512,9 @@ function parseMBOPage(htmlString, studio, callback)
   const courses = makeJSONCourses(columnMap, tableRows, studio);
   if (callback !== undefined)
   {
-    return callback(courses);
+    callback(courses);
   }
-  else
-  {
-    return courses;
-  }
+  return courses;
 }
 
 exports.parsePage = (path, studio, callback) =>
