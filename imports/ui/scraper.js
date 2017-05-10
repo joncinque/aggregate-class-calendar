@@ -11,6 +11,13 @@ Template.scraper.events({
       }
     });
   },
+  'click .scrape-all-sync'() {
+    Meteor.call('coursescraper.getAllCoursesSync', (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  },
   'submit .scrape-mbo-page'(event) {
     // Prevent default browser form submit
     event.preventDefault();
@@ -20,9 +27,7 @@ Template.scraper.events({
         if (err) {
           console.log(err);
         } else {
-          data.forEach(course=>{
-            Meteor.call('courses.insert', courseObj);
-          });
+          console.log('Finished single scrape');
         }
       });
     }
