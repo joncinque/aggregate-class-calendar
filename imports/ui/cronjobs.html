@@ -1,0 +1,18 @@
+<template name="cronjobs">
+  <div class="container">
+    <div class="row">
+      <label for="cronname" class="col-xs-2">Job name</label>
+      <!--<label id="cronname" class="col-xs-10">{{cronname}}</label> -->
+    </div>
+    <div class="row">
+      <label for="crontime" class="col-xs-2">Next run</label>
+      <!--<label id="crontime" class="col-xs-10">{{crontime}}</label> -->
+    </div>
+    <form class="cronpause">
+      <input type="button" value="Pause job" />
+    </form>
+    <form class="cronstart">
+      <input type="button" value="Start job" />
+    </form>
+  </div>
+</template>

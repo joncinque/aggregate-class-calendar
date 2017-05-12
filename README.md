@@ -15,10 +15,7 @@ $ Roles.addUsersToRoles(id, ['admin'], 'default-group');
 This app uses winston through votercircle:winston and a papertrail config. See
 https://papertrailapp.com/systems/setup for setup instructions on a machine to 
 send logs to their severs.  See the logs at https://papertrailapp.com/dashboard
-
-# kadira setup, server/kadira.js
-Kadira is used for monitoring speed and usage of different meteor methods and
-database queries. Check https://ui.kadira.io/ for the dashboard.
+The file logging.js adds the transport as necessary to Papertrail.
 
 # cron job
 Uses percolate:synced-cron to fetch yoga classes on a fixed schedule of once 
