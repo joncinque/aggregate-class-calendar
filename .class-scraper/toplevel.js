@@ -11,24 +11,24 @@ const logger = require('./logger');
 
 function logCourse(course)
 {
-  console.log("{ name: '" + course.name + "'");
-  console.log("  , style: '" + course.style + "'");
-  console.log("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
-  console.log("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
-  console.log("  , room: '" + course.room + "'");
-  console.log("  , studio: '" + course.studio + "'");
-  console.log("  , teacher: '" + course.teacher + "'");
-  console.log("  , url: '" + course.url + "'");
-  console.log("  , locale: '" + course.locale + "'");
-  console.log("  , postcode: '" + course.postcode + "'");
-  console.log("}");
+  logger.log("{ name: '" + course.name + "'");
+  logger.log("  , style: '" + course.style + "'");
+  logger.log("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
+  logger.log("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
+  logger.log("  , room: '" + course.room + "'");
+  logger.log("  , studio: '" + course.studio + "'");
+  logger.log("  , teacher: '" + course.teacher + "'");
+  logger.log("  , url: '" + course.url + "'");
+  logger.log("  , locale: '" + course.locale + "'");
+  logger.log("  , postcode: '" + course.postcode + "'");
+  logger.log("}");
 }
 
 function makeDBCallback(studio)
 {
   return function(courses)
   {
-    console.log('Finished for studio: ' + studio.name);
+    logger.log('Finished for studio: ' + studio.name);
     courses.forEach(logCourse);
   }
 }
@@ -37,7 +37,7 @@ function makeArrayCallback(studio)
 {
   return function(courses)
   {
-    console.log('Finished for studio: ' + studio.name);
+    logger.log('Finished for studio: ' + studio.name);
     courses.forEach(course => {
       course.start = course.start.toDate();
       course.end = course.end.toDate();
@@ -96,7 +96,7 @@ function getAllCourses(studioFile)
       });
     } else {
       ee.emit('finish-all-scraping');
-      console.log('Scraping complete');
+      logger.log('Scraping complete');
     }
   });
   ee.emit('finish-studio', 0);
