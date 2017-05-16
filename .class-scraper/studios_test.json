@@ -10,5 +10,38 @@
       "url": "http://bluecowyoga.com/",
       "postcode": "EC"
     }
+  },
+  {
+    "name": "Triyoga",
+    "provider": "MBO",
+    "studioid": 1991,
+    "redirectPage":  "",
+    "locales": 
+    {
+      "Soho":
+      {
+        "name": "Triyoga Soho",
+        "url": "http://www.triyoga.co.uk/",
+        "postcode": "W"
+      },
+      "Camden":
+      {
+        "name": "Triyoga Camden",
+        "url": "http://www.triyoga.co.uk/",
+        "postcode": "NW"
+      },
+      "Covent Garden":
+      {
+        "name": "Triyoga Covent Garden",
+        "url": "http://www.triyoga.co.uk/",
+        "postcode": "WC"
+      },
+      "Chelsea":
+      {
+        "name": "Triyoga Chelsea",
+        "url": "http://www.triyoga.co.uk/",
+        "postcode": "SW"
+      }
+    }
   }
 ]

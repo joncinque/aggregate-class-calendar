@@ -1,6 +1,9 @@
-var fs = require('fs');
-var moment = require('moment');
-var xmldom = require('xmldom');
+'use strict';
+
+const fs = require('fs');
+const moment = require('moment');
+const xmldom = require('xmldom');
+const winston = require('winston');
 
 const PARSER_FUNCTIONS = 
 {
@@ -33,7 +36,7 @@ function makeParseAllChildrenFunction(recurseLevel, verbose)
 
 function parseAllChildren(cell, recurseLevel, verbose)
 {
-  var parsedString = "";
+  let parsedString = "";
   if (cell.data !== null &&
       cell.data !== undefined)
   {
@@ -46,16 +49,16 @@ function parseAllChildren(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      logger.debug('Bad cell without children or data: [');
-      logger.debug(cell);
-      logger.debug(']');
+      winston.debug('Bad cell without children or data: [');
+      winston.debug(cell);
+      winston.debug(']');
     }
   }
   else
   {
     if (recurseLevel > 0)
     {
-      for (var i = 0; i < cell.childNodes.length; ++i)
+      for (let i = 0; i < cell.childNodes.length; ++i)
       {
         parsedString += parseAllChildren(cell.childNodes[i], recurseLevel - 1, verbose);
       }
@@ -78,9 +81,9 @@ function parseFirstChild(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      logger.debug('Bad cell without children or data: [');
-      logger.debug(cell);
-      logger.debug(']');
+      winston.debug('Bad cell without children or data: [');
+      winston.debug(cell);
+      winston.debug(']');
     }
     return;
   }
@@ -137,7 +140,7 @@ const PARSER_MAP =
 
 function propNameOfColumnHeader(col)
 {
-  for (var prop in PARSER_MAP)
+  for (let prop in PARSER_MAP)
   {
     const headers = PARSER_MAP[prop];
     if (PARSER_MAP[prop].column.indexOf(col) !== -1)
@@ -150,19 +153,19 @@ function propNameOfColumnHeader(col)
 
 function makeColumnMap(headerRow)
 {
-  var map = {};
+  let map = {};
 
-  for (var i = 0; i < headerRow.childNodes[0].childNodes.length; ++i)
+  for (let i = 0; i < headerRow.childNodes[0].childNodes.length; ++i)
   {
-    var item = headerRow.childNodes[0].childNodes[i];
+    let item = headerRow.childNodes[0].childNodes[i];
     if (item.childNodes !== null &&
         item.childNodes.length > 0)
     {
-      var data = item.childNodes[0].data;
-      var propName = propNameOfColumnHeader(data);
+      let data = item.childNodes[0].data;
+      let propName = propNameOfColumnHeader(data);
       if (propName !== undefined && propName !== "")
       {
-        //logger.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
+        //winston.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
         map[i] = propName;
       }
     }
@@ -189,11 +192,11 @@ function parseDateFromRow(row)
       /*
       if (parsedDate.isValid())
       {
-        logger.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
+        winston.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
       }
       else
       {
-        logger.error('Problem parsing date from data element in:"' + dateElement + '"');
+        winston.error('Problem parsing date from data element in:"' + dateElement + '"');
       }
       */
       return parsedDate;
@@ -204,7 +207,7 @@ function parseDateFromRow(row)
 
 function isCourseValid(webCourse, studio)
 {
-  for (var prop in PARSER_MAP)
+  for (let prop in PARSER_MAP)
   {
     if (PARSER_MAP[prop].required)
     {
@@ -271,9 +274,9 @@ exports.STYLE_MAP =
 
 function styleOfName(courseName)
 {
-  var priority = undefined;
-  var style = undefined;
-  for (var prop in exports.STYLE_MAP)
+  let priority = undefined;
+  let style = undefined;
+  for (let prop in exports.STYLE_MAP)
   {
     if (courseName.match(exports.STYLE_MAP[prop].regex) !== null)
     {
@@ -291,14 +294,14 @@ function styleOfName(courseName)
   }
   else
   {
-    logger.debug("No match found for course name: " + courseName);
+    winston.debug("No match found for course name: " + courseName);
     return "Other";
   }
 }
 
 function parseCourseStart(webCourse, currentDate)
 {
-  var courseStart = moment(webCourse['start'], 'HH:mm');
+  let courseStart = moment(webCourse['start'], 'HH:mm');
   if (courseStart.isValid())
   {
     courseStart.year(currentDate.year());
@@ -307,7 +310,7 @@ function parseCourseStart(webCourse, currentDate)
   }
   else
   {
-    logger.error('Error parsing time from start time: ' + webCourse['start']);
+    winston.error('Error parsing time from start time: ' + webCourse['start']);
   }
   return courseStart;
 }
@@ -322,7 +325,7 @@ function parseCourseEnd(webCourse, courseStart)
   const durationRegex = /(\d+) *([a-zA-Z]+)( & (\d+) *([a-zA-Z]+))?/;
   const match = webCourse.duration.match(durationRegex);
 
-  var courseEnd = courseStart.clone().add(
+  let courseEnd = courseStart.clone().add(
       Number(match[NUMBER_LOCATION]),
       match[TIME_TYPE_LOCATION]);
   if (match[SECOND_NUMBER_LOCATION] !== undefined &&
@@ -334,14 +337,14 @@ function parseCourseEnd(webCourse, courseStart)
   }
   if (courseEnd.isValid() === false)
   {
-    logger.error('Error parsing end time from duration: ' + webCourse['Duration']);
+    winston.error('Error parsing end time from duration: ' + webCourse['Duration']);
   }
   return courseEnd;
 }
 
 function dbCourseOfWebCourse(webCourse, currentDate, studio)
 {
-  var dbCourse =
+  let dbCourse =
   {
     name: webCourse['course'],
     teacher: webCourse['teacher'],
@@ -354,7 +357,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
   dbCourse.end = parseCourseEnd(webCourse, dbCourse.start);
 
   dbCourse.locale = webCourse['locale'];
-  var localeInfo = {};
+  let localeInfo = {};
   if (dbCourse.locale !== undefined && 
       studio.locales !== undefined &&
       studio.locales[dbCourse.locale] !== undefined)
@@ -404,32 +407,32 @@ function checkAllLocalesPresent(courses, studio)
     return true;
   }
 
-  var localePresentMap = {};
-  for (var locale in studio.locales)
+  let localePresentMap = {};
+  for (let locale in studio.locales)
   {
     localePresentMap[locale] = false;
   }
 
-  for (var i = 0; i < courses.length; ++i)
+  for (let i = 0; i < courses.length; ++i)
   {
-    var courseLocale = courses[i].locale;
+    let courseLocale = courses[i].locale;
     if (localePresentMap.hasOwnProperty(courseLocale))
     {
       localePresentMap[courseLocale] = true;
     }
     else
     {
-      logger.error('Unknown locale found in course: [' + courseLocale + ']');
+      winston.error('Unknown locale found in course: [' + courseLocale + ']');
     }
   }
 
-  var allPresent = true;
-  for (var locale in localePresentMap)
+  let allPresent = true;
+  for (let locale in localePresentMap)
   {
     if (localePresentMap[locale] === false)
     {
       allPresent = false;
-      logger.error('Locale [' + locale + '] has no courses, double-check it');
+      winston.error('Locale [' + locale + '] has no courses, double-check it');
     }
   }
   return allPresent;
@@ -439,49 +442,49 @@ function makeJSONCourses(columnMap, tableRows, studio)
 {
   const FIRST_DATA_ROW_LOCATION = 1; // MAGIC NUMBER
 
-  var courses = [];
-  var currentDate = null;
+  let courses = [];
+  let currentDate = null;
 
-  for (var i = FIRST_DATA_ROW_LOCATION; i < tableRows.length; ++i)
+  for (let i = FIRST_DATA_ROW_LOCATION; i < tableRows.length; ++i)
   {
-    var row = tableRows[i];
-    var nextDate = parseDateFromRow(row);
+    let row = tableRows[i];
+    let nextDate = parseDateFromRow(row);
     if (nextDate !== undefined && nextDate.isValid())
     {
       currentDate = nextDate;
     }
     else if (rowIsValid(row))
     {
-      var webCourse = {};
-      for (var j = 0; j < row.childNodes.length; ++j)
+      let webCourse = {};
+      for (let j = 0; j < row.childNodes.length; ++j)
       {
         if (columnMap[j] !== undefined)
         {
-          var cell = row.childNodes[j];
-          var key = columnMap[j];
+          let cell = row.childNodes[j];
+          let key = columnMap[j];
           webCourse[key] = PARSER_MAP[key].parser(cell);
         }
         else
         {
-          //logger.debug('No mapping for column: ' + j);
+          //winston.debug('No mapping for column: ' + j);
         }
       }
       if (isCourseValid(webCourse, studio))
       {
-        var dbCourse = dbCourseOfWebCourse(webCourse, currentDate, studio);
+        let dbCourse = dbCourseOfWebCourse(webCourse, currentDate, studio);
         courses.push(dbCourse);
       }
       else
       {
-        logger.debug('No valid course found:');
-        logger.debug(webCourse);
+        winston.debug('No valid course found:');
+        winston.debug(webCourse);
       }
     }
   }
 
   if (checkAllLocalesPresent(courses, studio) === false)
   {
-    logger.error('Issue found with studio ['+studio.studioid+']');
+    winston.error('Issue found with studio ['+studio.studioid+']');
   }
   return courses;
 }
@@ -491,7 +494,7 @@ function parseMBOPage(htmlString, studio, callback)
   const cleanString = cleanupHtml(htmlString);
   if (cleanString === '')
   {
-    logger.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
+    winston.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
     if (callback !== undefined)
     {
       return callback([]);
@@ -533,10 +536,19 @@ exports.parsePage = (path, studio, callback) =>
   });
 }
 
+exports.makeParsePageEventEmitter = (studio, callback) =>
+{
+  return (client, path) => {
+    let htmlData = fs.readFileSync(path, 'utf8');
+    let jsonData = PARSER_FUNCTIONS[studio.provider](htmlData, studio, callback);
+    client._notifier.emit('finish-scraping', jsonData);
+  }
+}
+
 if (require.main === module)
 {
   // For testing
-  var multiStudioInfo =
+  let multiStudioInfo =
   {
     "name": "Triyoga",
     "provider": "MBO",
@@ -570,7 +582,7 @@ if (require.main === module)
       }
     }
   };
-  var singleStudioInfo =
+  let singleStudioInfo =
   {
     "name": "Blue Cow Yoga",
     "provider": "MBO",
@@ -586,7 +598,7 @@ if (require.main === module)
 
   function loggerCallback(courses)
   {
-    logger.info(courses);
+    winston.info(courses);
   }
 
   exports.parsePage(process.argv[2], singleStudioInfo, loggerCallback);

@@ -356,12 +356,26 @@
     "redirectPage":  "",
     "locales":
     {
-      "MoreYoga Finsbury Park":
+      "MoreYoga Aldgate":
       {
-        "name": "More Yoga Finsbury Park",
+        "name": "More Yoga Aldgate",
         "url": "http://www.morefit.co.uk/moreyoga/",
         "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
-        "postcode": "N"
+        "postcode": "E"
+      },
+      "MoreYoga Brixton":
+      {
+        "name": "More Yoga Brixton",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "SW"
+      },
+      "MoreYoga Camden":
+      {
+        "name": "More Yoga Camden",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "NW"
       },
       "MoreYoga Exmouth Market":
       {
@@ -369,6 +383,13 @@
         "url": "http://www.morefit.co.uk/moreyoga/",
         "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
         "postcode": "EC"
+      },
+      "MoreYoga Finsbury Park":
+      {
+        "name": "More Yoga Finsbury Park",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "N"
       },
       "MoreYoga Old Street":
       {
