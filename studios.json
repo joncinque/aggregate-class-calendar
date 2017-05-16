@@ -8,6 +8,7 @@
     {
       "name": "Barbican Yoga Cave",
       "url": "http://barbicanyogacave.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=253770",
       "postcode": "EC"
     }
   },
@@ -20,6 +21,7 @@
     {
       "name": "Battersea Yoga",
       "url": "http://batterseayoga.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=83692",
       "postcode": "SW"
     }
   },
@@ -32,6 +34,7 @@
     {
       "name": "Blue Cow Yoga",
       "url": "http://bluecowyoga.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=23194",
       "postcode": "EC"
     }
   },
@@ -46,14 +49,36 @@
       {
         "name": "Yoga Centric",
         "url": "http://www.yogacentric.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=36253",
         "postcode": "N"
       },
       "Centric: 3 Tribes":
       {
         "name": "Centric:3Tribes",
         "url": "http://www.3tribes.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=36253",
+        "postcode": "N"
+      },
+      "Muswell Hill":
+      {
+        "name": "Yogacentric: Muswell Hill",
+        "url": "http://www.yogacentric.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=36253",
         "postcode": "N"
       }
+    }
+  },
+  {
+    "name": "Chroma Yoga",
+    "provider": "MBO",
+    "studioid": 793358,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Chroma Yoga",
+      "url": "http://www.chromayoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=793358",
+      "postcode": "EC"
     }
   },
   {
@@ -65,6 +90,7 @@
     {
       "name": "Down to Earth",
       "url": "http://downtoearthlondon.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=179970",
       "postcode": "NW"
     }
   },
@@ -77,6 +103,7 @@
     {
       "name": "Dragonfly Yoga",
       "url": "http://www.dragonfly-yoga.org/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=221895",
       "postcode": "SE"
     }
   },
@@ -89,6 +116,7 @@
     {
       "name": "East of Eden",
       "url": "http://www.edeneast.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=-192241",
       "postcode": "E"
     }
   },
@@ -101,6 +129,7 @@
     {
       "name": "Evolve Wellness Centre",
       "url": "http://www.evolvewellnesscentre.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=12023",
       "postcode": "SW"
     }
   },
@@ -115,18 +144,21 @@
       {
         "name": "Fierce Grace City",
         "url": "http://www.fiercegracecity.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1694",
         "postcode": "N"
       },
       "Fierce Grace North":
       {
         "name": "Fierce Grace North",
         "url": "http://www.fiercegracenorth.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1694",
         "postcode": "NW"
       },
       "Fierce Grace West":
       {
         "name": "Fierce Grace West",
         "url": "http://www.fiercegracewest.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1694",
         "postcode": "W"
       }
     }
@@ -140,6 +172,7 @@
     {
       "name": "Fierce Grace Finchley",
       "url": "http://www.fiercegracefinchley.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=135556",
       "postcode": "N"
     }
   },
@@ -152,6 +185,7 @@
     {
       "name": "Fierce Grace Primrose Hill",
       "url": "http://www.fiercegraceprimrosehill.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=16517",
       "postcode": "NW"
     }
   },
@@ -164,7 +198,21 @@
     {
       "name": "Fierce Grace Brixton",
       "url": "http://www.fiercegracebrixton.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=192378",
       "postcode": "SW"
+    }
+  },
+  {
+    "name": "Fold Yoga London",
+    "provider": "MBO",
+    "studioid": 778930,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Fold Yoga London",
+      "url": "http://www.fold-london.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=778930",
+      "postcode": "N"
     }
   },
   {
@@ -176,6 +224,7 @@
     {
       "name": "Garuda Yoga and Pilates",
       "url": "https://www.thegaruda.net/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=24230",
       "postcode": "NW"
     }
   },
@@ -190,12 +239,14 @@
       {
         "name": "Good Vibes Covent Garden",
         "url": "http://www.goodvibesfitness.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1769",
         "postcode": "WC"
       },
       "Fitzrovia":
       {
         "name": "Good Vibes Fitzrovia",
         "url": "http://www.goodvibesfitness.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1769",
         "postcode": "W"
       }
     }
@@ -209,19 +260,21 @@
     {
       "name": "The Hot Spot",
       "url": "http://thehotspotyoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1134",
       "postcode": "SW"
     }
   },
   {
-    "name": "I Am Yoga",
+    "name": "The House of Yoga",
     "provider": "MBO",
-    "studioid": 217848,
+    "studioid": 26980,
     "redirectPage":  "",
-    "locale": 
+    "locale":
     {
-      "name": "I Am Yoga",
-      "url": "http://iamyogalondon.com/",
-      "postcode": "W"
+      "name": "The House of Yoga",
+      "url": "https://thehouseofyoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=26980",
+      "postcode": "SW"
     }
   },
   {
@@ -233,6 +286,7 @@
     {
       "name": "Indaba Yoga",
       "url": "http://indabayoga.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=11974",
       "postcode": "NW"
     }
   },
@@ -247,12 +301,14 @@
       {
         "name": "The Life Centre Notting Hill",
         "url": "http://www.thelifecentre.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=-765",
         "postcode": "W"
       },
       "Islington":
       {
         "name": "The Life Centre Islington",
         "url": "http://www.thelifecentre.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=-765",
         "postcode": "N"
       }
     }
@@ -268,12 +324,14 @@
       {
         "name": "The Light Centre Moorgate",
         "url": "http://www.lightcentremoorgate.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=20481",
         "postcode": "EC"
       },
       "Belgravia":
       {
         "name": "The Light Centre Belgravia",
         "url": "http://www.lightcentrebelgravia.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=20481",
         "postcode": "SW"
       }
     }
@@ -287,6 +345,7 @@
     {
       "name": "Lumi Power Yoga",
       "url": "http://www.lumipoweryoga.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=40542",
       "postcode": "W"
     }
   },
@@ -297,24 +356,61 @@
     "redirectPage":  "",
     "locales":
     {
-      "MoreYoga Finsbury Park":
+      "MoreYoga Aldgate":
       {
-        "name": "More Yoga Finsbury Park",
+        "name": "More Yoga Aldgate",
         "url": "http://www.morefit.co.uk/moreyoga/",
-        "postcode": "N"
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "E"
+      },
+      "MoreYoga Brixton":
+      {
+        "name": "More Yoga Brixton",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "SW"
+      },
+      "MoreYoga Camden":
+      {
+        "name": "More Yoga Camden",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "NW"
       },
       "MoreYoga Exmouth Market":
       {
         "name": "More Yoga Exmouth Market",
         "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
         "postcode": "EC"
+      },
+      "MoreYoga Finsbury Park":
+      {
+        "name": "More Yoga Finsbury Park",
+        "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
+        "postcode": "N"
       },
       "MoreYoga Old Street":
       {
         "name": "More Yoga Old Street",
         "url": "http://www.morefit.co.uk/moreyoga/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=256292",
         "postcode": "EC"
       }
+    }
+  },
+  {
+    "name": "One Yoga London",
+    "provider": "MBO",
+    "studioid": 260779,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "One Yoga London",
+      "url": "https://www.oneyogalondon.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=260779",
+      "postcode": "N"
     }
   },
   {
@@ -326,6 +422,7 @@
     {
       "name": "Power Yoga Company",
       "url": "http://thepoweryogaco.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=4706",
       "postcode": "SW"
     }
   },
@@ -338,6 +435,7 @@
     {
       "name": "The Refinery E9",
       "url": "http://www.therefinerye9.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=208867",
       "postcode": "E"
     }
   },
@@ -350,6 +448,7 @@
     {
       "name": "Samsara Mind and Body",
       "url": "http://samsaramindandbody.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=37798",
       "postcode": "SW"
     }
   },
@@ -362,6 +461,7 @@
     {
       "name": "The Shala",
       "url": "http://www.theshala.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=2155",
       "postcode": "SE"
     }
   },
@@ -376,12 +476,14 @@
       {
         "name": "Stretch Ada Street",
         "url": "http://stretch-london.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=26803",
         "postcode": "E"
       },
       "Columbia Road":
       {
         "name": "Stretch Columbia Road",
         "url": "http://stretch-london.com/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=26803",
         "postcode": "E"
       }
     }
@@ -397,24 +499,28 @@
       {
         "name": "Triyoga Soho",
         "url": "http://www.triyoga.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1991",
         "postcode": "W"
       },
       "Camden":
       {
         "name": "Triyoga Camden",
         "url": "http://www.triyoga.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1991",
         "postcode": "NW"
       },
       "Covent Garden":
       {
         "name": "Triyoga Covent Garden",
         "url": "http://www.triyoga.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1991",
         "postcode": "WC"
       },
       "Chelsea":
       {
         "name": "Triyoga Chelsea",
         "url": "http://www.triyoga.co.uk/",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=1991",
         "postcode": "SW"
       }
     }
@@ -428,6 +534,7 @@
     {
       "name": "Union Station Yoga",
       "url": "http://www.unionstationyoga.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=197586",
       "postcode": "SW"
     }
   },
@@ -440,6 +547,7 @@
     {
       "name": "The Well Garden",
       "url": "http://thewellgarden.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=192421",
       "postcode": "E"
     }
   },
@@ -454,12 +562,14 @@
       {
         "name": "Yogahaven Clapham",
         "url": "http://www.yogahaven.co.uk/london-yoga/clapham/yoga",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=12354",
         "postcode": "SW"
       },
       "Islington":
       {
         "name": "Yogahaven Islington",
         "url": "http://www.yogahaven.co.uk/london-yoga/islington/yoga",
+        "booking": "https://clients.mindbodyonline.com/classic/home?studioid=12354",
         "postcode": "N"
       }
     }
@@ -473,6 +583,7 @@
     {
       "name": "Yogahaven Richmond",
       "url": "http://www.yogahaven.co.uk/london-yoga/richmond/yoga",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=139714",
       "postcode": "TW"
     }
   },
@@ -485,7 +596,47 @@
     {
       "name": "Yogahome",
       "url": "http://yogahome.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=29783",
       "postcode": "N"
+    }
+  },
+  {
+    "name": "Yogalogy",
+    "provider": "MBO",
+    "studioid": 231109,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Yogalogy",
+      "url": "http://www.yogalogy.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=231109",
+      "postcode": "N"
+    }
+  },
+  {
+    "name": "Yogarise Peckham",
+    "provider": "MBO",
+    "studioid": 138949,
+    "redirectPage":  "",
+    "locale": 
+    {
+      "name": "Yogarise Peckham",
+      "url": "http://www.yogarise.london/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=138949",
+      "postcode": "SE"
+    }
+  },
+  {
+    "name": "Yoga Creation",
+    "provider": "MBO",
+    "studioid": 93888,
+    "redirectPage":  "",
+    "locale":
+    {
+      "name": "Yoga Creation",
+      "url": "http://www.yogacreation.co.uk",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=93888",
+      "postcode": "E"
     }
   },
   {
@@ -497,6 +648,7 @@
     {
       "name": "The Yoga Edge",
       "url": "http://www.theyogaedge.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=49898",
       "postcode": "SE"
     }
   },
@@ -509,19 +661,8 @@
     {
       "name": "Yoga on the Lane",
       "url": "http://www.yogaonthelane.com/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=94169",
       "postcode": "E"
-    }
-  },
-  {
-    "name": "Yogarise Peckham",
-    "provider": "MBO",
-    "studioid": 138949,
-    "redirectPage":  "",
-    "locale": 
-    {
-      "name": "Yogarise Peckham",
-      "url": "http://www.yogarise.london/",
-      "postcode": "SE"
     }
   },
   {
@@ -533,6 +674,7 @@
     {
       "name": "Yoga West",
       "url": "http://www.yogaat.com/yogawest",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=43597",
       "postcode": "W"
     }
   },
@@ -545,6 +687,7 @@
     {
       "name": "Yoke Dalston",
       "url": "http://yokedalston.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=314529",
       "postcode": "N"
     }
   },
@@ -557,6 +700,7 @@
     {
       "name": "Yotopia",
       "url": "http://yotopia.co.uk/",
+      "booking": "https://clients.mindbodyonline.com/classic/home?studioid=16311",
       "postcode": "WC"
     }
   }
