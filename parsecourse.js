@@ -3,7 +3,7 @@
 const fs = require('fs');
 const moment = require('moment');
 const xmldom = require('xmldom');
-const winston = require('winston');
+const logger = require('./logger');
 
 const PARSER_FUNCTIONS = 
 {
@@ -49,9 +49,9 @@ function parseAllChildren(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      winston.debug('Bad cell without children or data: [');
-      winston.debug(cell);
-      winston.debug(']');
+      logger.debug('Bad cell without children or data: [');
+      logger.debug(cell);
+      logger.debug(']');
     }
   }
   else
@@ -81,9 +81,9 @@ function parseFirstChild(cell, recurseLevel, verbose)
   {
     if (verbose)
     {
-      winston.debug('Bad cell without children or data: [');
-      winston.debug(cell);
-      winston.debug(']');
+      logger.debug('Bad cell without children or data: [');
+      logger.debug(cell);
+      logger.debug(']');
     }
     return;
   }
@@ -165,7 +165,7 @@ function makeColumnMap(headerRow)
       let propName = propNameOfColumnHeader(data);
       if (propName !== undefined && propName !== "")
       {
-        //winston.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
+        //logger.log('Mapping for "'+data+'", property "'+propName+'", index '+i);
         map[i] = propName;
       }
     }
@@ -192,11 +192,11 @@ function parseDateFromRow(row)
       /*
       if (parsedDate.isValid())
       {
-        winston.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
+        logger.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
       }
       else
       {
-        winston.error('Problem parsing date from data element in:"' + dateElement + '"');
+        logger.error('Problem parsing date from data element in:"' + dateElement + '"');
       }
       */
       return parsedDate;
@@ -294,7 +294,7 @@ function styleOfName(courseName)
   }
   else
   {
-    winston.debug("No match found for course name: " + courseName);
+    logger.debug("No match found for course name: " + courseName);
     return "Other";
   }
 }
@@ -310,7 +310,7 @@ function parseCourseStart(webCourse, currentDate)
   }
   else
   {
-    winston.error('Error parsing time from start time: ' + webCourse['start']);
+    logger.error('Error parsing time from start time: ' + webCourse['start']);
   }
   return courseStart;
 }
@@ -337,7 +337,7 @@ function parseCourseEnd(webCourse, courseStart)
   }
   if (courseEnd.isValid() === false)
   {
-    winston.error('Error parsing end time from duration: ' + webCourse['Duration']);
+    logger.error('Error parsing end time from duration: ' + webCourse['Duration']);
   }
   return courseEnd;
 }
@@ -422,7 +422,7 @@ function checkAllLocalesPresent(courses, studio)
     }
     else
     {
-      winston.error('Unknown locale found in course: [' + courseLocale + ']');
+      logger.error('Unknown locale found in course: [' + courseLocale + ']');
     }
   }
 
@@ -432,7 +432,7 @@ function checkAllLocalesPresent(courses, studio)
     if (localePresentMap[locale] === false)
     {
       allPresent = false;
-      winston.error('Locale [' + locale + '] has no courses, double-check it');
+      logger.error('Locale [' + locale + '] has no courses, double-check it');
     }
   }
   return allPresent;
@@ -466,7 +466,7 @@ function makeJSONCourses(columnMap, tableRows, studio)
         }
         else
         {
-          //winston.debug('No mapping for column: ' + j);
+          //logger.debug('No mapping for column: ' + j);
         }
       }
       if (isCourseValid(webCourse, studio))
@@ -476,15 +476,15 @@ function makeJSONCourses(columnMap, tableRows, studio)
       }
       else
       {
-        winston.debug('No valid course found:');
-        winston.debug(webCourse);
+        logger.debug('No valid course found:');
+        logger.debug(webCourse);
       }
     }
   }
 
   if (checkAllLocalesPresent(courses, studio) === false)
   {
-    winston.error('Issue found with studio ['+studio.studioid+']');
+    logger.error('Issue found with studio ['+studio.studioid+']');
   }
   return courses;
 }
@@ -494,7 +494,7 @@ function parseMBOPage(htmlString, studio, callback)
   const cleanString = cleanupHtml(htmlString);
   if (cleanString === '')
   {
-    winston.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
+    logger.error('Empty string found, retry ['+studio.name+'] [' + studio.studioid + ']');
     if (callback !== undefined)
     {
       return callback([]);
@@ -598,7 +598,7 @@ if (require.main === module)
 
   function loggerCallback(courses)
   {
-    winston.info(courses);
+    logger.info(courses);
   }
 
   exports.parsePage(process.argv[2], singleStudioInfo, loggerCallback);

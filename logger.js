@@ -11,3 +11,5 @@ winston.configure({
   ],
   exitOnError: false
 });
+
+module.exports=winston;

@@ -2,6 +2,24 @@
 The class scraper is made up of two main components, getcourse.js and parsecourse.js, linked
 together with a toplevel, toplevel.js
 
+# Installing
+
+## node
+    $ sudo apt install -y python-software-properties
+    $ curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+    $ sudo apt install -y nodejs
+
+## Chrome
+    $ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    $ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+    $ sudo apt update
+    $ sudo apt install -y google-chrome-stable
+
+## npm components
+    $ npm install phantomjs-prebuilt chrome-remote-interface moment xmldom winston
+
+# Repo Components
+
 ## toplevel.js
 Connects getcourse.js and parsecourse.js using studios.json.  Iterates through all of the
 entries in the studios.json file, hits the page using getcourse.js, then sends it to the
@@ -31,3 +49,7 @@ Note that this only works for singular elements.
 ## parsecourse.js
 After getting the pages, the next step is to parse out the info needed.  parsecourse.js handles this work, and can be run separately using 'runparse.sh' and giving an html file to
 try on.  For now, this only handles MBO pages.
+
+## chromegetcourse.js
+Gets the pages sequentially using a local headless Chrome browser, faster and more
+modern version of scraping.
