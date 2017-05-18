@@ -1,14 +1,29 @@
 <template name="scraper">
-  <form class="scrape-all">
-    <input type="button" value="Scrape all at once" />
-  </form>
-  <form class="scrape-all-sync">
-    <input type="button" value="Scrape all, studio by studio" />
+  <form class="scrape-all-phantom">
+    <input type="button" value="Phantom scrape all at once" />
   </form>
 
-  <form class="scrape-mbo-page">
+  <form class="scrape-all-sync-phantom">
+    <input type="button" value="Phantom scrape all, studio by studio" />
+  </form>
+
+  <form class="scrape-mbo-page-phantom">
     <input type="number" name="studioid" />
-    <input type="submit" value="Scrape classes" />
+    <input type="submit" value="Phantom scrape by studio id" />
+  </form>
+
+  <form class="scrape-all-sync-chrome">
+    <input type="button" value="Chrome scrape all, studio by studio" />
+  </form>
+
+  <form class="scrape-mbo-page-chrome">
+    <input type="number" name="studioid" />
+    <input type="submit" value="Chrome scrape by studio id" />
+  </form>
+
+  <form class="add-from-json">
+    <input name="jsonfile" value="courses.json" />
+    <input type="submit" value="Add from file" />
   </form>
 
   <form class="get-log-file">
