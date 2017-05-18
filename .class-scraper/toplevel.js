@@ -9,27 +9,36 @@ const parsecourse = require('./parsecourse');
 const chromegetcourse = require('./chromegetcourse');
 const logger = require('./logger');
 
-function logCourse(course)
+let sep = '';
+function makeFileLogger(fileStream)
 {
-  logger.log("{ name: '" + course.name + "'");
-  logger.log("  , style: '" + course.style + "'");
-  logger.log("  , start: " + course.start.format('DD-MM-YYYY HH:mm'));
-  logger.log("  , end: " + course.end.format('DD-MM-YYYY HH:mm'));
-  logger.log("  , room: '" + course.room + "'");
-  logger.log("  , studio: '" + course.studio + "'");
-  logger.log("  , teacher: '" + course.teacher + "'");
-  logger.log("  , url: '" + course.url + "'");
-  logger.log("  , locale: '" + course.locale + "'");
-  logger.log("  , postcode: '" + course.postcode + "'");
-  logger.log("}");
+  return (course) =>
+  {
+    fileStream.write(sep);
+    if (sep === '') {
+      sep = ',\n';
+    }
+    fileStream.write('{ "name": "' + course.name + '"');
+    fileStream.write(', "teacher": "' + course.teacher + '"');
+    fileStream.write(', "room": "' + course.room + '"');
+    fileStream.write(', "style": "' + course.style + '"');
+    fileStream.write(', "start": "' + course.start.toDate().toJSON() + '"');
+    fileStream.write(', "end": "' + course.end.toDate().toJSON() + '"');
+    fileStream.write(', "locale": "' + course.locale + '"');
+    fileStream.write(', "studio": "' + course.studio + '"');
+    fileStream.write(', "url": "' + course.url + '"');
+    fileStream.write(', "booking": "' + course.booking + '"');
+    fileStream.write(', "postcode": "' + course.postcode + '"');
+    fileStream.write('}');
+  }
 }
 
-function makeDBCallback(studio)
+function makeFileCallback(studio, outputFileStream)
 {
   return function(courses)
   {
-    logger.log('Finished for studio: ' + studio.name);
-    courses.forEach(logCourse);
+    logger.info('Finished for studio: ' + studio.name);
+    courses.forEach(makeFileLogger(outputFileStream));
   }
 }
 
@@ -37,7 +46,7 @@ function makeArrayCallback(studio)
 {
   return function(courses)
   {
-    logger.log('Finished for studio: ' + studio.name);
+    logger.info('Finished for studio: ' + studio.name);
     courses.forEach(course => {
       course.start = course.start.toDate();
       course.end = course.end.toDate();
@@ -81,22 +90,30 @@ let getCoursesChrome = (studio, callback)=>
         parsecourse.makeParsePageEventEmitter(studio, callback));
 }
 
-function getAllCourses(studioFile)
+function getAllCourses(studioFile, outputFile)
 {
   let data = fs.readFileSync(studioFile, 'utf8');
+  let outputFileStream = fs.createWriteStream(outputFile, {
+      flags: 'a' // 'a' means appending (old data will be preserved)
+  })
+  outputFileStream.write('[');
   const studioInfo = JSON.parse(data);
-  //getCoursesChrome(studioInfo[1], makeDBCallback(studioInfo[1]));
+  //getCoursesChrome(studioInfo[1], makeFileCallback(studioInfo[1]));
   let ee = new EventEmitter();
   ee.on('finish-studio', (index)=>{
     if (index < studioInfo.length) {
       var studio = studioInfo[index];
-      getCoursesChrome(studio, makeDBCallback(studio)
+      getCoursesChrome(studio, makeFileCallback(studio, outputFileStream)
           ).once('finish-scraping', (data)=>{
-        ee.emit('finish-studio', ++index);
-      });
+            ee.emit('finish-studio', ++index);
+          }).once('error', (data)=>{
+            ee.emit('finish-studio', ++index);
+          });
     } else {
       ee.emit('finish-all-scraping');
-      logger.log('Scraping complete');
+      logger.info('Scraping complete');
+      outputFileStream.write(']');
+      outputFileStream.close();
     }
   });
   ee.emit('finish-studio', 0);
@@ -105,5 +122,5 @@ function getAllCourses(studioFile)
 
 if (require.main === module)
 {
-  getAllCourses(process.argv[2]);
+  getAllCourses(process.argv[2], process.argv[3]);
 }
