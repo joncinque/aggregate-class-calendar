@@ -91,6 +91,18 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
+    check(courseObj, {
+      name: String,
+      start: Date,
+      studio: String,
+      style: String,
+      postcode: String,
+      end: Date,
+      teacher: String,
+      room: String,
+      url: String,
+      booking: String,
+    });
 
     Courses.upsert({
       // Selector
@@ -114,6 +126,7 @@ Meteor.methods({
   // Ported from course.js in imports/ui
   'courses.remove'(courseId)
   {
+    check(courseId, Number);
     const course = Courses.findOne(courseId);
     /*
     if (task.private && task.owner !== this.userId)

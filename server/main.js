@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { BrowserPolicy } from 'meteor/browser-policy-common';
 
 import '/imports/startup/both/accounts-config.js';
 
@@ -21,5 +22,11 @@ Meteor.startup(() => {
   Courses._ensureIndex({ "teacher" : 1 });
 
   // Setup cron job
-  Meteor.call('cronmanager.startScrapeJob');
+  //Meteor.call('cronmanager.startScrapeJob');
+
+  // Setup Browser Policy
+  BrowserPolicy.content.disallowInlineScripts();
+  BrowserPolicy.framing.disallow();
+  BrowserPolicy.content.disallowEval();
+  //BrowserPolicy.framing.restrictToOrigin(origin);
 });

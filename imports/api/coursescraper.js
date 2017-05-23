@@ -7,6 +7,7 @@ import phantomjs from 'phantomjs-prebuilt';
 
 import { parsePage, makeParsePageEventEmitter } from './parsecourse.js';
 import { Courses } from './courses.js';
+import { dumpCourseTable } from './chromegetcourse.js';
 
 function logCourse(course)
 {
@@ -99,12 +100,12 @@ function getCoursesAsync(studio, callback)
 function getCoursesChrome(studio, callback)
 {
   const htmlFile = Math.abs(studio.studioid) + '.html';
-  return chromegetcourse.dumpCourseTable(
+  return dumpCourseTable(
       studio.provider,
       studio.studioid,
       studio.redirectPage
       ).once('finish-dumping',
-        parsecourse.makeParsePageEventEmitter(studio, callback));
+        makeParsePageEventEmitter(studio, callback));
 }
 
 
@@ -149,27 +150,36 @@ Meteor.methods({
     }
     return Promise.resolve([]);
   },
-  async 'coursescraper.getAllCoursesChrome' ()
+  'coursescraper.getAllCoursesChrome' ()
   {
+    let ee = new EventEmitter();
     if (Meteor.isServer)
     {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
       let boundAddCourses = Meteor.bindEnvironment(addCoursesToDB);
-      /*
-      for (let index in studioInfo)
-      {
-        let studio = studioInfo[index];
-        let courses = await getCoursesAsync(studio);
-        boundAddCourses(courses);
-        logger.info('Finished for studio: ' + studio.name);
-      }
-      logger.info('Scraping all done');
-      */
+      ee.on('finish-studio', (index)=>{
+        if (index < studioInfo.length) {
+          let studio = studioInfo[index];
+          getCoursesChrome(studio
+              ).once('finish-scraping', (data)=>{
+                boundAddCourses(data);
+                logger.info('Finished for studio [' + studio.name + ']');
+                ee.emit('finish-studio', ++index);
+              }).once('error', (data)=>{
+                ee.emit('finish-studio', ++index);
+              });
+        } else {
+          ee.emit('finish-all-scraping');
+          logger.info('Scraping all done');
+        }
+      });
+      ee.emit('finish-studio', 0);
     }
-    return Promise.resolve([]);
+    return ee;
   },
   async 'coursescraper.addCoursesFromFile' (jsonFile)
   {
+    check(jsonFile, String);
     if (Meteor.isServer)
     {
       let courses = JSON.parse(Assets.getText(jsonFile));
@@ -200,41 +210,18 @@ Meteor.methods({
     let ee = new EventEmitter();
     if (Meteor.isServer) {
       let studioInfo = JSON.parse(Assets.getText('studios.json'));
+      let boundAddCourses = Meteor.bindEnvironment(addCoursesToDB);
       for (let index in studioInfo) {
         let studio = studioInfo[index];
         if (studio.studioid === studioid) {
-          getCoursesChrome(
-              studio,
-              Meteor.bindEnvironment(makeDBCallback(studio))
+          getCoursesChrome(studio
             ).once('finish-scraping', (data)=>{
+              boundAddCourses(data);
+              logger.info('Finished for studio [' + studio.name + ']');
               ee.emit('finish-all-scraping');
           });
         }
       }
-    }
-    return ee;
-  },
-  'coursescraper.getAllCoursesChrome'(studioid)
-  {
-    let ee = new EventEmitter();
-    if (Meteor.isServer) {
-      let studioInfo = JSON.parse(Assets.getText('studios.json'));
-      ee.on('finish-studio', (index)=>{
-        if (index < studioInfo.length) {
-          let studio = studioInfo[index];
-          getCoursesChrome(
-              studio,
-              Meteor.bindEnvironment(makeDBCallback(studio))
-              ).once('finish-scraping', (data)=>{
-                ee.emit('finish-studio', ++index);
-              }).once('error', (data)=>{
-                ee.emit('finish-studio', ++index);
-              });
-        } else {
-          ee.emit('finish-all-scraping');
-          logger.info('Scraping complete');
-        }
-      });
     }
     return ee;
   },

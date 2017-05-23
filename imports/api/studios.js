@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { STYLE_MAP } from './parsecourse.js';
 
 Meteor.methods({
-  'studios.info'(courseObj)
+  'studios.info'()
   {
     this.unblock();
     let allInfo = 

@@ -14,7 +14,7 @@ Template.course.helpers({
     return moment(data.start).format("H:mm") + "-" + moment(data.end).format("H:mm");
   },
   day() {
-    return moment(Template.currentData().courseData.start).format("ddd MMM D");
+    return moment(Template.currentData().courseData.start).format("ddd");
   },
   name() { return Template.currentData().courseData.name; },
   teacher() { return Template.currentData().courseData.teacher; },

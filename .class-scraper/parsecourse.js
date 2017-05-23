@@ -3,7 +3,7 @@
 const fs = require('fs');
 const moment = require('moment');
 const xmldom = require('xmldom');
-const logger = require('./logger');
+//const logger = require('./logger');
 
 const PARSER_FUNCTIONS = 
 {

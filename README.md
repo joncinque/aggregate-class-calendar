@@ -2,6 +2,11 @@
 Aggregate schedules from various classes (e.g. yoga studios) into one place, 
 given a few search parameters.
 
+# Installing
+
+## NPM modules
+    $ meteor npm install chrome-remote-interface devtools
+
 # admin panel, lib/adminconfig.js
 To work with the admin dashboard, which uses yogiben:meteor-admin, an admin user
 must be created through console and added to the "admin" role.  Currently, this

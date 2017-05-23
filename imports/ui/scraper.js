@@ -32,12 +32,12 @@ Template.scraper.events({
       });
     }
   },
-  'submit .scrape-all-sync-chrome'() {
+  'click .scrape-all-sync-chrome'() {
     Meteor.call('coursescraper.getAllCoursesChrome', (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('Finished single scrape');
+        console.log('Finished all scraping');
       }
     });
   },

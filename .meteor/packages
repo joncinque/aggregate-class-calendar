@@ -33,3 +33,4 @@ yogiben:admin
 percolate:synced-cron
 shell-server@0.2.3
 votercircle:winston
+browser-policy

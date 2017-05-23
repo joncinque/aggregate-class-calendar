@@ -3,7 +3,7 @@
 const CDP = require('chrome-remote-interface');
 const fs = require('fs');
 const verbose = false;
-const logger = require('./logger');
+//const logger = require('./logger');
 
 function sleep (milliseconds = 5000) {
   return new Promise(resolve => setTimeout(() => resolve(), milliseconds))
