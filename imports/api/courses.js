@@ -1,6 +1,7 @@
 // Business logic objects go here
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { Match, check } from 'meteor/check';
 
 import moment from 'moment';
 
@@ -99,9 +100,10 @@ Meteor.methods({
       postcode: String,
       end: Date,
       teacher: String,
-      room: String,
       url: String,
       booking: String,
+      room: Match.OneOf(undefined, String),
+      locale: Match.OneOf(undefined, String)
     });
 
     Courses.upsert({

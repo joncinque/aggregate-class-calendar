@@ -16,6 +16,7 @@ import { EMPTY,
   maxCoursesReached } from './lib/searchutil.js';
 
 import './coursetable.js';
+import './footer.js';
 
 import './coursesearch.html';
 

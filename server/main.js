@@ -28,5 +28,7 @@ Meteor.startup(() => {
   BrowserPolicy.content.disallowInlineScripts();
   BrowserPolicy.framing.disallow();
   BrowserPolicy.content.disallowEval();
-  //BrowserPolicy.framing.restrictToOrigin(origin);
+  BrowserPolicy.content.allowImageOrigin("www.paypalobjects.com");
+  BrowserPolicy.content.allowStyleOrigin("fonts.googleapis.com");
+  BrowserPolicy.content.allowFontOrigin("fonts.gstatic.com");
 });

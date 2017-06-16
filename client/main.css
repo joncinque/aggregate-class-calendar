@@ -149,8 +149,68 @@ header .show-starred {
   overflow-x:auto;
 }
 
-@media (max-width: @screen-xs-max) {
+.footer-fixed {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+  background: rgba(230, 230, 230);
+  background: rgba(230, 230, 230, 0.7);
+  margin-left: -15px;
+}
+
+.footer-float {
+  position: relative;
+  min-height: 50px;
+  background: rgba(230, 230, 230);
+  background: rgba(230, 230, 230, 0.7);
+}
+
+.footer-fixed form {
+  margin: 0;
+  padding: 5px;
+}
+
+.footer-fixed ul {
+  padding: 0;
+}
+
+.footer-fixed li {
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.donate-btn form {
+  margin-top: 5px;
+}
+
+.coursemodal-footer ul {
+  padding: 0;
+}
+
+.coursemodal-footer li {
+  float: left;
+  border: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.fit-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 767px) {
+  /*
   header {
     padding: 0px 0px 0px 0px;
+  }
+  */
+  .footer-fixed {
+    width: 100%;
   }
 }

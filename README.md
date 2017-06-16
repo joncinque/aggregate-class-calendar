@@ -7,6 +7,15 @@ given a few search parameters.
 ## NPM modules
     $ meteor npm install chrome-remote-interface devtools
 
+# Running
+
+## Chrome dependency
+    $ google-chrome --headless -disable-gpu --remote-debugging-port=9222
+
+## Main app
+From top-level directory:
+    $ meteor
+
 # admin panel, lib/adminconfig.js
 To work with the admin dashboard, which uses yogiben:meteor-admin, an admin user
 must be created through console and added to the "admin" role.  Currently, this

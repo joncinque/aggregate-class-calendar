@@ -1,0 +1,68 @@
+<template name="footer">
+
+  <div class="footer-float">
+  </div>
+  <div class="footer-fixed">
+    <ul class="footer-list">
+      <li>
+        <button type="button" class="btn btn-default about-btn">About</button>
+      </li>
+      <li>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="2LHLWQ5FNF7BG">
+          <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+          <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </li>
+    </ul>
+  </div>
+
+  {{> aboutmodal }}
+</template>
+
+<template name="aboutmodal">
+  <div class="modal fade" id="aboutmodal">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">About Yogi's Choice</h3>
+        </div>
+
+        <div class="modal-body">
+          <h3>What does it do?</h3>
+          <p>Yogi's Choice aims to spread the diversity and love of yoga by easily helping you find a class, style, or teacher across dozens of studios.</p>
+          <p>You can even compare timetables across different studios, so there's no more need to have five browser tabs in order to find the right class.</p>
+          <h3>How does it work?</h3>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <p>Tap or click on filters to quickly search on class style, area of the city, day of the week, and time of day.</p>
+              <p>Results will appear instantly.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6"><img class="fit-image" src="/yogischoice-demo.png"></div>
+          </div>
+          <h3>Advanced Searching</h3>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6"><img class="fit-image" src="/yogischoice-advanceddemo.png"></div>
+            <div class="col-xs-12 col-sm-6">
+              <p>If you're looking for something specific, the "Advanced" section allows you to search for specific class names, teachers, or studios.</p>
+              <p>Suggestions appear once you start typing.</p>
+              <p>Once again, cutting down on browser tabs for teacher and studio sites.</p>
+            </div>
+          </div>
+          <h3>Giving Back</h3>
+          <p>Yogi's Choice is provided as a free service to encourage new connections in the yoga world.</p>
+          <p>In return, we ask that you give back by sharing Yogi's Choice on social media, or contributing towards servers and upkeep through financial donation.</p>
+          <p>Any contribution will be greatly and warmly appreciated.</p>
+
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="2LHLWQ5FNF7BG">
+            <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
