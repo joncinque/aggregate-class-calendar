@@ -5,3 +5,4 @@ import '/imports/ui/coursesearch.js';
 import '/imports/ui/login.js';
 import '/imports/ui/scraper.js';
 import '/imports/ui/cronjobs.js';
+import '/imports/ui/facebook.js';

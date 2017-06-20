@@ -186,6 +186,10 @@ header .show-starred {
   margin-top: 5px;
 }
 
+.coursemodal-footer {
+  padding: 15px 10px;
+}
+
 .coursemodal-footer ul {
   padding: 0;
 }
@@ -202,6 +206,14 @@ header .show-starred {
 .fit-image {
   max-width: 100%;
   max-height: 100%;
+}
+
+.coursemodal-body ul {
+  padding-left: 15px;
+}
+
+.coursemodal-body li {
+  padding: 5px;
 }
 
 @media (max-width: 767px) {

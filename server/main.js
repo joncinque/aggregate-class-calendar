@@ -31,4 +31,8 @@ Meteor.startup(() => {
   BrowserPolicy.content.allowImageOrigin("www.paypalobjects.com");
   BrowserPolicy.content.allowStyleOrigin("fonts.googleapis.com");
   BrowserPolicy.content.allowFontOrigin("fonts.gstatic.com");
+  BrowserPolicy.content.allowFrameOrigin("www.facebook.com");
+  BrowserPolicy.content.allowScriptOrigin("connect.facebook.net");
+  BrowserPolicy.content.allowImageOrigin("www.facebook.com");
+  BrowserPolicy.content.allowFrameOrigin("staticxx.facebook.com");
 });

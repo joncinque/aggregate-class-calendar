@@ -30,3 +30,14 @@ Template.coursemodal.helpers({
   hasRoom() { return this.room !== null && this.room !== undefined && this.room !== ""; },
   hasLocale() { return this.locale !== null && this.locale !== undefined && this.locale !== ""; }
 });
+
+Template.coursemodal.events({
+  'click .share-btn'() {
+    FB.ui({
+      method: 'share',
+      display: 'popup',
+      href: 'http://yogischoice.net',
+      quote: 'Check out this class found on Yogi\'s Choice!'
+    }, response=>{});
+  }
+});

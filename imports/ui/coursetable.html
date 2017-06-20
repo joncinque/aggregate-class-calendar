@@ -31,28 +31,29 @@
           <h4 class="modal-title">With {{teacher}}, on {{day}}, {{startEnd}}</h4>
         </div>
 
-        <div class="modal-body">
-          <h5>{{studio}}</h5>
-          <p>
-            <a href="{{url}}" target="_blank">Studio
-              <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
-            </a>
-            <br />
-            <a href="{{booking}}" target="_blank">Booking
-              <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
-            </a>
-          </p>
-          <p>
-            Postcode - {{postcode}}
-            {{#if hasRoom}}, Room - {{room}}{{/if}}
-            {{#if hasLocale}}, Locale - {{locale}}{{/if}}
-          </p>
+        <div class="modal-body coursemodal-body">
+          <h4>Info for {{studio}}</h4>
+          <ul>
+            <li>
+              <a href="{{url}}" target="_blank">
+                <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Studio Page
+              </a>
+            </li>
+            <li>
+              <a href="{{booking}}" target="_blank">
+                <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Booking Page
+              </a>
+            </li>
+            <li>Area - {{postcode}}</li>
+            {{#if hasRoom}}<li>Room - {{room}}</li>{{/if}}
+            {{#if hasLocale}}<li>Locale - {{locale}}</li>{{/if}}
+          </ul>
         </div>
 
         <div class="modal-footer coursemodal-footer">
           <ul>
             <li>
-              <a href="{{url}}" target="_blank"><button type="button" class="btn btn-primary">Share</button></a>
+              <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fyogischoice.net&layout=button&size=large&mobile_iframe=true&appId=335141010239501&width=73&height=28" width="73" height="28" style="border:none;overflow:hidden;margin-top:3px" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
             </li>
             <li class="donate-btn">
               <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
