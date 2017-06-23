@@ -34,6 +34,12 @@ header {
   display: block;
 }
 
+.main-title .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .main-title h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 2.0em;
@@ -51,6 +57,22 @@ h1, h1 > a {
   margin: 0;
   margin-bottom: 10px;
   display: inline-block;
+}
+
+.title-list ul {
+  padding: 0;
+  margin: 0;
+}
+
+.title-list li {
+  padding: 5px;
+  border: none;
+}
+
+.bottom-line {
+  border-bottom: 1px solid #F2F2F2;
+  padding-bottom: 10px !important;
+  margin: 0px !important;
 }
 
 .panel-heading .accordion-toggle:after {
@@ -180,6 +202,10 @@ header .show-starred {
   padding-right: 15px;
   padding-top: 10px;
   padding-bottom: 5px;
+}
+
+.center-button {
+  text-align: center;
 }
 
 .donate-btn form {
