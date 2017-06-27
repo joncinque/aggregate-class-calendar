@@ -27,8 +27,8 @@ Template.coursemodal.helpers({
     return moment(this.start).format("H:mm") + "-" + moment(this.end).format("H:mm");
   },
   day() { return moment(this.start).format("dddd D MMMM"); },
-  hasRoom() { return this.room !== null && this.room !== undefined && this.room !== ""; },
-  hasLocale() { return this.locale !== null && this.locale !== undefined && this.locale !== ""; }
+  hasRoom() { return this.room !== null && this.room !== undefined && this.room !== "" && this.room !== "undefined"; },
+  hasLocale() { return this.locale !== null && this.locale !== undefined && this.locale !== "" && this.locale !== "undefined"; }
 });
 
 Template.coursemodal.events({

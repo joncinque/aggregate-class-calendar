@@ -8,6 +8,7 @@ import { Courses } from '../../api/courses.js';
 
 const EMPTY = '';
 const COURSE_LIMIT = 500;
+const VERBOSE = false;
 
 const makeRegex = (searchString)=>
 {
@@ -41,7 +42,9 @@ const getSearchArgs = (reactiveDict)=>
   // get time filters
   const startFilter = reactiveDict.get('startFilter');
   const endFilter = reactiveDict.get('endFilter');
-  console.log('Start: ' + startFilter + ' End: ' + endFilter);
+  if (VERBOSE) {
+    console.log('Start: ' + startFilter + ' End: ' + endFilter);
+  }
 
   // apply day filter
   let dayList = [];
@@ -52,9 +55,11 @@ const getSearchArgs = (reactiveDict)=>
         { start: { $gte: makeDatetime(key, startFilter).toDate() } },
         { start: { $lte: makeDatetime(key, endFilter).toDate() } }
       ]});
-      console.log('Key: ' + key + 
-          ' Start: ' + makeDatetime(key, startFilter).toDate() +
-          ' End: ' + makeDatetime(key, endFilter).toDate());
+      if (VERBOSE) {
+        console.log('Key: ' + key + 
+            ' Start: ' + makeDatetime(key, startFilter).toDate() +
+            ' End: ' + makeDatetime(key, endFilter).toDate());
+      }
     }
   }
   if (dayList.length === 0) {
@@ -67,7 +72,9 @@ const getSearchArgs = (reactiveDict)=>
   const classFilter = reactiveDict.get('classFilter');
   if (classFilter !== EMPTY)
   {
-    console.log('Class filter: ' + classFilter);
+    if (VERBOSE) {
+      console.log('Class filter: ' + classFilter);
+    }
     argList.push({ name: makeRegex(classFilter) });
   }
 
@@ -75,7 +82,9 @@ const getSearchArgs = (reactiveDict)=>
   const teacherFilter = reactiveDict.get('teacherFilter');
   if (teacherFilter !== EMPTY)
   {
-    console.log('Teacher filter: ' + teacherFilter);
+    if (VERBOSE) {
+      console.log('Teacher filter: ' + teacherFilter);
+    }
     argList.push({ teacher: makeRegex(teacherFilter) });
   }
 
@@ -83,7 +92,9 @@ const getSearchArgs = (reactiveDict)=>
   let studioFilter = reactiveDict.get('studioFilter');
   if (studioFilter !== EMPTY)
   {
-    console.log('Studio filter: ' + studioFilter);
+    if (VERBOSE) {
+      console.log('Studio filter: ' + studioFilter);
+    }
     argList.push({ studio: makeRegex(studioFilter) });
   }
 
@@ -91,7 +102,9 @@ const getSearchArgs = (reactiveDict)=>
   let styleFilter = reactiveDict.get('styleFilter');
   if (styleFilter.length > 0)
   {
-    console.log('Style filter: ' + styleFilter);
+    if (VERBOSE) {
+      console.log('Style filter: ' + styleFilter);
+    }
     argList.push({ style: { $in: styleFilter } });
   }
 
@@ -99,7 +112,9 @@ const getSearchArgs = (reactiveDict)=>
   let postcodeFilter = reactiveDict.get('postcodeFilter');
   if (postcodeFilter.length > 0)
   {
-    console.log('Postcode filter: ' + postcodeFilter);
+    if (VERBOSE) {
+      console.log('Postcode filter: ' + postcodeFilter);
+    }
     argList.push({ postcode: { $in: postcodeFilter } });
   }
 
