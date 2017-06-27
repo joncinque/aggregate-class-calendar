@@ -30,8 +30,8 @@ iron:router
 twbs:bootstrap
 fortawesome:fontawesome
 yogiben:admin
-percolate:synced-cron
 shell-server@0.2.3
 votercircle:winston
 browser-policy@1.1.0
 dynamic-import
+percolate:synced-cron

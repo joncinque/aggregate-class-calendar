@@ -1,4 +1,5 @@
 # aggregate-class-calendar
+
 Aggregate schedules from various classes (e.g. yoga studios) into one place, 
 given search parameters.
 
@@ -15,6 +16,7 @@ given search parameters.
     $ sudo apt install -y nginx supervisor
 
 # Chrome dependency
+
 Run headless Chrome using:
     $ google-chrome --headless --disable-gpu --remote-debugging-port=9222
 If there's an issue getting to the webpages, it can be debugged using an X
@@ -22,6 +24,7 @@ session
     $ ssh -X ...
 
 # Deploying
+
 0. Create the user to run the project
     $ adduser aggregate
 1. Build the application, tar the deploy directory
@@ -47,21 +50,25 @@ session
 8. Setup supervisor to run the app
     $ cp deploy/supervisor-proj.conf /etc/supervisor/conf.d/aggregate-class-calendar.conf
     $ supervisorctl update aggregate-class-calendar
-9. If needed, running the whole thing without supervisor
-    $ MONGO_URL=mongodb://localhost:27017/aggregate ROOT_URL=http://localhost:8080 node main.js
+9. If needed, restarting the whole project
+    $ supervisorctl restart aggregate-class-calendar
 
-## Set up SSL certificates
-To be done later when logged in areas become important.
-
-## Set up cron job for mongdb backup
+# Important Components
 
 ## Upload courses from file
+
 1. Run the subtree's toplevel.js to dump courses.json file
 2. Copy the file
     $ scp courses.json <ip>:/home/aggregate/bundle/programs/server/assets/app
 3. Use the admin panel to upload from file
 
-# admin panel, lib/adminconfig.js
+## Cron jobs
+
+Currently under construction, but cron job customization will be possible 
+through the admin panel and percolate:synced-cron.
+
+## admin panel configuration, lib/adminconfig.js
+
 To work with the admin dashboard, which uses yogiben:meteor-admin, an admin user
 must be created through console and added to the "admin" role.  Currently, this
 only works with one user within 'adminEmails'.
@@ -70,18 +77,15 @@ through the shell-server package:
     $ var id = Accounts.createUser({email: "..", password: "..", profile: { name: ".." }});
     $ Roles.addUsersToRoles(id, ['admin'], 'default-group');
 
-# logger setup, server/logging.js
+## logger setup, server/logging.js
+
 This app uses winston through votercircle:winston and a papertrail config. See
 https://papertrailapp.com/systems/setup for setup instructions on a machine to 
 send logs to their severs.  See the logs at https://papertrailapp.com/dashboard
 The file logging.js adds the transport as necessary to Papertrail.
 
-# cron job
-Uses percolate:synced-cron to fetch yoga classes on a fixed schedule of once 
-every 6 hours.  The admin panel, found at /admin allows for customization of 
-this task.
+## dependency on class-scraper
 
-# dependency on class-scraper
 This repo depends directly on class-scraper through git subtree (repo found at 
 https://github.com/joncinque/class-scraper), so to update this repo on any
 changes, run the command: 

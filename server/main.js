@@ -21,9 +21,6 @@ Meteor.startup(() => {
   Courses._ensureIndex({ "style" : 1 });
   Courses._ensureIndex({ "teacher" : 1 });
 
-  // Setup cron job
-  //Meteor.call('cronmanager.startScrapeJob');
-
   // Setup Browser Policy
   BrowserPolicy.content.disallowInlineScripts();
   BrowserPolicy.framing.disallow();
