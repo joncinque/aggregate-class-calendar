@@ -51,7 +51,7 @@ exports.dumpCourseTable = (providerName, studioId, extraString) =>
         let updatedTab = false;
         if (tableViewNode.nodeId !== 0) { // tab not selected
           updatedTab = true;
-          const clickEvent = "document.querySelector('#tabA7').click();";
+          const clickEvent = "document.querySelector('#tabTD7').click();";
           await Runtime.evaluate({expression: clickEvent});
           await Page.loadEventFired();
           topNode = await DOM.getDocument();
