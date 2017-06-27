@@ -12,7 +12,7 @@ const PARSER_FUNCTIONS =
 
 function cleanupHtml(htmlString)
 {
-  return htmlString.replace(/&nbsp;/g,' ');
+  return htmlString.replace(/(&nbsp;)|(\t)/g,' ');
 }
 
 function parseFromData(cell)
