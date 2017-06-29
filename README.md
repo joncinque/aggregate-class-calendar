@@ -31,8 +31,8 @@ session
     $ meteor build ../app --architecture os.linux.x86_64
     $ tar -czvf ../app/aggregate-deploy.tar.gz deploy/
 2. Copy the resulting tar files
-    $ scp ../app/aggregate-class-calendar.tar.gz <ip>:/home/aggregate
-    $ scp ../app/aggregate-deploy.tar.gz <ip>:/home/aggregate
+    $ scp ../app/aggregate-class-calendar.tar.gz aggregate@<ip>:/home/aggregate
+    $ scp ../app/aggregate-deploy.tar.gz aggregate@<ip>:/home/aggregate
 3. Log into the machine
 4. Unbundle the tars
     $ tar -xvzf aggregate-class-calendar.tar.gz
@@ -58,9 +58,11 @@ session
 ## Upload courses from file
 
 1. Run the subtree's toplevel.js to dump courses.json file
-2. Copy the file
+2. Test the file is OK
+    $ python -m json.tool courses.json
+3. Copy the file
     $ scp courses.json <ip>:/home/aggregate/bundle/programs/server/assets/app
-3. Use the admin panel to upload from file
+4. Use the admin panel to upload from file
 
 ## Cron jobs
 
