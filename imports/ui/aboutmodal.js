@@ -1,0 +1,1 @@
+import './aboutmodal.html';

@@ -1,0 +1,1 @@
+import './howmodal.html';

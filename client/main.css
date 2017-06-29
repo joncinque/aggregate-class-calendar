@@ -268,3 +268,18 @@ header .show-starred {
     width: 100%;
   }
 }
+
+.available-line h1 {
+  font-size: 20px;
+}
+
+.available-line button, .specific-line button {
+  margin-left: 20px;
+}
+
+.advanced-line {
+}
+
+.close-btn {
+  float: right;
+}

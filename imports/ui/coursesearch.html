@@ -16,15 +16,20 @@
             <div class="tagline-list col-xs-12 col-sm-5 col-md-7 clearfix">
               <ul>
                 <li><h4>Trouble finding the perfect yoga class?</h4></li>
-                <li><h4>Discover it here, all in one tab.</h4></li>
+                <li><h4>Discover it here, all in one place.</h4></li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="panel-heading">
-          <h1 class="panel-title main-accordion">
-            <a class="accordion-toggle" data-toggle="collapse" href="#filterform">{{availableCount}} Classes Found</a>
-          </h1>
+        <div class="panel-heading available-line">
+          <div class="row">
+            <div class="col-xs-12">
+              <h1 class="panel-title">{{availableCount}} Found</h1>
+              <button type="button" class="btn btn-default how-btn">
+                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
 
           <!--
           <label class="show-starred">
@@ -49,27 +54,12 @@
           -->
 
           <form class="form-horizontal">
-
             <div class="panel-group">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#styleform">Style{{selectedStyles}}</a>
-                  </h4>
-                </div>
-                <div id="styleform" class="panel-body panel-collapse collapse in">
-                  <div class="row">
-                    {{#each styles}}
-                      {{> stylecheck val=this }}
-                    {{/each}}
-                  </div>
-                </div>
-              </div>
 
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Area{{selectedPostcodes}}</a>
+                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Postcode{{selectedPostcodes}}</a>
                   </h4>
                 </div>
                 <div id="postcodeform" class="panel-body panel-collapse collapse in">
@@ -126,10 +116,32 @@
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle collapsed" data-toggle="collapse" href="#advancedform">Advanced</a>
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" href="#styleform">Style{{selectedStyles}}</a>
                   </h4>
                 </div>
-                <div id="advancedform" class="panel-body panel-collapse collapse">
+                <div id="styleform" class="panel-body panel-collapse collapse">
+                  <div class="row">
+                    {{#each styles}}
+                      {{> stylecheck val=this }}
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading specific-line">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" href="#specificform">Specific Search</a>
+                        <button type="button" class="btn btn-default specific-btn">
+                          <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                        </button>
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div id="specificform" class="panel-body panel-collapse collapse">
                   <!-- Begin Text Filters -->
                   <div class="form-group row">
                     <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
@@ -176,6 +188,8 @@
 
     {{> footer }}
   </div>
+  {{> howmodal }}
+  {{> specificmodal }}
 </template>
 
 <template name="daycheck">

@@ -17,6 +17,8 @@ import { EMPTY,
 
 import './coursetable.js';
 import './footer.js';
+import './howmodal.js';
+import './specificmodal.js';
 
 import './coursesearch.html';
 
@@ -256,5 +258,11 @@ Template.coursesearch.events({
     instance.state.set(
         'endFilter',
         getNewTimeFromInput(endDate, endTime));
+  },
+  'click .how-btn'() {
+    $('#howmodal').modal('show');
+  },
+  'click .specific-btn'() {
+    $('#specificmodal').modal('show');
   },
 });
