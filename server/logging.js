@@ -46,4 +46,4 @@ let papertrailOptions = {
 };
 
 // Simply add the papertrail transport
-//logger.addTransport('papertrail', papertrailOptions);
+logger.addTransport('papertrail', papertrailOptions);

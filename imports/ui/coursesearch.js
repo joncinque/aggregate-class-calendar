@@ -4,10 +4,13 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import moment from 'moment';
 
 import { getNewTimeFromInput,
+  getDayFilterForShortcut,
   getDaysOfWeek,
+  getDayShortcuts,
   getTimesOfDay,
   getStartForTimeOfDay,
-  getEndForTimeOfDay } from './lib/dateutil.js';
+  getEndForTimeOfDay,
+  isDaynameToday } from './lib/dateutil.js';
 
 import { EMPTY,
   getCourseResults,
@@ -16,7 +19,7 @@ import { EMPTY,
   maxCoursesReached } from './lib/searchutil.js';
 
 import './coursetable.js';
-import './footer.js';
+import './fixedheader.js';
 import './howmodal.js';
 import './specificmodal.js';
 
@@ -66,6 +69,9 @@ Template.coursesearch.helpers({
   daysofweek() {
     return getDaysOfWeek();
   },
+  dayshortcuts() {
+    return getDayShortcuts();
+  },
   timesofday() {
     return getTimesOfDay();
   },
@@ -91,7 +97,7 @@ Template.coursesearch.helpers({
     for (let dayName in dayFilter) {
       if (dayFilter[dayName] === true) {
         if (dayString === '') {
-          dayString += ' - ';
+          dayString += ': ';
         } else {
           dayString += ', ';
         }
@@ -104,7 +110,7 @@ Template.coursesearch.helpers({
     let postcodes = Template.instance().state.get('postcodeFilter').slice(0);
     let postcodeString = postcodes.sort().join(', ');
     if (postcodeString !== '') {
-      return ' - ' + postcodeString;
+      return ': ' + postcodeString;
     }
     return postcodeString;
   },
@@ -112,11 +118,17 @@ Template.coursesearch.helpers({
     let styles = Template.instance().state.get('styleFilter').slice(0);
     let styleString = styles.sort().join(', ');
     if (styleString !== '') {
-      return ' - ' + styleString;
+      return ': ' + styleString;
     }
     return styleString;
   },
-  // defaults for time entries
+  selectedTime() {
+    return ': ' + 
+        moment(Template.instance().state.get('startFilter')).format('HH:mm') +
+        ' to ' +
+        moment(Template.instance().state.get('endFilter')).format('HH:mm');
+
+  },
   starttime() {
     return moment(Template.instance().state.get('startFilter')).format('HH:mm');
   },
@@ -127,7 +139,7 @@ Template.coursesearch.helpers({
 
 Template.daycheck.helpers({
   isDayChecked(dayname) {
-    return dayname === moment().format('ddd');
+    return isDaynameToday(dayname);
   },
 });
 
@@ -160,7 +172,10 @@ Template.coursesearch.events({
     let postcodeFilters = document.getElementsByClassName("postcode_filter");
     resetAllCheckBoxes(postcodeFilters);
     let dayFilters = document.getElementsByClassName("dayofweek_filter");
-    resetAllCheckBoxes(dayFilters);
+    // no forEach on nodeList yet
+    for (let i = 0; i < dayFilters.length; ++i) {
+      dayFilters[i].checked = isDaynameToday(dayFilters[i].value);
+    }
 
     let classFilter = document.getElementById("class_filter");
     let teacherFilter = document.getElementById("teacher_filter");
@@ -246,6 +261,15 @@ Template.coursesearch.events({
     instance.state.set(
         'endFilter',
         getNewTimeFromInput(endDate, event.target.value));
+  },
+  'click .dayofweekshortcut_filter'(event, instance) {
+    const days = getDayFilterForShortcut(event.target.value);
+    let dayFilters = document.getElementsByClassName("dayofweek_filter");
+    // no forEach on nodeList yet
+    for (let i = 0; i < dayFilters.length; ++i) {
+      dayFilters[i].checked = days[dayFilters[i].value];
+    }
+    instance.state.set('dayFilter', days);
   },
   'click .timeofday_filter'(event, instance) {
     const startTime = getStartForTimeOfDay(event.target.value);

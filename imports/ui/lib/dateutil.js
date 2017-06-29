@@ -1,24 +1,62 @@
 import moment from 'moment';
 
-const getWeekdayOfDayName = (dayName) =>
-{
-}
-
 export const getDaysOfWeek = () =>
 {
   const days = [ 1, 2, 3, 4, 5, 6, 7 ];
   return days.map(x=>moment().weekday(x).format('ddd'));
 }
 
+const getWeekdayDays = () =>
+{
+  const days = [ 1, 2, 3, 4, 5 ];
+  return days.map(x=>moment().weekday(x).format('ddd'));
+}
+
+const getWeekendDays = () =>
+{
+  const days = [ 6, 7 ];
+  return days.map(x=>moment().weekday(x).format('ddd'));
+}
+
+export const getDayShortcuts = () =>
+{
+  return ['All', 'Today', 'Tomorrow', 'Weekend'];
+}
+
+export const getDayFilterForShortcut = (shortcutDay) =>
+{
+  let dayFilter = createDayFilter();
+  switch (shortcutDay)
+  {
+    case 'All':
+      getDaysOfWeek().forEach(dayname=>dayFilter[dayname] = true);
+      break;
+    case 'Today':
+      dayFilter[moment().format('ddd')] = true;
+      break;
+    case 'Tomorrow':
+      dayFilter[moment().add(1, 'days').format('ddd')] = true;
+      break;
+    case 'Weekdays':
+      getWeekdayDays().forEach(dayname=>dayFilter[dayname] = true);
+      break;
+    case 'Weekend':
+      getWeekendDays().forEach(dayname=>dayFilter[dayname] = true);
+      break;
+  }
+  return dayFilter;
+}
+
 export const getTimesOfDay = ()=>
 {
-  return ['Morning', 'Midday', 'Evening'];
+  return ['All', 'Morning', 'Midday', 'Evening'];
 }
 
 export const getStartForTimeOfDay = (tod)=>
 {
   switch (tod)
   {
+    case 'All': return '00:00';
     case 'Morning': return '00:00';
     case 'Midday': return '10:00';
     case 'Evening': return '16:00';
@@ -32,6 +70,7 @@ export const getEndForTimeOfDay = (tod)=>
     case 'Morning': return '10:00';
     case 'Midday': return '16:00';
     case 'Evening': return '23:59';
+    case 'All': return '23:59';
   }
 }
 
@@ -67,11 +106,17 @@ export const getLaterDatetime = ()=>
     'millisecond': 0}).toDate();
 }
 
-export const initDayFilter = ()=>
+const createDayFilter = () =>
 {
   const days = getDaysOfWeek();
   let dayFilter = {};
   days.forEach(day=>dayFilter[day] = 0);
+  return dayFilter;
+}
+
+export const initDayFilter = ()=>
+{
+  let dayFilter = createDayFilter();
   dayFilter[moment().format('ddd')] = true;
   return dayFilter;
 }
@@ -87,30 +132,7 @@ export const makeDatetime = (day, timeObj)=>
   return madeDatetime;
 }
 
-/*Deprecated*/
-export const getStartOfDay = (day)=>
+export const isDaynameToday = (dayname) =>
 {
-  let startOfDay = moment(day, 'ddd').set({
-    'hour': 0,
-    'minute': 0,
-    'second': 0,
-    'millisecond': 0});
-  if (startOfDay.weekday() === 0) {
-    startOfDay.day(7);
-  }
-  return startOfDay;
-}
-
-/*Deprecated*/
-export const getEndOfDay = (day)=>
-{
-  let endOfDay = moment(day, 'ddd').set({
-    'hour': 23,
-    'minute': 59,
-    'second': 0,
-    'millisecond': 0});
-  if (endOfDay.weekday() === 0) {
-    endOfDay.day(7);
-  }
-  return endOfDay;
+  return dayname === moment().format('ddd');
 }

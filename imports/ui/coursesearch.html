@@ -15,8 +15,8 @@
             </div>
             <div class="tagline-list col-xs-12 col-sm-5 col-md-7 clearfix">
               <ul>
-                <li><h4>Trouble finding the perfect yoga class?</h4></li>
-                <li><h4>Discover it here, all in one place.</h4></li>
+                <li><h4>Trouble finding yoga classes?</h4></li>
+                <li><h4>Discover them here, all in one place.</h4></li>
               </ul>
             </div>
           </div>
@@ -24,7 +24,7 @@
         <div class="panel-heading available-line">
           <div class="row">
             <div class="col-xs-12">
-              <h1 class="panel-title">{{availableCount}} Found</h1>
+              <h1 class="panel-title">{{availableCount}} Classes Found</h1>
               <button type="button" class="btn btn-default how-btn">
                 <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
               </button>
@@ -56,6 +56,50 @@
           <form class="form-horizontal">
             <div class="panel-group">
 
+              <!-- Begin day / time button row -->
+              <div class="row daytime-row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" href="#dayform">Day{{selectedDays}}</a>
+                      </h4>
+                    </div>
+                    <div id="dayform" class="panel-body panel-collapse collapse in">
+                      <div class="row">
+                        <div class="col-xs-12 btn-group">
+                          {{#each dayshortcuts}}
+                            {{> dayshortcutbtn val=this }}
+                          {{/each}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" href="#timeform">Time{{selectedTime}}</a>
+                      </h4>
+                    </div>
+                    <div id="timeform" class="panel-body panel-collapse collapse in">
+                      <div class="row">
+                      <!-- Begin Time Filters -->
+                        <div class="col-xs-12 btn-group">
+                          {{#each timesofday}}
+                            {{> timeofdaybtn val=this }}
+                          {{/each}}
+                        </div>
+                      </div>
+                      <!-- End Time Filters -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End day / time button row -->
+
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
@@ -68,48 +112,6 @@
                       {{> postcodecheck val=this }}
                     {{/each}}
                   </div>
-                </div>
-              </div>
-
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#dayform">Day{{selectedDays}}</a>
-                  </h4>
-                </div>
-                <div id="dayform" class="panel-body panel-collapse collapse in">
-                  <div class="row">
-                    {{#each daysofweek}}
-                      {{> daycheck val=this }}
-                    {{/each}}
-                  </div>
-                </div>
-              </div>
-
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#timeform">Time</a>
-                  </h4>
-                </div>
-                <div id="timeform" class="panel-body panel-collapse collapse in">
-                  <div class="row">
-                  <!-- Begin Time Filters -->
-                    <label for="starttime_filter" class="col-xs-2 col-md-1">From</label>
-                    <div class="col-sm-2 col-xs-4 no-left-padding">
-                      <input id="starttime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{starttime}}" />
-                    </div>
-                    <label for="endtime_filter" class="col-xs-2 col-md-1">To</label>
-                    <div class="col-sm-2 col-xs-4 no-left-padding">
-                      <input id="endtime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{endtime}}" />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 btn-group">
-                      {{#each timesofday}}
-                        {{> timeofdaybtn val=this }}
-                      {{/each}}
-                    </div>
-                  </div>
-                  <!-- End Time Filters -->
                 </div>
               </div>
 
@@ -174,6 +176,28 @@
                   </div>
                   <!-- End Text Filters -->
 
+                  <!-- Begin Day Filters -->
+                  <div class="form-group row">
+                    <label for="dayofweek_filter" class="col-xs-1">On</label>
+                    {{#each daysofweek}}
+                      {{> daycheck val=this }}
+                    {{/each}}
+                  </div>
+                  <!-- End Day Filters -->
+
+                  <!-- Begin Time Filters -->
+                  <div class="form-group row">
+                    <label for="starttime_filter" class="col-xs-2 col-md-1">From</label>
+                    <div class="col-sm-2 col-xs-4 no-left-padding">
+                      <input id="starttime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{starttime}}" />
+                    </div>
+                    <label for="endtime_filter" class="col-xs-2 col-md-1">To</label>
+                    <div class="col-sm-2 col-xs-4 no-left-padding">
+                      <input id="endtime_filter" class="form-control" type="text" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" required value="{{endtime}}" />
+                    </div>
+                  </div>
+                  <!-- End Time Filters -->
+
                 </div>
               </div>
             </div>
@@ -186,7 +210,7 @@
 
     {{> coursetable courses=courses }}
 
-    {{> footer }}
+    {{> fixedheader }}
   </div>
   {{> howmodal }}
   {{> specificmodal }}
@@ -195,7 +219,7 @@
 <template name="daycheck">
   <div class="col-sm-1 col-xs-3">
     <label class="checkbox-inline">
-      <input type="checkbox" class="dayofweek_filter" value="{{val}}" checked={{isDayChecked val}}>{{val}}
+      <input type="checkbox" class="dayofweek_filter" value="{{val}}" checked="{{isDayChecked val}}">{{val}}
     </label>
   </div>
 </template>
@@ -218,4 +242,8 @@
 
 <template name="timeofdaybtn">
   <input type="button" class="timeofday_filter btn btn-default" value="{{val}}" />
+</template>
+
+<template name="dayshortcutbtn">
+  <input type="button" class="dayofweekshortcut_filter btn btn-default" value="{{val}}" />
 </template>

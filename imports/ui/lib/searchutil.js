@@ -6,7 +6,7 @@ import { getLaterDatetime,
 
 import { Courses } from '../../api/courses.js';
 
-const EMPTY = '';
+export const EMPTY = '';
 const COURSE_LIMIT = 500;
 const VERBOSE = false;
 

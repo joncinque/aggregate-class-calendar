@@ -26,8 +26,14 @@ body {
  
 header {
   background: #6D728C;
-  padding: 20px 15px 15px 15px;
+  padding: 45px 15px 15px 15px;
   position: relative;
+}
+
+@media (max-width: 767px) {
+  header {
+    padding-top: 75px;
+  }
 }
  
 #login-buttons {
@@ -187,37 +193,45 @@ header .show-starred {
   overflow-x:auto;
 }
 
-.footer-fixed {
+.header-fixed {
   position: fixed;
-  bottom: 0;
+  top: 0;
   width: inherit;
   background: rgba(230, 230, 230);
   background: rgba(230, 230, 230, 0.7);
   margin-left: -15px;
 }
 
-.footer-float {
-  position: relative;
-  min-height: 50px;
-  background: rgba(230, 230, 230);
-  background: rgba(230, 230, 230, 0.7);
-}
-
-.footer-fixed form {
+.header-fixed form {
   margin: 0;
   padding: 5px;
 }
 
-.footer-fixed ul {
+.header-fixed ul {
   padding: 0;
 }
 
-.footer-fixed li {
+.header-fixed li {
   float: left;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 10px;
   padding-bottom: 5px;
+  border: none;
+}
+
+.header-fixed li:last-child {
+  padding-top: 15px;
+}
+
+@media (max-width: 767px) {
+  .header-fixed li:last-child {
+    padding-top: 0px;
+  }
+}
+
+.header-fixed p {
+  margin: 0;
 }
 
 .center-button {
@@ -277,9 +291,14 @@ header .show-starred {
   margin-left: 20px;
 }
 
-.advanced-line {
+.specific-line {
+  background-color: #E6BE8A!important;
 }
 
 .close-btn {
   float: right;
+}
+
+.daytime-row {
+  margin-bottom: 5px;
 }

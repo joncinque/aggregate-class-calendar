@@ -1,8 +1,8 @@
-import './footer.html';
+import './fixedheader.html';
 
 import './aboutmodal.js';
 
-Template.footer.events({
+Template.fixedheader.events({
   'click .about-btn'() {
     $('#aboutmodal').modal('show');
   },
