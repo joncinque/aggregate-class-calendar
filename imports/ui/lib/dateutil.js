@@ -20,7 +20,7 @@ const getWeekendDays = () =>
 
 export const getDayShortcuts = () =>
 {
-  return ['All', 'Today', 'Tomorrow', 'Weekend'];
+  return ['All week', 'Today', 'Tomorrow', 'Weekdays', 'Weekend'];
 }
 
 export const getDayFilterForShortcut = (shortcutDay) =>
@@ -28,7 +28,7 @@ export const getDayFilterForShortcut = (shortcutDay) =>
   let dayFilter = createDayFilter();
   switch (shortcutDay)
   {
-    case 'All':
+    case 'All week':
       getDaysOfWeek().forEach(dayname=>dayFilter[dayname] = true);
       break;
     case 'Today':
@@ -49,14 +49,14 @@ export const getDayFilterForShortcut = (shortcutDay) =>
 
 export const getTimesOfDay = ()=>
 {
-  return ['All', 'Morning', 'Midday', 'Evening'];
+  return ['All day', 'Morning', 'Midday', 'Evening'];
 }
 
 export const getStartForTimeOfDay = (tod)=>
 {
   switch (tod)
   {
-    case 'All': return '00:00';
+    case 'All day': return '00:00';
     case 'Morning': return '00:00';
     case 'Midday': return '10:00';
     case 'Evening': return '16:00';
@@ -70,7 +70,7 @@ export const getEndForTimeOfDay = (tod)=>
     case 'Morning': return '10:00';
     case 'Midday': return '16:00';
     case 'Evening': return '23:59';
-    case 'All': return '23:59';
+    case 'All day': return '23:59';
   }
 }
 

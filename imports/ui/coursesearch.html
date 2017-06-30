@@ -103,7 +103,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Postcode{{selectedPostcodes}}</a>
+                    <a class="accordion-toggle" data-toggle="collapse" href="#postcodeform">Greater London Postcode{{selectedPostcodes}}</a>
                   </h4>
                 </div>
                 <div id="postcodeform" class="panel-body panel-collapse collapse in">
@@ -118,7 +118,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle collapsed" data-toggle="collapse" href="#styleform">Style{{selectedStyles}}</a>
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" href="#styleform">Yoga Style{{selectedStyles}}</a>
                   </h4>
                 </div>
                 <div id="styleform" class="panel-body panel-collapse collapse">
@@ -146,15 +146,6 @@
                 <div id="specificform" class="panel-body panel-collapse collapse">
                   <!-- Begin Text Filters -->
                   <div class="form-group row">
-                    <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
-                    <div class="col-lg-2 col-sm-3 col-xs-10">
-                      <input id="class_filter" type="search" list="classes" class="form-control" placeholder="Enter class" />
-                    </div>
-                    <datalist id="classes">
-                      {{#each names}}
-                        <option>{{this}}</option>
-                      {{/each}}
-                    </datalist>
                     <label for="teacher_filter" class="col-lg-1 col-sm-1 col-xs-2">Teacher</label>
                     <div class="col-lg-2 col-sm-3 col-xs-10">
                       <input id="teacher_filter" type="search" list="teachers" class="form-control" placeholder="Enter teacher" />
@@ -170,6 +161,15 @@
                     </div>
                     <datalist id="studios">
                       {{#each studios}}
+                        <option>{{this}}</option>
+                      {{/each}}
+                    </datalist>
+                    <label for="class_filter" class="col-lg-1 col-sm-1 col-xs-2">Class</label>
+                    <div class="col-lg-2 col-sm-3 col-xs-10">
+                      <input id="class_filter" type="search" list="classes" class="form-control" placeholder="Enter class" />
+                    </div>
+                    <datalist id="classes">
+                      {{#each names}}
                         <option>{{this}}</option>
                       {{/each}}
                     </datalist>
