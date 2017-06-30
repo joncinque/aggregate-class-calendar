@@ -308,3 +308,8 @@ header .show-starred {
 .daytime-row {
   margin-bottom: 5px;
 }
+
+.alert-margin {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}

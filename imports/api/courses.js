@@ -64,22 +64,40 @@ Schemas.Courses = new SimpleSchema({
 
 Courses.attachSchema(Schemas.Courses);
 
-function getFilterStartDate()
+const getFilterStartDate = ()=>
 {
-  return moment().subtract(2, 'weeks').toDate();
+  return moment().set({
+    'isoWeekday': 1,
+    'hour': 0,
+    'minute': 0,
+    'second': 0,
+    'millisecond': 0
+  }).toDate();
+}
+
+const getFilterEndDate = ()=>
+{
+  return moment().set({
+    'isoWeekday': 7,
+    'hour': 0,
+    'minute': 0,
+    'second': 0,
+    'millisecond': 0
+  }).toDate();
+}
+
+const getMongoDateRange = ()=>
+{
+  return { $and: [ 
+    { start: { $gte: getFilterStartDate() } }, 
+    { start: { $lte: getFilterEndDate() } }
+  ] };
 }
 
 // Separate what information is sent from the server from what's on the client
 if (Meteor.isServer)
 {
-  Meteor.publish('courses', () => {
-    let weekStart = moment().set({'weekday': 0,
-      'hour': 0,
-      'minute': 0,
-      'second': 0,
-      'millisecond': 0}).toDate();
-    return Courses.find({ start: { $gte: weekStart } });
-  });
+  Meteor.publish('courses', () => {return Courses.find(getMongoDateRange());});
 }
 
 Meteor.methods({
@@ -141,8 +159,9 @@ Meteor.methods({
   'courses.names'()
   {
     this.unblock();
-    let data = Courses.find({ start: { $gte: getFilterStartDate() } },
-                            { sort: { name: 1 }}).fetch();
+    let data = Courses.find(
+        getMongoDateRange(),
+        { sort: { name: 1 }}).fetch();
     let distinctData = _.uniq(data, true, 
         (d)=>{ return (d.name === undefined) ? "" : d.name.toLowerCase().trim(); });
     return _.pluck(distinctData, "name");
@@ -150,8 +169,9 @@ Meteor.methods({
   'courses.teachers'()
   {
     this.unblock();
-    let data = Courses.find({ start: { $gte: getFilterStartDate() } },
-                            { sort: { teacher: 1 }}).fetch();
+    let data = Courses.find(
+        getMongoDateRange(),
+        { sort: { teacher: 1 }}).fetch();
     let distinctData = _.uniq(data, true,
         (d)=>{ return (d.teacher === undefined) ? "" : d.teacher.toLowerCase().trim(); });
     return _.pluck(distinctData, "teacher");
