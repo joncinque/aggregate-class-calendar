@@ -115,6 +115,8 @@ function getAllCourses(studioFile, outputFile, resumeFromId)
           });
     } else {
       ee.emit('finish-all-scraping');
+      outputFileStream.write(']');
+      outputFileStream.close();
     }
   });
   ee.emit('finish-studio', index);

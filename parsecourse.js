@@ -247,7 +247,7 @@ exports.STYLE_MAP =
 {
   Anusara: { regex: /anusara/i,               priority: HIGH_PRIORITY },
   Ashtanga: { regex: /ashtanga|astanga/i,     priority: MEDIUM_PRIORITY },
-  Barre: { regex: /barre|ballet/i,            priority: HIGH_PRIORITY },
+  //Barre: { regex: /barre|ballet/i,            priority: HIGH_PRIORITY },
   Basic: { regex: /basic|beginner/i,          priority: LOWEST_PRIORITY },
   Community: { regex: /community/i,           priority: MEDIUM_PRIORITY },
   Dharma: { regex: /dharma|mittra/i,          priority: HIGH_PRIORITY },
@@ -261,7 +261,7 @@ exports.STYLE_MAP =
   Meditation: { regex: /meditation|meditate|mindful/i,priority: LOW_PRIORITY },
   Mysore: { regex: /mysore/i,                 priority: HIGH_PRIORITY },
   Nidra: { regex: /nidra/i,                   priority: HIGH_PRIORITY },
-  Pilates: { regex: /pilates|apparatus/i,     priority: HIGH_PRIORITY },
+  //Pilates: { regex: /pilates|apparatus/i,     priority: HIGH_PRIORITY },
   Power: { regex: /power|dynamic/i,           priority: LOW_PRIORITY },
   Pranayama: { regex: /pranayama/i,           priority: LOW_PRIORITY },
   Pregnancy: { regex: /pregnancy|natal/i,     priority: HIGH_PRIORITY },
