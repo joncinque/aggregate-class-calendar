@@ -5,6 +5,8 @@ const fs = require('fs');
 const verbose = false;
 //const logger = require('./logger');
 
+const GET_NEXT_WEEK = false;
+
 function sleep (milliseconds = 5000) {
   return new Promise(resolve => setTimeout(() => resolve(), milliseconds))
 }
@@ -25,7 +27,7 @@ exports.dumpCourseTable = (providerName, studioId, extraString) =>
         await Page.navigate({url: 'https://clients.mindbodyonline.com/classic/home?studioid='+studioId});
         await Page.loadEventFired();
         // Lots of pages get loaded, so give some extra time
-        await sleep(5000);
+        await sleep(10000);
 
         if (verbose) {
           const {data} = await Page.captureScreenshot();
@@ -108,9 +110,17 @@ exports.dumpCourseTable = (providerName, studioId, extraString) =>
           logger.info('Updated location ['+updatedLocation+']');
         }
 
-        //if (updatedLocation || updatedView || updatedTab) {
-        //  await Runtime.evaluate({expression: "setTimeout(()=>{}, 5000);"});
-        //}
+        if (GET_NEXT_WEEK) {
+          const clickEvent = "document.querySelector('#week-arrow-r').click();";
+          await Runtime.evaluate({expression: clickEvent});
+          await Page.loadEventFired();
+          topNode = await DOM.getDocument();
+          if (verbose) {
+            const {data} = await Page.captureScreenshot();
+            fs.writeFileSync('page6.png', Buffer.from(data, 'base64'));
+          }
+        }
+
         // Get the table
         let tableNode = await DOM.querySelector({
           nodeId: topNode.root.nodeId,
