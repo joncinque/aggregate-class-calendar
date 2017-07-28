@@ -18,6 +18,18 @@ const getWeekendDays = () =>
   return days.map(x=>moment().weekday(x).format('ddd'));
 }
 
+export const isDaynameActive = (dayname) =>
+{
+  const SUNDAY = 7;
+  switch (dayname)
+  {
+    case 'Tomorrow':
+      return moment().isoWeekday() !== SUNDAY;
+    default:
+      return true;
+  }
+}
+
 export const getDayShortcuts = () =>
 {
   return ['All week', 'Today', 'Tomorrow', 'Weekdays', 'Weekend'];

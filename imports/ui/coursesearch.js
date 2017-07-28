@@ -10,7 +10,8 @@ import { getNewTimeFromInput,
   getTimesOfDay,
   getStartForTimeOfDay,
   getEndForTimeOfDay,
-  isDaynameToday } from './lib/dateutil.js';
+  isDaynameToday,
+  isDaynameActive } from './lib/dateutil.js';
 
 import { EMPTY,
   getCourseResults,
@@ -141,6 +142,12 @@ Template.daycheck.helpers({
   isDayChecked(dayname) {
     return isDaynameToday(dayname);
   },
+});
+
+Template.dayshortcutbtn.helpers({
+  isActive(dayname) {
+    return isDaynameActive(dayname) ? '' : 'disabled';
+  }
 });
 
 Template.coursesearch.events({

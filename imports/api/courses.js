@@ -78,7 +78,7 @@ const getFilterStartDate = ()=>
 const getFilterEndDate = ()=>
 {
   return moment().set({
-    'isoWeekday': 7,
+    'isoWeekday': 8,
     'hour': 0,
     'minute': 0,
     'second': 0,
