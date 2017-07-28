@@ -32,4 +32,5 @@ Meteor.startup(() => {
   BrowserPolicy.content.allowScriptOrigin("connect.facebook.net");
   BrowserPolicy.content.allowImageOrigin("www.facebook.com");
   BrowserPolicy.content.allowFrameOrigin("staticxx.facebook.com");
+  BrowserPolicy.content.allowFrameOrigin("https://docs.google.com");
 });

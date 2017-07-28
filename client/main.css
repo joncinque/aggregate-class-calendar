@@ -32,7 +32,7 @@ header {
 
 @media (max-width: 767px) {
   header {
-    padding-top: 75px;
+    padding-top: 85px;
   }
 }
  
@@ -215,6 +215,7 @@ header .show-starred {
 
 .header-fixed ul {
   padding: 0;
+  padding-left: 5px;
 }
 
 .header-fixed li {
@@ -226,13 +227,13 @@ header .show-starred {
   border: none;
 }
 
-.header-fixed li:last-child {
-  padding-top: 15px;
+.header-fixed p {
+  padding-top: 7px;
 }
 
 @media (max-width: 767px) {
-  .header-fixed li:last-child {
-    padding-top: 0px;
+  .header-fixed li {
+    padding-top: 3px;
   }
 }
 
@@ -312,4 +313,30 @@ header .show-starred {
 .alert-margin {
   margin-top: 10px;
   margin-bottom: 0px;
+}
+
+.feedback-modalbody {
+  padding-top:0;
+}
+
+.feedback-frame {
+  position: relative;
+  padding-bottom: 80%;
+  padding-top: 60px; overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .feedback-frame {
+    padding-bottom: 150%;
+  }
+}
+
+.feedback-frame iframe, 
+.feedback-frame object,
+.feedback-frame embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
