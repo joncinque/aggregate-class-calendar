@@ -2,7 +2,7 @@ import { getLaterDatetime,
   getNowDatetime,
   getDaysOfWeek,
   initDayFilter,
-  makeDatetime } from './dateutil.js';
+  makeSearchDatetime } from './dateutil.js';
 
 import { Courses } from '../../api/courses.js';
 
@@ -17,7 +17,7 @@ const makeRegex = (searchString)=>
 
 export const maxCoursesReached = (reactiveDict)=>
 {
-  let count = reactiveDict.get('availableCount');
+  const count = reactiveDict.get('availableCount');
   return count >= COURSE_LIMIT;
 }
 
@@ -49,16 +49,17 @@ const getSearchArgs = (reactiveDict)=>
   // apply day filter
   let dayList = [];
   const dayFilter = reactiveDict.get('dayFilter'); 
+  const timezone = reactiveDict.get('timezone');
   for (let key in dayFilter) {
     if (dayFilter[key] === true) {
       dayList.push({ $and: [ 
-        { start: { $gte: makeDatetime(key, startFilter).toDate() } },
-        { start: { $lte: makeDatetime(key, endFilter).toDate() } }
+        { start: { $gte: makeSearchDatetime(key, startFilter, timezone).toDate() } },
+        { start: { $lte: makeSearchDatetime(key, endFilter, timezone).toDate() } }
       ]});
       if (VERBOSE) {
         console.log('Key: ' + key + 
-            ' Start: ' + makeDatetime(key, startFilter).toDate() +
-            ' End: ' + makeDatetime(key, endFilter).toDate());
+            ' Start: ' + makeSearchDatetime(key, startFilter, timezone).toDate() +
+            ' End: ' + makeSearchDatetime(key, endFilter, timezone).toDate());
       }
     }
   }
@@ -89,7 +90,7 @@ const getSearchArgs = (reactiveDict)=>
   }
 
   // apply studio filter
-  let studioFilter = reactiveDict.get('studioFilter');
+  const studioFilter = reactiveDict.get('studioFilter');
   if (studioFilter !== EMPTY)
   {
     if (VERBOSE) {
@@ -99,7 +100,7 @@ const getSearchArgs = (reactiveDict)=>
   }
 
   // apply style filter
-  let styleFilter = reactiveDict.get('styleFilter');
+  const styleFilter = reactiveDict.get('styleFilter');
   if (styleFilter.length > 0)
   {
     if (VERBOSE) {
@@ -109,7 +110,7 @@ const getSearchArgs = (reactiveDict)=>
   }
 
   // apply postcode filter
-  let postcodeFilter = reactiveDict.get('postcodeFilter');
+  const postcodeFilter = reactiveDict.get('postcodeFilter');
   if (postcodeFilter.length > 0)
   {
     if (VERBOSE) {
@@ -132,10 +133,13 @@ export const initFilters = (reactiveDict)=>
   reactiveDict.set('teacherFilter', EMPTY);
   reactiveDict.set('studioFilter', EMPTY);
 
-  reactiveDict.set('startFilter', getNowDatetime());
-  reactiveDict.set('endFilter', getLaterDatetime());
-
   reactiveDict.set('availableCount', 0);
+
+  const timezone = reactiveDict.get('timezone');
+  if (timezone) {
+    reactiveDict.set('startFilter', getNowDatetime(timezone));
+    reactiveDict.set('endFilter', getLaterDatetime(timezone));
+  }
 }
 
 export const getCourseResults = (reactiveDict) =>
@@ -147,13 +151,16 @@ export const getCourseResults = (reactiveDict) =>
 
 export const initCourseDict = (reactiveDict)=>
 {
+  // HARD-CODED FOR NOW
+  const timezone = 'Europe/London';
+  reactiveDict.set('timezone', timezone);
   // get whatever is in the 'courses' channel from the server
-  Meteor.subscribe('courses',{
+  Meteor.subscribe('courses', timezone, {
     onReady: ()=>{
-      Meteor.call('courses.names', (err,data) => {
+      Meteor.call('courses.names', timezone, (err,data) => {
         reactiveDict.set('names', data);
       });
-      Meteor.call('courses.teachers', (err,data) => {
+      Meteor.call('courses.teachers', timezone, (err,data) => {
         reactiveDict.set('teachers', data);
       });
     },

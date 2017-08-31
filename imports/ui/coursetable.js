@@ -1,7 +1,7 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import './course.js';
 
@@ -24,9 +24,9 @@ Template.coursetable.helpers({
 
 Template.coursemodal.helpers({
   startEnd() {
-    return moment(this.start).format("H:mm") + "-" + moment(this.end).format("H:mm");
+    return moment.tz(this.start, this.timezone).format("H:mm") + "-" + moment.tz(this.end, this.timezone).format("H:mm");
   },
-  day() { return moment(this.start).format("dddd D MMMM"); },
+  day() { return moment.tz(this.start, this.timezone).format("dddd D MMMM"); },
   hasRoom() { return this.room !== null && this.room !== undefined && this.room !== "" && this.room !== "undefined"; },
   hasLocale() { return this.locale !== null && this.locale !== undefined && this.locale !== "" && this.locale !== "undefined"; }
 });

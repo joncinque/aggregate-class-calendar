@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { Courses } from '../api/courses.js';
 
@@ -10,11 +10,12 @@ import './course.html';
 // Add all functions on the "class" here
 Template.course.helpers({
   startEnd() {
-    let data = Template.currentData().courseData;
-    return moment(data.start).format("H:mm") + "-" + moment(data.end).format("H:mm");
+    const data = Template.currentData().courseData;
+    return moment.tz(data.start, data.timezone).format("H:mm") + "-" + moment.tz(data.end, data.timezone).format("H:mm");
   },
   day() {
-    return moment(Template.currentData().courseData.start).format("ddd");
+    const data = Template.currentData().courseData;
+    return moment.tz(data.start, data.timezone).format("ddd");
   },
   name() { return Template.currentData().courseData.name; },
   teacher() { return Template.currentData().courseData.teacher; },
@@ -22,12 +23,6 @@ Template.course.helpers({
   style() { return Template.currentData().courseData.style; },
   postcode() { return Template.currentData().courseData.postcode; },
   courseData() { return Template.currentData().courseData; },
-  /*
-  isOwner()
-  {
-    return this.owner == Meteor.userId();
-  }
-  */
 });
 
 Template.course.events({

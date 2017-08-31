@@ -1,12 +1,11 @@
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
-import moment from 'moment';
-
 import { getNewTimeFromInput,
   getDayFilterForShortcut,
   getDaysOfWeek,
   getDayShortcuts,
+  getDisplayTime,
   getTimesOfDay,
   getStartForTimeOfDay,
   getEndForTimeOfDay,
@@ -52,9 +51,8 @@ Template.coursesearch.helpers({
   },
   availableCount() {
     const instance = Template.instance();
-    let count = instance.state.get('availableCount');
-    if (maxCoursesReached(instance.state))
-    {
+    const count = instance.state.get('availableCount');
+    if (maxCoursesReached(instance.state)) {
       return String(count) + "+";
     }
     return String(count);
@@ -109,7 +107,7 @@ Template.coursesearch.helpers({
   },
   selectedPostcodes() {
     let postcodes = Template.instance().state.get('postcodeFilter').slice(0);
-    let postcodeString = postcodes.sort().join(', ');
+    const postcodeString = postcodes.sort().join(', ');
     if (postcodeString !== '') {
       return ': ' + postcodeString;
     }
@@ -117,7 +115,7 @@ Template.coursesearch.helpers({
   },
   selectedStyles() {
     let styles = Template.instance().state.get('styleFilter').slice(0);
-    let styleString = styles.sort().join(', ');
+    const styleString = styles.sort().join(', ');
     if (styleString !== '') {
       return ': ' + styleString;
     }
@@ -125,16 +123,20 @@ Template.coursesearch.helpers({
   },
   selectedTime() {
     return ': ' + 
-        moment(Template.instance().state.get('startFilter')).format('HH:mm') +
+        getDisplayTime(Template.instance().state.get('startFilter'),
+            Template.instance().state.get('timezone')) +
         ' to ' +
-        moment(Template.instance().state.get('endFilter')).format('HH:mm');
+        getDisplayTime(Template.instance().state.get('endFilter'),
+            Template.instance().state.get('timezone'));
 
   },
   starttime() {
-    return moment(Template.instance().state.get('startFilter')).format('HH:mm');
+    return getDisplayTime(Template.instance().state.get('startFilter'),
+        Template.instance().state.get('timezone'));
   },
   endtime() {
-    return moment(Template.instance().state.get('endFilter')).format('HH:mm');
+    return getDisplayTime(Template.instance().state.get('endFilter'),
+        Template.instance().state.get('timezone'));
   },
 });
 
@@ -258,16 +260,18 @@ Template.coursesearch.events({
     }
   },
   'blur #starttime_filter'(event, instance) {
-    let startDate = instance.state.get('startFilter');
+    const startDate = instance.state.get('startFilter');
+    const timezone = instance.state.get('timezone');
     instance.state.set(
         'startFilter',
-        getNewTimeFromInput(startDate, event.target.value));
+        getNewTimeFromInput(startDate, event.target.value, timezone));
   },
   'blur #endtime_filter'(event, instance) {
-    let endDate = instance.state.get('endFilter');
+    const endDate = instance.state.get('endFilter');
+    const timezone = instance.state.get('timezone');
     instance.state.set(
         'endFilter',
-        getNewTimeFromInput(endDate, event.target.value));
+        getNewTimeFromInput(endDate, event.target.value, timezone));
   },
   'click .dayofweekshortcut_filter'(event, instance) {
     const days = getDayFilterForShortcut(event.target.value);
@@ -279,16 +283,19 @@ Template.coursesearch.events({
     instance.state.set('dayFilter', days);
   },
   'click .timeofday_filter'(event, instance) {
+    const timezone = instance.state.get('timezone');
+
     const startTime = getStartForTimeOfDay(event.target.value);
-    let startDate = instance.state.get('startFilter');
+    const startDate = instance.state.get('startFilter');
     instance.state.set(
         'startFilter',
-        getNewTimeFromInput(startDate, startTime));
+        getNewTimeFromInput(startDate, startTime, timezone));
+
     const endTime = getEndForTimeOfDay(event.target.value);
-    let endDate = instance.state.get('endFilter');
+    const endDate = instance.state.get('endFilter');
     instance.state.set(
         'endFilter',
-        getNewTimeFromInput(endDate, endTime));
+        getNewTimeFromInput(endDate, endTime, timezone));
   },
   'click .how-btn'() {
     $('#howmodal').modal('show');

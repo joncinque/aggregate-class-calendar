@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Match, check } from 'meteor/check';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export const Courses = new Mongo.Collection('courses');
 
@@ -64,9 +64,9 @@ Schemas.Courses = new SimpleSchema({
 
 Courses.attachSchema(Schemas.Courses);
 
-const getFilterStartDate = ()=>
+const getFilterStartDate = (timezone)=>
 {
-  return moment().set({
+  return moment.tz(timezone).set({
     'isoWeekday': 1,
     'hour': 0,
     'minute': 0,
@@ -75,9 +75,9 @@ const getFilterStartDate = ()=>
   }).toDate();
 }
 
-const getFilterEndDate = ()=>
+const getFilterEndDate = (timezone)=>
 {
-  return moment().set({
+  return moment.tz(timezone).set({
     'isoWeekday': 8,
     'hour': 0,
     'minute': 0,
@@ -86,18 +86,20 @@ const getFilterEndDate = ()=>
   }).toDate();
 }
 
-const getMongoDateRange = ()=>
+const getMongoDateRange = (timezone)=>
 {
   return { $and: [ 
-    { start: { $gte: getFilterStartDate() } }, 
-    { start: { $lte: getFilterEndDate() } }
+    { start: { $gte: getFilterStartDate(timezone) } }, 
+    { start: { $lte: getFilterEndDate(timezone) } }
   ] };
 }
 
 // Separate what information is sent from the server from what's on the client
 if (Meteor.isServer)
 {
-  Meteor.publish('courses', () => {return Courses.find(getMongoDateRange());});
+  Meteor.publish('courses', (timezone) => {
+    return Courses.find(getMongoDateRange(timezone));
+  });
 }
 
 Meteor.methods({
@@ -156,21 +158,21 @@ Meteor.methods({
     */
     Courses.remove(courseId);
   },
-  'courses.names'()
+  'courses.names'(timezone)
   {
     this.unblock();
     let data = Courses.find(
-        getMongoDateRange(),
+        getMongoDateRange(timezone),
         { sort: { name: 1 }}).fetch();
     let distinctData = _.uniq(data, true, 
         (d)=>{ return (d.name === undefined) ? "" : d.name.toLowerCase().trim(); });
     return _.pluck(distinctData, "name");
   },
-  'courses.teachers'()
+  'courses.teachers'(timezone)
   {
     this.unblock();
     let data = Courses.find(
-        getMongoDateRange(),
+        getMongoDateRange(timezone),
         { sort: { teacher: 1 }}).fetch();
     let distinctData = _.uniq(data, true,
         (d)=>{ return (d.teacher === undefined) ? "" : d.teacher.toLowerCase().trim(); });

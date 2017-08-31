@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export const getDaysOfWeek = () =>
 {
@@ -86,32 +86,28 @@ export const getEndForTimeOfDay = (tod)=>
   }
 }
 
-export const getNewDateFromInput = (initialDate, inputDate) =>
+export const getNewTimeFromInput = (initialDate, inputTime, timezone) =>
 {
-  return moment(initialDate).set({
-        'year': inputDate.getFullYear(),
-        'month': inputDate.getMonth(),
-        'date': inputDate.getDate()
-      }).toDate();
-}
-
-export const getNewTimeFromInput = (initialDate, inputTime) =>
-{
-  let inputMoment = moment(inputTime, 'HH:mm');
-  return moment(initialDate).set({
+  const inputMoment = moment.tz(inputTime, 'HH:mm', timezone);
+  return moment.tz(initialDate, timezone).set({
         'hour': inputMoment.hour(),
         'minute': inputMoment.minute()
       }).toDate();
 }
 
-export const getNowDatetime = ()=>
+export const getDisplayTime = (jsDate, timezone) =>
 {
-  return moment().toDate();
+  return moment.tz(jsDate, timezone).format('HH:mm');
 }
 
-export const getLaterDatetime = ()=>
+export const getNowDatetime = (timezone)=>
 {
-  return moment().set({
+  return moment.tz(timezone).toDate();
+}
+
+export const getLaterDatetime = (timezone)=>
+{
+  return moment.tz(timezone).set({
     'hour': 23,
     'minute': 59,
     'second': 0,
@@ -133,12 +129,13 @@ export const initDayFilter = ()=>
   return dayFilter;
 }
 
-export const makeDatetime = (day, timeObj)=>
+export const makeSearchDatetime = (day, timeObj, timezone)=>
 {
-  let madeDatetime = moment().set({
+  const localTime = moment.tz(timeObj, timezone);
+  const madeDatetime = moment.tz(timezone).set({
     'isoWeekday': moment(day, 'ddd').isoWeekday(), // tricky...
-    'hour': timeObj.getHours(),
-    'minute': timeObj.getMinutes(),
+    'hour': localTime.hour(),
+    'minute': localTime.minute(),
     'second': 0,
     'millisecond': 0});
   return madeDatetime;
