@@ -4,6 +4,7 @@
     "provider": "MBO",
     "studioid": 253770,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Barbican Yoga Cave",
@@ -17,6 +18,7 @@
     "provider": "MBO",
     "studioid": 83692,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Battersea Yoga",
@@ -30,6 +32,7 @@
     "provider": "MBO",
     "studioid": 23194,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "Blue Cow Yoga",
@@ -43,6 +46,7 @@
     "provider": "MBO",
     "studioid": 36253,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "Yogacentric":
@@ -73,6 +77,7 @@
     "provider": "MBO",
     "studioid": 793358,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Chroma Yoga",
@@ -86,6 +91,7 @@
     "provider": "MBO",
     "studioid": 179970,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Down to Earth",
@@ -99,6 +105,7 @@
     "provider": "MBO",
     "studioid": 221895,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Dragonfly Yoga",
@@ -112,6 +119,7 @@
     "provider": "MBO",
     "studioid": -192241,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "East of Eden",
@@ -125,6 +133,7 @@
     "provider": "MBO",
     "studioid": 12023,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Evolve Wellness Centre",
@@ -138,6 +147,7 @@
     "provider": "MBO",
     "studioid": 1694,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "Fierce Grace City":
@@ -168,6 +178,7 @@
     "provider": "MBO",
     "studioid": 135556,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Fierce Grace Finchley",
@@ -181,6 +192,7 @@
     "provider": "MBO",
     "studioid": 16517,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Fierce Grace Primrose Hill",
@@ -194,6 +206,7 @@
     "provider": "MBO",
     "studioid": 192378,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Fierce Grace Brixton",
@@ -207,6 +220,7 @@
     "provider": "MBO",
     "studioid": 778930,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Fold Yoga London",
@@ -220,6 +234,7 @@
     "provider": "MBO",
     "studioid": 24230,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Garuda Yoga and Pilates",
@@ -233,6 +248,7 @@
     "provider": "MBO",
     "studioid": 1769,
     "redirectPage":  "https://clients.mindbodyonline.com/classic/mainclass?fl=true&tabID=7",
+    "timezone": "Europe/London",
     "locales": 
     {
       "Covent Garden":
@@ -256,6 +272,7 @@
     "provider": "MBO",
     "studioid": 1134,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The Hot Spot",
@@ -269,6 +286,7 @@
     "provider": "MBO",
     "studioid": 26980,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The House of Yoga",
@@ -282,6 +300,7 @@
     "provider": "MBO",
     "studioid": 11974,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Indaba Yoga",
@@ -295,6 +314,7 @@
     "provider": "MBO",
     "studioid": -765,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "Notting Hill":
@@ -318,6 +338,7 @@
     "provider": "MBO",
     "studioid": 20481,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "Moorgate":
@@ -341,6 +362,7 @@
     "provider": "MBO",
     "studioid": 40542,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Lumi Power Yoga",
@@ -354,6 +376,7 @@
     "provider": "MBO",
     "studioid": 256292,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "MoreYoga Aldgate":
@@ -405,6 +428,7 @@
     "provider": "MBO",
     "studioid": 260779,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "One Yoga London",
@@ -418,6 +442,7 @@
     "provider": "MBO",
     "studioid": 4706,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "Power Yoga Company",
@@ -431,6 +456,7 @@
     "provider": "MBO",
     "studioid": 208867,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The Refinery E9",
@@ -444,6 +470,7 @@
     "provider": "MBO",
     "studioid": 37798,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Samsara Mind and Body",
@@ -457,6 +484,7 @@
     "provider": "MBO",
     "studioid": 2155,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The Shala",
@@ -470,6 +498,7 @@
     "provider": "MBO",
     "studioid": 26803,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales": 
     {
       "Ada Street":
@@ -493,6 +522,7 @@
     "provider": "MBO",
     "studioid": 1991,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales": 
     {
       "Soho":
@@ -530,6 +560,7 @@
     "provider": "MBO",
     "studioid": 197586,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Union Station Yoga",
@@ -543,6 +574,7 @@
     "provider": "MBO",
     "studioid": 192421,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The Well Garden",
@@ -556,6 +588,7 @@
     "provider": "MBO",
     "studioid": 12354,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales":
     {
       "Clapham":
@@ -579,6 +612,7 @@
     "provider": "MBO",
     "studioid": 139714,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "Yogahaven Richmond",
@@ -592,6 +626,7 @@
     "provider": "MBO",
     "studioid": 29783,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yogahome",
@@ -605,6 +640,7 @@
     "provider": "MBO",
     "studioid": 231109,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yogalogy",
@@ -618,6 +654,7 @@
     "provider": "MBO",
     "studioid": 138949,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "Yogarise Peckham",
@@ -631,6 +668,7 @@
     "provider": "MBO",
     "studioid": 93888,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yoga Creation",
@@ -644,6 +682,7 @@
     "provider": "MBO",
     "studioid": 49898,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "The Yoga Edge",
@@ -657,6 +696,7 @@
     "provider": "MBO",
     "studioid": 94169,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yoga on the Lane",
@@ -670,6 +710,7 @@
     "provider": "MBO",
     "studioid": 43597,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yoga West",
@@ -683,6 +724,7 @@
     "provider": "MBO",
     "studioid": 314529,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yoke Dalston",
@@ -696,6 +738,7 @@
     "provider": "MBO",
     "studioid": 16311,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale":
     {
       "name": "Yotopia",

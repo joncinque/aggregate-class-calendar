@@ -1,0 +1,33 @@
+{
+  "name": "class-scraper",
+  "version": "0.0.1",
+  "description": "Module to get and scrape class info from studio websites / booking",
+  "scripts": {
+    "test": "node toplevel.js studios_test.json courses.json",
+    "start": "node toplevel.js studios.json courses.json",
+    "predeploy": "google-chrome --disable-gpu --headless --remote-debugging-port=9222"
+  },
+  "main": "toplevel.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joncinque/class-scraper"
+  },
+  "bugs": {
+    "url": "https://github.com/joncinque/class-scraper/issues"
+  },
+  "keywords": [
+    "phantomjs",
+    "chrome",
+    "headless",
+    "scrape"
+  ],
+  "dependencies": {
+    "chrome-remote-interface": "^0.24.5",
+    "moment-timezone": "^0.5.13",
+    "phantomjs-prebuilt": "^2.1.15",
+    "winston": "^2.3.1",
+    "xmldom": "^0.1.27"
+  },
+  "devDependencies": {},
+  "private": true
+}
