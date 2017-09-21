@@ -20,6 +20,7 @@ Meteor.startup(() => {
   Courses._ensureIndex({ "studio" : 1 });
   Courses._ensureIndex({ "style" : 1 });
   Courses._ensureIndex({ "teacher" : 1 });
+  Courses._ensureIndex({ "timezone" : 1 });
 
   // Setup Browser Policy
   BrowserPolicy.content.disallowInlineScripts();
