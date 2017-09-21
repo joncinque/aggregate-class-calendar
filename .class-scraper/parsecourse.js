@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const xmldom = require('xmldom');
 //const logger = require('./logger');
 
@@ -174,7 +174,7 @@ function makeColumnMap(headerRow)
   return map;
 }
 
-function parseDateFromRow(row)
+function parseDateFromRow(row, timezone)
 {
   const DATE_LOCATION = 2; // MAGIC NUMBER
 
@@ -188,21 +188,11 @@ function parseDateFromRow(row)
         firstData.childNodes.length > DATE_LOCATION)
     {
       const dateElement = firstData.childNodes[DATE_LOCATION].data.trim();
-      const parsedDate = moment(dateElement, 'DD MMM YYYY');
-      /*
-      if (parsedDate.isValid())
-      {
-        logger.debug('Current date: ' + parsedDate.format('DD MMM YYYY'));
-      }
-      else
-      {
-        logger.error('Problem parsing date from data element in:"' + dateElement + '"');
-      }
-      */
+      const parsedDate = moment.tz(dateElement, 'DD MMM YYYY', timezone);
       return parsedDate;
-
     }
   }
+  // returns undefined otherwise
 }
 
 function isCourseValid(webCourse, studio)
@@ -299,9 +289,9 @@ function styleOfName(courseName)
   }
 }
 
-function parseCourseStart(webCourse, currentDate)
+function parseCourseStart(webCourse, currentDate, timezone)
 {
-  let courseStart = moment(webCourse['start'], 'HH:mm');
+  let courseStart = moment.tz(webCourse['start'], 'HH:mm', timezone);
   if (courseStart.isValid())
   {
     courseStart.year(currentDate.year());
@@ -353,7 +343,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
 
   dbCourse.style = styleOfName(dbCourse.name);
 
-  dbCourse.start = parseCourseStart(webCourse, currentDate);
+  dbCourse.start = parseCourseStart(webCourse, currentDate, studio.timezone);
   dbCourse.end = parseCourseEnd(webCourse, dbCourse.start);
 
   dbCourse.locale = webCourse['locale'];
@@ -372,6 +362,7 @@ function dbCourseOfWebCourse(webCourse, currentDate, studio)
   dbCourse.url = localeInfo.url;
   dbCourse.booking = localeInfo.booking;
   dbCourse.postcode = localeInfo.postcode;
+  dbCourse.timezone = studio.timezone;
 
   return dbCourse;
 }
@@ -448,7 +439,7 @@ function makeJSONCourses(columnMap, tableRows, studio)
   for (let i = FIRST_DATA_ROW_LOCATION; i < tableRows.length; ++i)
   {
     let row = tableRows[i];
-    let nextDate = parseDateFromRow(row);
+    let nextDate = parseDateFromRow(row, studio.timezone);
     if (nextDate !== undefined && nextDate.isValid())
     {
       currentDate = nextDate;

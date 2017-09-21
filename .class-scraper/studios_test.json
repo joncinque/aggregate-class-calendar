@@ -4,6 +4,7 @@
     "provider": "MBO",
     "studioid": 23194,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locale": 
     {
       "name": "Blue Cow Yoga",
@@ -16,6 +17,7 @@
     "provider": "MBO",
     "studioid": 1991,
     "redirectPage":  "",
+    "timezone": "Europe/London",
     "locales": 
     {
       "Soho":
