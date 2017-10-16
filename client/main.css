@@ -111,6 +111,10 @@ h1, h1 > a {
   color: grey;
 }
 
+.disableClick {
+  pointer-events: none;
+}
+
 .panel-heading .accordion-toggle.collapsed:after {
   /* symbol for "collapsed" panels */
   content: "\e080";    /* adjust as needed, taken from bootstrap.css */

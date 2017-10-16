@@ -148,7 +148,7 @@ Template.daycheck.helpers({
 
 Template.dayshortcutbtn.helpers({
   isActive(dayname) {
-    return isDaynameActive(dayname) ? '' : 'disabled';
+    return isDaynameActive(dayname) ? '' : 'disabled disableClick';
   }
 });
 

@@ -102,7 +102,7 @@ export const getDisplayTime = (jsDate, timezone) =>
 
 export const getNowDatetime = (timezone)=>
 {
-  return moment.tz(timezone).toDate();
+  return moment.tz(moment.tz.guess()).toDate();
 }
 
 export const getLaterDatetime = (timezone)=>
